@@ -39,7 +39,6 @@
             this.buttonItem2 = new DevComponents.DotNetBar.ButtonItem();
             this.lbCourseCount = new DevComponents.DotNetBar.LabelX();
             this.listViewEx1 = new K12.Club.General.Zizhu.ListViewEX();
-            this.chPhase_ = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chGen_ = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chStatus = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chLock = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -67,29 +66,24 @@
             // 
             // chClass_
             // 
-            this.chClass_.DisplayIndex = 1;
             this.chClass_.Text = "班级";
             this.chClass_.Width = 80;
             // 
             // chSeatNo_
             // 
-            this.chSeatNo_.DisplayIndex = 2;
             this.chSeatNo_.Text = "座号";
             // 
             // chName_
             // 
-            this.chName_.DisplayIndex = 3;
             this.chName_.Text = "姓名";
             this.chName_.Width = 75;
             // 
             // chGender_
             // 
-            this.chGender_.DisplayIndex = 4;
             this.chGender_.Text = "性别";
             // 
             // chSNum_
             // 
-            this.chSNum_.DisplayIndex = 5;
             this.chSNum_.Text = "学号";
             this.chSNum_.Width = 75;
             // 
@@ -123,9 +117,9 @@
             this.lbCourseCount.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.lbCourseCount.Location = new System.Drawing.Point(338, 211);
             this.lbCourseCount.Name = "lbCourseCount";
-            this.lbCourseCount.Size = new System.Drawing.Size(74, 21);
+            this.lbCourseCount.Size = new System.Drawing.Size(47, 21);
             this.lbCourseCount.TabIndex = 3;
-            this.lbCourseCount.Text = "有效社员：";
+            this.lbCourseCount.Text = "阶段：";
             // 
             // listViewEx1
             // 
@@ -135,7 +129,6 @@
             this.listViewEx1.Border.Class = "ListViewBorder";
             this.listViewEx1.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.listViewEx1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.chPhase_,
             this.chGen_,
             this.chClass_,
             this.chSeatNo_,
@@ -154,27 +147,19 @@
             this.listViewEx1.UseCompatibleStateImageBehavior = false;
             this.listViewEx1.View = System.Windows.Forms.View.Details;
             // 
-            // chPhase_
-            // 
-            this.chPhase_.DisplayIndex = 8;
-            this.chPhase_.Text = "階段";
-            // 
             // chGen_
             // 
-            this.chGen_.DisplayIndex = 0;
             this.chGen_.Text = "年级";
             this.chGen_.Width = 55;
             // 
             // chStatus
             // 
-            this.chStatus.DisplayIndex = 6;
             this.chStatus.Text = "状态";
             this.chStatus.Width = 55;
             // 
             // chLock
             // 
-            this.chLock.DisplayIndex = 7;
-            this.chLock.Text = "选社锁定";
+            this.chLock.Text = "课程锁定";
             this.chLock.Width = 75;
             // 
             // contextMenuStrip1
@@ -274,6 +259,5 @@
         private System.Windows.Forms.ColumnHeader chGen_;
         private System.Windows.Forms.ColumnHeader chLock;
         private System.Windows.Forms.ColumnHeader chStatus;
-        private System.Windows.Forms.ColumnHeader chPhase_;
     }
 }

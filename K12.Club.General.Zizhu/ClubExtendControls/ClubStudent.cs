@@ -100,7 +100,7 @@ namespace K12.Club.General.Zizhu
             if (e.Error != null)
             {
                 this.Loading = false;
-                FISCA.Presentation.Controls.MsgBox.Show("取得社团[学生资料]发生错误!!\n" + e.Error.Message);
+                FISCA.Presentation.Controls.MsgBox.Show("取得[学生资料]发生错误!!\n" + e.Error.Message);
                 SmartSchool.ErrorReporting.ReportingService.ReportException(e.Error);
                 return;
             }
@@ -164,23 +164,8 @@ namespace K12.Club.General.Zizhu
 
             if (scMAG.SCJoin_Lock.Contains(STUD.ID))
             {
-                #region 鎖定
                 //座號
-                ListViewItem item;
-
-                //階段別
-                if (scMAG.SCJoin_Dic.ContainsKey(STUD.ID))
-                {
-                    item = new ListViewItem(scMAG.SCJoin_Dic[STUD.ID][0].Phase.ToString());
-                    item.SubItems.Add(scMAG.SCJoin_Dic[STUD.ID][0].Phase.ToString());
-                }
-                else
-                {
-                    item = new ListViewItem("");
-                    item.SubItems.Add("");
-                }
-
-                item.SubItems.Add(Gen);
+                ListViewItem item = new ListViewItem(Gen);
                 item.SubItems.Add(ClassName);
                 item.SubItems.Add(STUD.SeatNo.HasValue ? STUD.SeatNo.Value.ToString() : "");
                 item.SubItems.Add(STUD.Name);
@@ -208,72 +193,47 @@ namespace K12.Club.General.Zizhu
                         {
                             each.BackColor = Color.Red;
                         }
-                        subItem.Text = "错误,重覆的记录";
+                        subItem.Text = "错误,重复的记录";
                     }
                 }
 
                 return item;
-                #endregion
             }
             else
             {
-                #region 未鎖定
+                //座號
+                ListViewItem item = new ListViewItem(Gen);
+                item.SubItems.Add(ClassName);
+                item.SubItems.Add(STUD.SeatNo.HasValue ? STUD.SeatNo.Value.ToString() : "");
+                item.SubItems.Add(STUD.Name);
+                item.SubItems.Add(STUD.Gender);
+                item.SubItems.Add(STUD.StudentNumber);
+                ListViewItem.ListViewSubItem subItem = item.SubItems.Add(STUD.StatusStr);
+                item.SubItems.Add("　");
 
-                ListViewItem item;
-
-                if (scMAG.SCJoin_Dic.ContainsKey(STUD.ID))
+                if (scMAG.SCJoin_Lock.Contains(STUD.ID))
                 {
-
-                    item = new ListViewItem(scMAG.SCJoin_Dic[STUD.ID][0].Phase.ToString());
-                    item.SubItems.Add(scMAG.SCJoin_Dic[STUD.ID][0].Phase.ToString());
-
-                    item.Tag = scMAG.SCJoin_Dic[STUD.ID][0];
-                    item.SubItems.Add(Gen);
-                    item.SubItems.Add(ClassName);
-                    item.SubItems.Add(STUD.SeatNo.HasValue ? STUD.SeatNo.Value.ToString() : "");
-                    item.SubItems.Add(STUD.Name);
-                    item.SubItems.Add(STUD.Gender);
-                    item.SubItems.Add(STUD.StudentNumber);
-
-                    //用來處理錯誤狀態
-                    ListViewItem.ListViewSubItem subItem = item.SubItems.Add(STUD.StatusStr);
-                    item.SubItems.Add("　");
-
                     foreach (ListViewItem.ListViewSubItem each in item.SubItems)
                     {
                         each.BackColor = Color.GreenYellow;
                     }
+                }
 
-                    if (scMAG.SCJoin_Dic[STUD.ID].Count > 2)
+                //TAG應該儲存修課記錄
+                if (scMAG.SCJoin_Dic.ContainsKey(STUD.ID))
+                {
+                    item.Tag = scMAG.SCJoin_Dic[STUD.ID][0];
+                    if (scMAG.SCJoin_Dic[STUD.ID].Count > 1)
                     {
-                        item.Tag = scMAG.SCJoin_Dic[STUD.ID][0];
-
-                        foreach (List<SCJoin> scj1List in scMAG.SCJoin_Dic.Values)
+                        foreach (ListViewItem.ListViewSubItem each in item.SubItems)
                         {
-                            foreach (SCJoin scj2 in scj1List)
-                            {
-                                for (int x = 1; x < scj1List.Count; x++)
-                                {
-                                    if (scj2.Phase == scj1List[x].Phase)
-                                    {
-                                        foreach (ListViewItem.ListViewSubItem each in item.SubItems)
-                                        {
-                                            each.BackColor = Color.Red;
-                                        }
-                                        subItem.Text = "错误,重覆的记录";
-                                    }
-                                }
-                            }
+                            each.BackColor = Color.Red;
                         }
+                        subItem.Text = "错误,重复的记录";
                     }
                 }
-                else
-                {
-                    item = new ListViewItem("");
-                }
-                return item;
 
-                #endregion
+                return item;
             }
 
             #endregion
@@ -383,15 +343,7 @@ namespace K12.Club.General.Zizhu
         private void btnInserStudent_Click(object sender, EventArgs e)
         {
             //將待處理學生加入修課清單
-            PhaseItem pi = new PhaseItem();
-            if (pi.ShowDialog() == DialogResult.Yes)
-            {
-                AddListViewInTemp(K12.Presentation.NLDPanels.Student.TempSource, pi.Phase);
-            }
-            else
-            {
-                MsgBox.Show("已取消!");
-            }
+            AddListViewInTemp(K12.Presentation.NLDPanels.Student.TempSource);
         }
 
         /// <summary>
@@ -400,33 +352,25 @@ namespace K12.Club.General.Zizhu
         /// </summary>
         void item_Click(object sender, EventArgs e)
         {
-            PhaseItem pi = new PhaseItem();
-            if (pi.ShowDialog() == DialogResult.Yes)
+            ButtonItem each = (ButtonItem)sender;
+            if (each.Tag != null)
             {
-                ButtonItem each = (ButtonItem)sender;
-                if (each.Tag != null)
-                {
-                    StudentRecord eachTag = (StudentRecord)each.Tag;
-                    List<string> list = new List<string>();
-                    list.Add(eachTag.ID);
+                StudentRecord eachTag = (StudentRecord)each.Tag;
+                List<string> list = new List<string>();
+                list.Add(eachTag.ID);
 
-                    AddListViewInTemp(list, pi.Phase);
-                }
-                else
-                {
-                    MsgBox.Show("未选择学生...");
-                }
+                AddListViewInTemp(list);
             }
             else
             {
-                MsgBox.Show("已取消!");
+                MsgBox.Show("未选择学生!");
             }
         }
 
         /// <summary>
         /// 將傳入的學生ID,加入此課程
         /// </summary>
-        private void AddListViewInTemp(List<string> IsSaft, int Phase)
+        private void AddListViewInTemp(List<string> IsSaft)
         {
             if (IsSaft.Count != 0)
             {
@@ -438,17 +382,16 @@ namespace K12.Club.General.Zizhu
                 #region 可加入的學生清單
 
                 //排除已存在本課程的學生
-                //且階段別也相同
-                cso.CheckTempStudentInCourse(IsSaft, scMAG.SCJoin_Dic, _CLUBRecord, Phase);
+                cso.CheckTempStudentInCourse(IsSaft, scMAG.SCJoin_Dic, _CLUBRecord);
 
                 StringBuilder sb_Log = new StringBuilder();
-                sb_Log.AppendLine(string.Format("加入「{0}」名拓展性课程参与学生：(学年度「{1}」学期「{2}」拓展性课程「{3}」)", cso.InsertList.Count.ToString(), _CLUBRecord.SchoolYear.ToString(), _CLUBRecord.Semester.ToString(), _CLUBRecord.ClubName));
+                sb_Log.AppendLine(string.Format("加入「{0}」名社团参与学生：(学年度「{1}」学期「{2}」社团「{3}」)", cso.InsertList.Count.ToString(), _CLUBRecord.SchoolYear.ToString(), _CLUBRecord.Semester.ToString(), _CLUBRecord.ClubName));
 
                 if (cso.ReMoveTemp.Count != 0)
                 {
                     #region 是否有重覆加入本社學生 - 錯誤
 
-                    sb_Message.AppendLine("共有" + cso.ReMoveTemp.Count + "名学生,存在本课程!!");
+                    sb_Message.AppendLine("共有" + cso.ReMoveTemp.Count + "名学生,存在本社团!!");
                     List<StudentRecord> studlist = Student.SelectByIDs(cso.ReMoveTemp);
                     studlist = SortClassIndex.K12Data_StudentRecord(studlist);
                     foreach (StudentRecord stud in studlist)
@@ -468,7 +411,7 @@ namespace K12.Club.General.Zizhu
                 {
                     #region 重覆參與其它社團記錄 -警告
 
-                    sb_Message.AppendLine("共有" + cso.ReDoubleTemp.Count + "笔,重覆参与其它课程记录");
+                    sb_Message.AppendLine("共有" + cso.ReDoubleTemp.Count + "笔,重复参与其它社团记录");
 
 
                     //取得重覆社團
@@ -496,7 +439,7 @@ namespace K12.Club.General.Zizhu
 
                         string class_981 = string.IsNullOrEmpty(stud.RefClassID) ? "" : stud.Class.Name;
                         string SeatNo_981 = stud.SeatNo.HasValue ? stud.SeatNo.Value.ToString() : "";
-                        sb_Message.AppendLine("班级「" + class_981 + "」座号「" + SeatNo_981 + "」姓名「" + stud.Name + "」重覆课程「" + cr.ClubName + "」");
+                        sb_Message.AppendLine("班级「" + class_981 + "」座号「" + SeatNo_981 + "」姓名「" + stud.Name + "」重复社团「" + cr.ClubName + "」");
                     }
 
                     #endregion
@@ -522,7 +465,6 @@ namespace K12.Club.General.Zizhu
                         SCJoin JHs = new SCJoin();
                         JHs.RefStudentID = each; //修課學生
                         JHs.RefClubID = this.PrimaryKey;
-                        JHs.Phase = Phase;
                         SCJoinlist.Add(JHs);
 
                         //加入修課LOG
@@ -547,7 +489,7 @@ namespace K12.Club.General.Zizhu
                     sbHelp.AppendLine("已由待处理加入社员\n共「" + cso.InsertList.Count.ToString() + "」名学生\n");
                     MsgBox.Show(sbHelp.ToString());
 
-                    FISCA.LogAgent.ApplicationLog.Log("拓展性课程", "加入社员", sb_Log.ToString());
+                    FISCA.LogAgent.ApplicationLog.Log("社团", "加入社员", sb_Log.ToString());
                     K12.Presentation.NLDPanels.Student.RemoveFromTemp(cso.InsertList);
 
                     ClubEvents.RaiseAssnChanged();
@@ -583,7 +525,7 @@ namespace K12.Club.General.Zizhu
 
         private void ClearStudent()
         {
-            DialogResult dr = FISCA.Presentation.Controls.MsgBox.Show("是否移除选取的学生?", MessageBoxButtons.YesNo, MessageBoxDefaultButton.Button2);
+            DialogResult dr = FISCA.Presentation.Controls.MsgBox.Show("是否移除選取的學生?", MessageBoxButtons.YesNo, MessageBoxDefaultButton.Button2);
 
             if (dr == DialogResult.No)
                 return;
@@ -629,7 +571,7 @@ namespace K12.Club.General.Zizhu
             bool CheckIsCadre = false;
 
             StringBuilder sb_Message = new StringBuilder();
-            sb_Message.AppendLine("移除清單中包含擔任幹部記錄!!");
+            sb_Message.AppendLine("移除列表中包含担任干部记录!!");
 
             foreach (string each in StudentIDList)
             {
@@ -639,7 +581,7 @@ namespace K12.Club.General.Zizhu
                     CheckIsCadre = true;
                     if (scMAG.StudentDic.ContainsKey(each))
                     {
-                        sb_Message.AppendLine("社長:" + scMAG.StudentDic[each].Name);
+                        sb_Message.AppendLine("社长:" + scMAG.StudentDic[each].Name);
                     }
                 }
                 //副社長
@@ -648,7 +590,7 @@ namespace K12.Club.General.Zizhu
                     CheckIsCadre = true;
                     if (scMAG.StudentDic.ContainsKey(each))
                     {
-                        sb_Message.AppendLine("副社長:" + scMAG.StudentDic[each].Name);
+                        sb_Message.AppendLine("副社长:" + scMAG.StudentDic[each].Name);
                     }
                 }
                 //其他幹部資料
@@ -663,9 +605,10 @@ namespace K12.Club.General.Zizhu
                 }
             }
             sb_Message.AppendLine("");
-            sb_Message.AppendLine("請確認操作:");
-            sb_Message.AppendLine("[是]移除學生,清除幹部記錄");
+            sb_Message.AppendLine("请确认操作:");
+            sb_Message.AppendLine("[是]移除学生,清除干部记录");
             sb_Message.AppendLine("[否]中止所有操作");
+
 
             if (CheckIsCadre) //如果有學生是擔任幹部
             {
@@ -706,12 +649,12 @@ namespace K12.Club.General.Zizhu
             }
             catch (Exception ex)
             {
-                FISCA.Presentation.Controls.MsgBox.Show("移除學生失敗\n" + ex.Message);
+                FISCA.Presentation.Controls.MsgBox.Show("移除学生失败\n" + ex.Message);
                 SmartSchool.ErrorReporting.ReportingService.ReportException(ex);
                 return;
             }
 
-            FISCA.LogAgent.ApplicationLog.Log("社團", "移除社團學生", sb_Log.ToString());
+            FISCA.LogAgent.ApplicationLog.Log("社团", "移除社团学生", sb_Log.ToString());
             ClubEvents.RaiseAssnChanged();
         }
 
@@ -764,7 +707,7 @@ namespace K12.Club.General.Zizhu
             {
                 className = ClassDic[sr.RefClassID].Name;
             }
-            return string.Format("班級「{0}」座號「{1}」學生「{2}」", className, seatno, sr.Name);
+            return string.Format("班级「{0}」座号「{1}」学生「{2}」", className, seatno, sr.Name);
         }
 
         /// <summary>
@@ -857,7 +800,7 @@ namespace K12.Club.General.Zizhu
             tool._A.UpdateValues(scjList);
 
             //Log
-            LockStudent("鎖定學生選社", list);
+            LockStudent("锁定学生选社", list);
         }
 
         private void 移除選擇學生ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -881,7 +824,7 @@ namespace K12.Club.General.Zizhu
             }
             tool._A.UpdateValues(scjList);
 
-            LockStudent("解除鎖定選社", list);
+            LockStudent("解除锁定选社", list);
         }
 
         /// <summary>
@@ -891,14 +834,14 @@ namespace K12.Club.General.Zizhu
         {
             List<StudentRecord> studList = Student.SelectByIDs(list);
             StringBuilder sb_Log = new StringBuilder();
-            sb_Log.AppendLine(string.Format("已{0}共「{1}」名學生：(學年度「{2}」學期「{3}」社團「{4}」)", name, list.Count.ToString(), _CLUBRecord.SchoolYear.ToString(), _CLUBRecord.Semester.ToString(), _CLUBRecord.ClubName));
+            sb_Log.AppendLine(string.Format("已{0}共「{1}」名学生：(学年度「{2}」学期「{3}」社团「{4}」)", name, list.Count.ToString(), _CLUBRecord.SchoolYear.ToString(), _CLUBRecord.Semester.ToString(), _CLUBRecord.ClubName));
 
             foreach (StudentRecord each in studList)
             {
                 sb_Log.AppendLine(GetStudentString(each));
             }
 
-            FISCA.LogAgent.ApplicationLog.Log("社團", name, sb_Log.ToString());
+            FISCA.LogAgent.ApplicationLog.Log("社团", name, sb_Log.ToString());
         }
     }
 }
