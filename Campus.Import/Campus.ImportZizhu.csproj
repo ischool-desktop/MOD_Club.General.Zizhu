@@ -1,0 +1,235 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B443EDE2-16FB-4168-A8D5-61A9C1A8586B}</ProjectGuid>
+    <OutputType>library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Campus.ImportZizhu</RootNamespace>
+    <AssemblyName>Campus.ImportZizhu</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\..\..\ischool\modules\Campus\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>C:\ischool\modules\Campus\Campus.Import.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Aspose.Cells, Version=4.3.0.0, Culture=neutral, PublicKeyToken=9a40d5a4b59e5256, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Library\Aspose.Cells.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Campus.DocumentValidator, Version=1.0.0.6, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Library\Campus.DocumentValidator.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Campus.Report, Version=1.0.0.11, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Library\Campus.Report.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Campus.Validator, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Library\Campus.Validator.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DevComponents.DotNetBar2, Version=9.5.0.1, Culture=neutral, PublicKeyToken=7eb7c3a35b91de04, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Library\DevComponents.DotNetBar2.dll</HintPath>
+    </Reference>
+    <Reference Include="FISCA">
+      <HintPath>Library\FISCA.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="FISCA.LogAgent, Version=1.0.0.6, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Library\FISCA.LogAgent.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="FISCA.Presentation, Version=1.1.0.19, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Library\FISCA.Presentation.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="FISCA.UDT, Version=1.0.2.2, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Library\FISCA.UDT.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SmartSchool.ErrorReporting, Version=1.0.2.3, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Library\SmartSchool.ErrorReporting.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ImportMessages.cs" />
+    <Compile Include="ImportWizard\ImportOption.cs" />
+    <Compile Include="Utility\Constants.cs" />
+    <Compile Include="Utility\FunctionSpliter.cs" />
+    <Compile Include="ImportWizard\FieldProcessor.cs" />
+    <Compile Include="Forms\Step3\SelectFields.cs" />
+    <Compile Include="Forms\Step3\SelectFields.designer.cs">
+      <DependentUpon>SelectFields.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Step1\SelectSource.cs" />
+    <Compile Include="Forms\Step1\SelectSource.designer.cs">
+      <DependentUpon>SelectSource.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Step4\SelectValidate.cs" />
+    <Compile Include="Forms\Step4\SelectValidate.designer.cs">
+      <DependentUpon>SelectValidate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\WizardForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\WizardForm.designer.cs">
+      <DependentUpon>WizardForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Step2\SelectKey.cs" />
+    <Compile Include="Forms\Step2\SelectKey.Designer.cs">
+      <DependentUpon>SelectKey.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Step5\SelectImport.cs" />
+    <Compile Include="Forms\Step5\SelectImport.Designer.cs">
+      <DependentUpon>SelectImport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ImportWizard\ImportFullOption.cs" />
+    <Compile Include="XmlExtensions.cs" />
+    <Compile Include="Forms\XmlViewForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\XmlViewForm.designer.cs">
+      <DependentUpon>XmlViewForm.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ImportWizard\ImportWizard.cs" />
+    <Compile Include="ImportWizard\IRowStreamImport.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Forms\Step2\SelectKey.resx">
+      <DependentUpon>SelectKey.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Step3\SelectFields.resx">
+      <DependentUpon>SelectFields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Step1\SelectSource.resx">
+      <DependentUpon>SelectSource.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Step4\SelectValidate.resx">
+      <DependentUpon>SelectValidate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\WizardForm.resx">
+      <DependentUpon>WizardForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Step5\SelectImport.resx">
+      <DependentUpon>SelectImport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\XmlViewForm.resx">
+      <DependentUpon>XmlViewForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ok_64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\filter_data_info_64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\filter_data_ok_64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\filter_data_close_64.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Library\Aspose.Cells.dll" />
+    <Content Include="Library\Campus.Report.dll" />
+    <Content Include="Library\Campus.Report.pdb" />
+    <Content Include="Library\FISCA.LogAgent.dll" />
+    <Content Include="Library\FISCA.LogAgent.pdb" />
+    <Content Include="Library\FISCA.pdb" />
+    <Content Include="Library\FISCA.Presentation.dll" />
+    <Content Include="Library\FISCA.Presentation.pdb" />
+    <Resource Include="Library\FISCA.Presentation.xml" />
+    <Content Include="Library\FISCA.UDT.dll" />
+    <Content Include="Library\FISCA.UDT.pdb" />
+    <Resource Include="Library\FISCA.UDT.xml" />
+    <Resource Include="Library\FISCA.LogAgent.xml" />
+    <Resource Include="Library\FISCA.xml" />
+    <Content Include="Library\SmartSchool.ErrorReporting.dll" />
+    <Content Include="Library\SmartSchool.ErrorReporting.pdb" />
+    <Resource Include="Library\SmartSchool.ErrorReporting.xml" />
+    <Resource Include="Library\Aspose.Cells.xml" />
+    <Content Include="Library\Campus.DocumentValidator.dll" />
+    <Content Include="Library\Campus.DocumentValidator.pdb" />
+    <Content Include="Library\DevComponents.DotNetBar2.dll" />
+    <Resource Include="Library\Campus.DocumentValidator.xml" />
+    <Content Include="Library\Campus.Validator.dll" />
+    <Content Include="Library\Campus.Validator.pdb" />
+    <Resource Include="Library\Campus.Validator.xml" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

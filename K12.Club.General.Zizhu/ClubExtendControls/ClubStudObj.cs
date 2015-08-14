@@ -69,7 +69,7 @@ namespace K12.Club.General.Zizhu
         /// <summary>
         /// 排除已存在於本社團之學生
         /// </summary>
-        public void CheckTempStudentInCourse(List<string> IsSaft, Dictionary<string, List<SCJoin>> SCJoin_Dic, CLUBRecord _CLUBRecord)
+        public void CheckTempStudentInCourse(List<string> IsSaft, Dictionary<string, List<SCJoin>> SCJoin_Dic, CLUBRecord _CLUBRecord, int phase)
         {
             //取得學生的社團參與記錄(所有學期)
             List<SCJoin> scjList = tool._A.Select<SCJoin>("ref_student_id in ('" + string.Join("','", IsSaft) + "')");
@@ -108,8 +108,23 @@ namespace K12.Club.General.Zizhu
                 }
                 else
                 {
-                    //重覆加入社團之學生
-                    ReMoveTemp.Add(each);
+                    SCJoin scjK = new SCJoin();
+                    foreach (SCJoin scj in SCJoin_Dic[each])
+                    {
+                        if (string.IsNullOrEmpty(scjK.UID))
+                        {
+                            scjK = scj;
+                            continue;
+                        }
+
+                        //如果是相同階段別之學生
+                        if (scjK.Phase == scj.Phase)
+                        {
+                            //重覆加入社團之學生
+                            ReMoveTemp.Add(each);
+                        }
+                    }
+
                 }
             }
         }

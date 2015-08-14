@@ -46,6 +46,11 @@
       <HintPath>Library\Campus.Configuration.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Campus.DocumentValidator, Version=1.0.0.6, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Library\Campus.DocumentValidator.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Campus.Report, Version=1.0.0.11, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Library\Campus.Report.dll</HintPath>
@@ -100,6 +105,11 @@
       <HintPath>Library\FISCA.UDT.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="IntelliSchool.DSA.ClientFramework, Version=1.2.2.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Library\IntelliSchool.DSA.ClientFramework.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="K12.Data, Version=2.0.0.2, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Library\K12.Data.dll</HintPath>
@@ -108,6 +118,16 @@
     <Reference Include="K12.Presentation, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Library\K12.Presentation.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SmartSchool.API.PlugIn, Version=0.0.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Library\SmartSchool.API.PlugIn.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SmartSchool.Customization.PlugIn, Version=1.1.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Library\SmartSchool.Customization.PlugIn.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="SmartSchool.ErrorReporting, Version=1.0.2.3, Culture=neutral, processorArchitecture=MSIL">
@@ -180,6 +200,18 @@
     <Compile Include="ExtracurricularActivitiesView.designer.cs">
       <DependentUpon>ExtracurricularActivitiesView.cs</DependentUpon>
     </Compile>
+    <Compile Include="ImportExport\CLUBFieldValidatorFactory.cs" />
+    <Compile Include="ImportExport\ExportStudentV2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ImportExport\ExportStudentV2.designer.cs">
+      <DependentUpon>ExportStudentV2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ImportExport\FieldValidator\TeacherInischoolCheck.cs" />
+    <Compile Include="ImportExport\匯入社團基本資料\CLUBImportBOT.cs" />
+    <Compile Include="ImportExport\匯入社團基本資料\ImportCLUBData.cs" />
+    <Compile Include="ImportExport\匯入社團基本資料\ImputLog.cs" />
+    <Compile Include="ImportExport\匯出社團基本資料\ExportCLUBData.cs" />
     <Compile Include="Permissions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -187,6 +219,18 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ClubExtendControls\ClubStudent_2.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ClubExtendControls\ClubStudent_2.designer.cs">
+      <DependentUpon>ClubStudent_2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ClubExtendControls\ClubStudent_3.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ClubExtendControls\ClubStudent_3.designer.cs">
+      <DependentUpon>ClubStudent_3.cs</DependentUpon>
     </Compile>
     <Compile Include="Report\社團點名單_套表列印\ClubPointsListForm.cs">
       <SubType>Form</SubType>
@@ -258,6 +302,9 @@
     <Content Include="Library\Aspose.Words.xml" />
     <Content Include="Library\Campus.Configuration.dll" />
     <Content Include="Library\Campus.Configuration.pdb" />
+    <Content Include="Library\Campus.DocumentValidator.dll" />
+    <Content Include="Library\Campus.DocumentValidator.pdb" />
+    <Content Include="Library\Campus.DocumentValidator.xml" />
     <Content Include="Library\Campus.Report.dll" />
     <Content Include="Library\Campus.Windows.dll" />
     <Content Include="Library\Campus.Windows.pdb" />
@@ -286,14 +333,20 @@
     <Content Include="Library\FISCA.UDT.dll" />
     <Content Include="Library\FISCA.UDT.pdb" />
     <Content Include="Library\FISCA.UDT.xml" />
+    <Content Include="Library\IntelliSchool.DSA.ClientFramework.dll" />
+    <Content Include="Library\IntelliSchool.DSA.ClientFramework.xml" />
     <Content Include="Library\K12.Data.dll" />
     <Content Include="Library\K12.Data.pdb" />
     <Content Include="Library\K12.Data.xml" />
     <Content Include="Library\K12.Presentation.dll" />
     <Content Include="Library\K12.Presentation.xml" />
+    <Content Include="Library\SmartSchool.API.PlugIn.dll" />
+    <Content Include="Library\SmartSchool.Customization.PlugIn.dll" />
+    <Content Include="Library\SmartSchool.Customization.PlugIn.xml" />
     <Content Include="Library\SmartSchool.ErrorReporting.dll" />
     <Content Include="Library\SmartSchool.ErrorReporting.pdb" />
     <Content Include="Library\SmartSchool.ErrorReporting.xml" />
+    <None Include="Resources\ImportCLUBDataValRule.xml" />
     <None Include="Resources\Report.png" />
     <None Include="Resources\Import.Image.png" />
     <None Include="Resources\Export.Image.png" />
@@ -328,9 +381,18 @@
     <EmbeddedResource Include="ExtracurricularActivitiesView.resx">
       <DependentUpon>ExtracurricularActivitiesView.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ImportExport\ExportStudentV2.resx">
+      <DependentUpon>ExportStudentV2.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ClubExtendControls\ClubStudent_2.resx">
+      <DependentUpon>ClubStudent_2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ClubExtendControls\ClubStudent_3.resx">
+      <DependentUpon>ClubStudent_3.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\社團點名單_套表列印\ClubPointsListForm.resx">
       <DependentUpon>ClubPointsListForm.cs</DependentUpon>
@@ -353,6 +415,13 @@
     <EmbeddedResource Include="ViewJPG.resx">
       <DependentUpon>ViewJPG.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Campus.Import\Campus.ImportZizhu.csproj">
+      <Project>{b443ede2-16fb-4168-a8d5-61a9c1a8586b}</Project>
+      <Name>Campus.ImportZizhu</Name>
+      <Private>False</Private>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,4 +1,5 @@
-﻿using FISCA;
+﻿using Campus.DocumentValidator;
+using FISCA;
 using FISCA.Permission;
 using FISCA.Presentation;
 using FISCA.Presentation.Controls;
@@ -24,6 +25,9 @@ namespace K12.Club.General.Zizhu
 
             ClubAdmin.Instance.AddView(new ExtracurricularActivitiesView());
 
+            //驗證規則
+            FactoryProvider.FieldFactory.Add(new CLUBFieldValidatorFactory());
+
             #region 社團基本資料
 
             FeatureAce UserPermission = FISCA.Permission.UserAcl.Current[Permissions.社團基本資料];
@@ -43,7 +47,11 @@ namespace K12.Club.General.Zizhu
 
             UserPermission = FISCA.Permission.UserAcl.Current[Permissions.社團參與學生];
             if (UserPermission.Editable || UserPermission.Viewable)
+            {
                 ClubAdmin.Instance.AddDetailBulider(new FISCA.Presentation.DetailBulider<ClubStudent>());
+                ClubAdmin.Instance.AddDetailBulider(new FISCA.Presentation.DetailBulider<ClubStudent_2>());
+                ClubAdmin.Instance.AddDetailBulider(new FISCA.Presentation.DetailBulider<ClubStudent_3>());
+            }
 
             UserPermission = FISCA.Permission.UserAcl.Current[Permissions.學生社團成績_資料項目];
             if (UserPermission.Editable || UserPermission.Viewable)
@@ -92,6 +100,20 @@ namespace K12.Club.General.Zizhu
             totle["报表"].Image = Properties.Resources.Report;
 
 
+            totle["汇出"]["汇出课程基本资料"].Enable = Permissions.匯出社團基本資料權限;
+            totle["汇出"]["汇出课程基本资料"].Click += delegate
+            {
+                SmartSchool.API.PlugIn.Export.Exporter exporter = new ExportCLUBData();
+                ExportStudentV2 wizard = new ExportStudentV2(exporter.Text, exporter.Image);
+                exporter.InitializeExport(wizard);
+                wizard.ShowDialog();
+            };
+
+            totle["汇入"]["汇入课程基本资料"].Enable = Permissions.匯入社團基本資料權限;
+            totle["汇入"]["汇入课程基本资料"].Click += delegate
+            {
+                new ImportCLUBData().Execute();
+            };
 
 
             totle["报表"]["课程点名单(套表列印)"].Enable = false;

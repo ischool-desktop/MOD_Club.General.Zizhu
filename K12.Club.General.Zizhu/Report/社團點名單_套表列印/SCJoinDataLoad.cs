@@ -54,12 +54,13 @@ namespace K12.Club.General.Zizhu
         /// </summary>
         public Dictionary<string, List<StudentRecord>> ClubByStudentList { get; set; }
 
-        public SCJoinDataLoad()
+
+        public SCJoinDataLoad(int Phase)
         {
             //取得社團清單
             ClubList = _AccessHelper.Select<CLUBRecord>("UID in ('" + string.Join("','", ClubAdmin.Instance.SelectedSource) + "')");
             //取得學生修課記錄
-            SCJoinList = _AccessHelper.Select<SCJoin>("ref_club_id in ('" + string.Join("','", ClubAdmin.Instance.SelectedSource) + "')");
+            SCJoinList = _AccessHelper.Select<SCJoin>("ref_club_id in ('" + string.Join("','", ClubAdmin.Instance.SelectedSource) + "') and phase=" + Phase.ToString());
 
             //取得學生ID - 1
             //StudentIDList = SCJoinList.Select(x => x.RefStudentID).ToList();

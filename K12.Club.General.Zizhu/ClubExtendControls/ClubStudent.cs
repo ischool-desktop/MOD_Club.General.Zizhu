@@ -18,7 +18,7 @@ namespace K12.Club.General.Zizhu
 {
     //社團的學生增減
     //必須有另一個背景模式進行處理
-    [FISCA.Permission.FeatureCode("K12.Club.Universal.ClubStudent.cs", "参与学生")]
+    [FISCA.Permission.FeatureCode("K12.Club.Universal.ClubStudent.cs", "第一阶段参与学生")]
     public partial class ClubStudent : DetailContentBase
     {
         private BackgroundWorker BGW = new BackgroundWorker();
@@ -43,7 +43,7 @@ namespace K12.Club.General.Zizhu
         {
             InitializeComponent();
 
-            Group = "参与学生";
+            Group = "第一阶段参与学生";
 
             UserPermission = UserAcl.Current[FISCA.Permission.FeatureCodeAttribute.GetCode(GetType())];
             this.Enabled = UserPermission.Editable;
@@ -83,7 +83,7 @@ namespace K12.Club.General.Zizhu
             _CLUBRecord = ClubPrimaryList[0];
 
             //本社團的學生參與記錄
-            scMAG = new ScJoinMag(this.PrimaryKey);
+            scMAG = new ScJoinMag(this.PrimaryKey, 1);
 
             ClassDic = tool.GetClassDic(scMAG.SCJoinStudent_LIst);
         }
@@ -343,7 +343,7 @@ namespace K12.Club.General.Zizhu
         private void btnInserStudent_Click(object sender, EventArgs e)
         {
             //將待處理學生加入修課清單
-            AddListViewInTemp(K12.Presentation.NLDPanels.Student.TempSource);
+            AddListViewInTemp(K12.Presentation.NLDPanels.Student.TempSource, 1);
         }
 
         /// <summary>
@@ -359,7 +359,7 @@ namespace K12.Club.General.Zizhu
                 List<string> list = new List<string>();
                 list.Add(eachTag.ID);
 
-                AddListViewInTemp(list);
+                AddListViewInTemp(list, 1);
             }
             else
             {
@@ -370,7 +370,7 @@ namespace K12.Club.General.Zizhu
         /// <summary>
         /// 將傳入的學生ID,加入此課程
         /// </summary>
-        private void AddListViewInTemp(List<string> IsSaft)
+        private void AddListViewInTemp(List<string> IsSaft, int phase)
         {
             if (IsSaft.Count != 0)
             {
@@ -382,7 +382,7 @@ namespace K12.Club.General.Zizhu
                 #region 可加入的學生清單
 
                 //排除已存在本課程的學生
-                cso.CheckTempStudentInCourse(IsSaft, scMAG.SCJoin_Dic, _CLUBRecord);
+                cso.CheckTempStudentInCourse(IsSaft, scMAG.SCJoin_Dic, _CLUBRecord, phase);
 
                 StringBuilder sb_Log = new StringBuilder();
                 sb_Log.AppendLine(string.Format("加入「{0}」名社团参与学生：(学年度「{1}」学期「{2}」社团「{3}」)", cso.InsertList.Count.ToString(), _CLUBRecord.SchoolYear.ToString(), _CLUBRecord.Semester.ToString(), _CLUBRecord.ClubName));
@@ -439,7 +439,7 @@ namespace K12.Club.General.Zizhu
 
                         string class_981 = string.IsNullOrEmpty(stud.RefClassID) ? "" : stud.Class.Name;
                         string SeatNo_981 = stud.SeatNo.HasValue ? stud.SeatNo.Value.ToString() : "";
-                        sb_Message.AppendLine("班级「" + class_981 + "」座号「" + SeatNo_981 + "」姓名「" + stud.Name + "」重复社团「" + cr.ClubName + "」");
+                        sb_Message.AppendLine("班级「" + class_981 + "」座号「" + SeatNo_981 + "」姓名「" + stud.Name + "」课程「" + cr.ClubName + "」阶段「" + SCJ.Phase + "」");
                     }
 
                     #endregion
@@ -465,6 +465,7 @@ namespace K12.Club.General.Zizhu
                         SCJoin JHs = new SCJoin();
                         JHs.RefStudentID = each; //修課學生
                         JHs.RefClubID = this.PrimaryKey;
+                        JHs.Phase = 1;
                         SCJoinlist.Add(JHs);
 
                         //加入修課LOG

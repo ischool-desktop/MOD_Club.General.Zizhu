@@ -117,9 +117,9 @@
             this.lbCourseCount.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.lbCourseCount.Location = new System.Drawing.Point(338, 211);
             this.lbCourseCount.Name = "lbCourseCount";
-            this.lbCourseCount.Size = new System.Drawing.Size(47, 21);
+            this.lbCourseCount.Size = new System.Drawing.Size(160, 21);
             this.lbCourseCount.TabIndex = 3;
-            this.lbCourseCount.Text = "阶段：";
+            this.lbCourseCount.Text = "有效社员/所有状态社员：";
             // 
             // listViewEx1
             // 

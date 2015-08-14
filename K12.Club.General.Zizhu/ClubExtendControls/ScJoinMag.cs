@@ -53,11 +53,11 @@ namespace K12.Club.General.Zizhu
         /// 傳入單一社團ID
         /// 本功能用以取得社團學生清單
         /// </summary>
-        public ScJoinMag(string ClubRecordID)
+        public ScJoinMag(string ClubRecordID, int Phase)
         {
             //取得參與記錄
             StringBuilder sb = new StringBuilder();
-            sb.Append(string.Format("ref_club_id='{0}'", ClubRecordID));
+            sb.Append(string.Format("ref_club_id='{0}' and phase={1}", ClubRecordID, Phase.ToString()));
             SCJoin_LIst = _AccessHelper.Select<SCJoin>(sb.ToString());
 
             string Test = "";
@@ -73,7 +73,7 @@ namespace K12.Club.General.Zizhu
 
                 if (!SCJoin_Dic.ContainsKey(each.RefStudentID))
                 {
-                    SCJoin_Dic.Add(each.RefStudentID,new List<SCJoin>());
+                    SCJoin_Dic.Add(each.RefStudentID, new List<SCJoin>());
                 }
 
                 SCJoin_Dic[each.RefStudentID].Add(each);

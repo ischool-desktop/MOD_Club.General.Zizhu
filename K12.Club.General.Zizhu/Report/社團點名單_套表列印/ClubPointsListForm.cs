@@ -26,6 +26,8 @@ namespace K12.Club.General.Zizhu
 
         BackgroundWorker BGW = new BackgroundWorker();
 
+        int Phase = 1;
+
         int 學生多少個 = 150;
         int 日期多少天 = 30;
 
@@ -77,7 +79,7 @@ namespace K12.Club.General.Zizhu
             }
 
             #endregion
-
+            Phase = integerInput1.Value;
             btnSave.Enabled = false;
             BGW.RunWorkerAsync(dxXml.BaseElement);
 
@@ -102,7 +104,7 @@ namespace K12.Club.General.Zizhu
                 Template = ConfigurationInCadre.Template.ToDocument();
             }
 
-            SCJoinDataLoad crM = new SCJoinDataLoad();
+            SCJoinDataLoad crM = new SCJoinDataLoad(Phase);
 
             #region 日期
 
