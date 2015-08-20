@@ -25,7 +25,7 @@ namespace K12.Club.General.Zizhu
             List<string> FieldList = new List<string>();
             FieldList.Add("学年度"); //目前字段
             FieldList.Add("学期"); //目前字段
-            FieldList.Add("社团名称"); //目前字段
+            FieldList.Add("课程名称"); //目前字段
             FieldList.Add("代码");
             FieldList.Add("场地");
             FieldList.Add("类型");
@@ -35,23 +35,23 @@ namespace K12.Club.General.Zizhu
             FieldList.Add("老师3");
             FieldList.Add("简介");
 
-            FieldList.Add("限制:一年级选社人数限制");
-            FieldList.Add("限制:二年级选社人数限制");
-            FieldList.Add("限制:三年级选社人数限制");
-            FieldList.Add("限制:四年级选社人数限制");
-            FieldList.Add("限制:五年级选社人数限制");
+            FieldList.Add("限制:一年级选课人数限制");
+            FieldList.Add("限制:二年级选课人数限制");
+            FieldList.Add("限制:三年级选课人数限制");
+            FieldList.Add("限制:四年级选课人数限制");
+            FieldList.Add("限制:五年级选课人数限制");
 
-            FieldList.Add("限制:一年级选社人数男生限制");
-            FieldList.Add("限制:二年级选社人数男生限制");
-            FieldList.Add("限制:三年级选社人数男生限制");
-            FieldList.Add("限制:四年级选社人数男生限制");
-            FieldList.Add("限制:五年级选社人数男生限制");
+            FieldList.Add("限制:一年级选课人数男生限制");
+            FieldList.Add("限制:二年级选课人数男生限制");
+            FieldList.Add("限制:三年级选课人数男生限制");
+            FieldList.Add("限制:四年级选课人数男生限制");
+            FieldList.Add("限制:五年级选课人数男生限制");
 
-            FieldList.Add("限制:一年级选社人数女生限制");
-            FieldList.Add("限制:二年级选社人数女生限制");
-            FieldList.Add("限制:三年级选社人数女生限制");
-            FieldList.Add("限制:四年级选社人数女生限制");
-            FieldList.Add("限制:五年级选社人数女生限制");
+            FieldList.Add("限制:一年级选课人数女生限制");
+            FieldList.Add("限制:二年级选课人数女生限制");
+            FieldList.Add("限制:三年级选课人数女生限制");
+            FieldList.Add("限制:四年级选课人数女生限制");
+            FieldList.Add("限制:五年级选课人数女生限制");
 
 
             //取得教師
@@ -95,7 +95,7 @@ namespace K12.Club.General.Zizhu
                             {
                                 case "学年度": row.Add(field, "" + records[i].SchoolYear); break;
                                 case "学期": row.Add(field, "" + records[i].Semester); break;
-                                case "社团名称": row.Add(field, records[i].ClubName); break;
+                                case "课程名称": row.Add(field, records[i].ClubName); break;
                                 case "代码": row.Add(field, records[i].ClubNumber); break;
                                 case "场地": row.Add(field, records[i].Location); break;
                                 case "类型": row.Add(field, records[i].ClubCategory); break;
@@ -104,23 +104,23 @@ namespace K12.Club.General.Zizhu
                                 case "老师3": row.Add(field, teacher3); break;
                                 case "简介": row.Add(field, records[i].About); break;
 
-                                case "限制:一年级选社人数限制": row.Add(field, records[i].Grade1Limit.HasValue ? "" + records[i].Grade1Limit.Value : ""); break;
-                                case "限制:二年级选社人数限制": row.Add(field, records[i].Grade2Limit.HasValue ? "" + records[i].Grade2Limit.Value : ""); break;
-                                case "限制:三年级选社人数限制": row.Add(field, records[i].Grade3Limit.HasValue ? "" + records[i].Grade3Limit.Value : ""); break;
-                                case "限制:四年级选社人数限制": row.Add(field, records[i].Grade4Limit.HasValue ? "" + records[i].Grade4Limit.Value : ""); break;
-                                case "限制:五年级选社人数限制": row.Add(field, records[i].Grade5Limit.HasValue ? "" + records[i].Grade5Limit.Value : ""); break;
+                                case "限制:一年级选课人数限制": row.Add(field, records[i].Grade1Limit.HasValue ? "" + records[i].Grade1Limit.Value : ""); break;
+                                case "限制:二年级选课人数限制": row.Add(field, records[i].Grade2Limit.HasValue ? "" + records[i].Grade2Limit.Value : ""); break;
+                                case "限制:三年级选课人数限制": row.Add(field, records[i].Grade3Limit.HasValue ? "" + records[i].Grade3Limit.Value : ""); break;
+                                case "限制:四年级选课人数限制": row.Add(field, records[i].Grade4Limit.HasValue ? "" + records[i].Grade4Limit.Value : ""); break;
+                                case "限制:五年级选课人数限制": row.Add(field, records[i].Grade5Limit.HasValue ? "" + records[i].Grade5Limit.Value : ""); break;
 
-                                case "限制:一年级选社人数男生限制": row.Add(field, records[i].Grade1BoyLimit.HasValue ? "" + records[i].Grade1BoyLimit.Value : ""); break;
-                                case "限制:二年级选社人数男生限制": row.Add(field, records[i].Grade2BoyLimit.HasValue ? "" + records[i].Grade2BoyLimit.Value : ""); break;
-                                case "限制:三年级选社人数男生限制": row.Add(field, records[i].Grade3BoyLimit.HasValue ? "" + records[i].Grade3BoyLimit.Value : ""); break;
-                                case "限制:四年级选社人数男生限制": row.Add(field, records[i].Grade4BoyLimit.HasValue ? "" + records[i].Grade4BoyLimit.Value : ""); break;
-                                case "限制:五年级选社人数男生限制": row.Add(field, records[i].Grade5BoyLimit.HasValue ? "" + records[i].Grade5BoyLimit.Value : ""); break;
+                                case "限制:一年级选课人数男生限制": row.Add(field, records[i].Grade1BoyLimit.HasValue ? "" + records[i].Grade1BoyLimit.Value : ""); break;
+                                case "限制:二年级选课人数男生限制": row.Add(field, records[i].Grade2BoyLimit.HasValue ? "" + records[i].Grade2BoyLimit.Value : ""); break;
+                                case "限制:三年级选课人数男生限制": row.Add(field, records[i].Grade3BoyLimit.HasValue ? "" + records[i].Grade3BoyLimit.Value : ""); break;
+                                case "限制:四年级选课人数男生限制": row.Add(field, records[i].Grade4BoyLimit.HasValue ? "" + records[i].Grade4BoyLimit.Value : ""); break;
+                                case "限制:五年级选课人数男生限制": row.Add(field, records[i].Grade5BoyLimit.HasValue ? "" + records[i].Grade5BoyLimit.Value : ""); break;
 
-                                case "限制:一年级选社人数女生限制": row.Add(field, records[i].Grade1GirlLimit.HasValue ? "" + records[i].Grade1GirlLimit.Value : ""); break;
-                                case "限制:二年级选社人数女生限制": row.Add(field, records[i].Grade2GirlLimit.HasValue ? "" + records[i].Grade2GirlLimit.Value : ""); break;
-                                case "限制:三年级选社人数女生限制": row.Add(field, records[i].Grade3GirlLimit.HasValue ? "" + records[i].Grade3GirlLimit.Value : ""); break;
-                                case "限制:四年级选社人数女生限制": row.Add(field, records[i].Grade4GirlLimit.HasValue ? "" + records[i].Grade4GirlLimit.Value : ""); break;
-                                case "限制:五年级选社人数女生限制": row.Add(field, records[i].Grade5GirlLimit.HasValue ? "" + records[i].Grade5GirlLimit.Value : ""); break;
+                                case "限制:一年级选课人数女生限制": row.Add(field, records[i].Grade1GirlLimit.HasValue ? "" + records[i].Grade1GirlLimit.Value : ""); break;
+                                case "限制:二年级选课人数女生限制": row.Add(field, records[i].Grade2GirlLimit.HasValue ? "" + records[i].Grade2GirlLimit.Value : ""); break;
+                                case "限制:三年级选课人数女生限制": row.Add(field, records[i].Grade3GirlLimit.HasValue ? "" + records[i].Grade3GirlLimit.Value : ""); break;
+                                case "限制:四年级选课人数女生限制": row.Add(field, records[i].Grade4GirlLimit.HasValue ? "" + records[i].Grade4GirlLimit.Value : ""); break;
+                                case "限制:五年级选课人数女生限制": row.Add(field, records[i].Grade5GirlLimit.HasValue ? "" + records[i].Grade5GirlLimit.Value : ""); break;
 
                             }
                         }

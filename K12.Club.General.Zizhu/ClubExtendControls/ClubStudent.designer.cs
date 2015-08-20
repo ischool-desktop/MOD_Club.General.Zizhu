@@ -97,7 +97,7 @@
             this.btnInserStudent.SubItems.AddRange(new DevComponents.DotNetBar.BaseItem[] {
             this.buttonItem2});
             this.btnInserStudent.TabIndex = 2;
-            this.btnInserStudent.Text = "由待处理(学生)加入社员";
+            this.btnInserStudent.Text = "由待处理(学生)加入";
             this.btnInserStudent.PopupOpen += new System.EventHandler(this.btnInserStudent_PopupOpen);
             this.btnInserStudent.Click += new System.EventHandler(this.btnInserStudent_Click);
             // 
@@ -117,9 +117,9 @@
             this.lbCourseCount.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.lbCourseCount.Location = new System.Drawing.Point(338, 211);
             this.lbCourseCount.Name = "lbCourseCount";
-            this.lbCourseCount.Size = new System.Drawing.Size(160, 21);
+            this.lbCourseCount.Size = new System.Drawing.Size(106, 21);
             this.lbCourseCount.TabIndex = 3;
-            this.lbCourseCount.Text = "有效社员/所有状态社员：";
+            this.lbCourseCount.Text = "有效/所有状态：";
             // 
             // listViewEx1
             // 

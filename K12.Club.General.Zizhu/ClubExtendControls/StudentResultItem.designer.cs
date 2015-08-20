@@ -30,12 +30,12 @@
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridViewX1 = new DevComponents.DotNetBar.Controls.DataGridViewX();
-            this.labelX1 = new DevComponents.DotNetBar.LabelX();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.labelX1 = new DevComponents.DotNetBar.LabelX();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewX1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -67,20 +67,6 @@
             this.dataGridViewX1.CurrentCellDirtyStateChanged += new System.EventHandler(this.dataGridViewX1_CurrentCellDirtyStateChanged);
             this.dataGridViewX1.UserDeletedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.dataGridViewX1_UserDeletedRow);
             // 
-            // labelX1
-            // 
-            this.labelX1.AutoSize = true;
-            // 
-            // 
-            // 
-            this.labelX1.BackgroundStyle.Class = "";
-            this.labelX1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX1.Location = new System.Drawing.Point(13, 197);
-            this.labelX1.Name = "labelX1";
-            this.labelX1.Size = new System.Drawing.Size(301, 21);
-            this.labelX1.TabIndex = 1;
-            this.labelX1.Text = "说明：有颜色的行，是社团结算功能产生之资料。";
-            // 
             // Column1
             // 
             this.Column1.HeaderText = "学年度";
@@ -107,6 +93,20 @@
             // 
             this.Column5.HeaderText = "干部名称";
             this.Column5.Name = "Column5";
+            // 
+            // labelX1
+            // 
+            this.labelX1.AutoSize = true;
+            // 
+            // 
+            // 
+            this.labelX1.BackgroundStyle.Class = "";
+            this.labelX1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX1.Location = new System.Drawing.Point(13, 197);
+            this.labelX1.Name = "labelX1";
+            this.labelX1.Size = new System.Drawing.Size(275, 21);
+            this.labelX1.TabIndex = 1;
+            this.labelX1.Text = "说明：有颜色的行，是结算功能产生之资料。";
             // 
             // StudentResultItem
             // 

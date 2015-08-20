@@ -36,7 +36,7 @@ namespace K12.Club.General.Zizhu
                 { //教师名称
                     string SchoolYear = Row.GetValue("学年度");
                     string Semester = Row.GetValue("学期");
-                    string CLUBName = Row.GetValue("社团名称");
+                    string CLUBName = Row.GetValue("课程名称");
                     string name = SchoolYear + "," + Semester + "," + CLUBName;
 
                     if (Importbot.ClubDic.ContainsKey(name)) //更新
@@ -68,19 +68,19 @@ namespace K12.Club.General.Zizhu
                 if (ClubInsertList.Count > 0)
                 {
                     StringBuilder mstrLog1 = new StringBuilder();
-                    mstrLog1.AppendLine("新增汇入社团：");
+                    mstrLog1.AppendLine("新增汇入课程：");
                     foreach (CLUBRecord each in ClubInsertList)
                     {
                         mstrLog1.AppendLine(Importbot.GetLogString(each));
                     }
                     tool._A.InsertValues(ClubInsertList);
-                    FISCA.LogAgent.ApplicationLog.Log("社团", "新增汇入", mstrLog1.ToString());
+                    FISCA.LogAgent.ApplicationLog.Log("课程", "新增汇入", mstrLog1.ToString());
                 }
 
                 if (ClubUpdateList.Count > 0)
                 {
                     StringBuilder mstrLog2 = new StringBuilder();
-                    mstrLog2.AppendLine("更新汇入社团：");
+                    mstrLog2.AppendLine("更新汇入课程：");
                     foreach (CLUBRecord each in ClubUpdateList)
                     {
                         if (Log_Dic.ContainsKey(each.UID))
@@ -91,7 +91,7 @@ namespace K12.Club.General.Zizhu
 
                     }
                     tool._A.UpdateValues(ClubUpdateList);
-                    FISCA.LogAgent.ApplicationLog.Log("社团", "更新汇入", mstrLog2.ToString());
+                    FISCA.LogAgent.ApplicationLog.Log("课程", "更新汇入", mstrLog2.ToString());
                 }
                 ClubEvents.RaiseAssnChanged();
             }

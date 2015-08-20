@@ -366,13 +366,13 @@ namespace K12.Club.General.Zizhu
 
             StringBuilder sb = LogSet();
 
-            FISCA.LogAgent.ApplicationLog.Log("社团", "修改基本资料", sb.ToString());
+            FISCA.LogAgent.ApplicationLog.Log("课程", "修改基本资料", sb.ToString());
         }
 
         private StringBuilder LogSet()
         {
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine(string.Format("已修改基本资料：(学年度「{0}」学期「{1}」社团「{2}」)", Log_ClubPrimary.SchoolYear.ToString(), Log_ClubPrimary.Semester.ToString(), Log_ClubPrimary.ClubName));
+            sb.AppendLine(string.Format("已修改基本资料：(学年度「{0}」学期「{1}」课程「{2}」)", Log_ClubPrimary.SchoolYear.ToString(), Log_ClubPrimary.Semester.ToString(), Log_ClubPrimary.ClubName));
 
             string chenge = GetString("名称", Log_ClubPrimary.ClubName, ClubPrimary.ClubName);
             if (!string.IsNullOrEmpty(chenge))
@@ -515,7 +515,7 @@ namespace K12.Club.General.Zizhu
             #region 社團名稱
             if (string.IsNullOrEmpty(txtClubName.Text.Trim()))
             {
-                ep_ClubName.SetError(txtClubName, "社团必须有名称");
+                ep_ClubName.SetError(txtClubName, "课程必须有名称");
                 a = false;
             }
             else
@@ -534,7 +534,7 @@ namespace K12.Club.General.Zizhu
 
                     if (dt.Rows.Count > 0)
                     {
-                        ep_ClubName.SetError(txtClubName, "社团名称重覆");
+                        ep_ClubName.SetError(txtClubName, "课程名称重覆");
                         a = false;
                     }
                     else

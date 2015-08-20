@@ -117,7 +117,7 @@
             this.intSchoolYear.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.intSchoolYear.ButtonFreeText.Shortcut = DevComponents.DotNetBar.eShortcut.F2;
             this.intSchoolYear.Location = new System.Drawing.Point(68, 10);
-            this.intSchoolYear.MaxValue = 999;
+            this.intSchoolYear.MaxValue = 9999;
             this.intSchoolYear.MinValue = 90;
             this.intSchoolYear.Name = "intSchoolYear";
             this.intSchoolYear.ShowUpDown = true;

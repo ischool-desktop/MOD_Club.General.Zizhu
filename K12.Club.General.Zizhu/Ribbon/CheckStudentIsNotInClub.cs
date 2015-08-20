@@ -60,7 +60,7 @@ namespace K12.Club.General.Zizhu
             BGWSave.RunWorkerCompleted += new RunWorkerCompletedEventHandler(BGWSave_RunWorkerCompleted);
 
             K12.Presentation.NLDPanels.Student.TempSourceChanged += new EventHandler(Student_TempSourceChanged);
-            labelX1.Text = string.Format("{0}学年度　第{1}学期　未选社清单：", School.DefaultSchoolYear, School.DefaultSemester);
+            labelX1.Text = string.Format("{0}学年度　第{1}学期　未选课清单：", School.DefaultSchoolYear, School.DefaultSemester);
             labelX3.Text = string.Format("待处理学生：共{0}人", K12.Presentation.NLDPanels.Student.TempSource.Count);
         }
 
@@ -148,12 +148,12 @@ namespace K12.Club.General.Zizhu
             if (e.Error != null)
             {
                 SmartSchool.ErrorReporting.ReportingService.ReportException(e.Error);
-                MsgBox.Show("检查学生社团参与记录发生错误\n" + e.Error.Message);
+                MsgBox.Show("检查学生课程参与记录发生错误\n" + e.Error.Message);
                 return;
             }
 
             #region 學生
-            labelX1.Text = string.Format("{0}学年度　第{1}学期　未选社清单(共{2}人)：", School.DefaultSchoolYear, School.DefaultSemester, IsStudentList.Count);
+            labelX1.Text = string.Format("{0}学年度　第{1}学期　未选课清单(共{2}人)：", School.DefaultSchoolYear, School.DefaultSemester, IsStudentList.Count);
             foreach (StudRecord re in IsStudentList)
             {
                 DataGridViewRow dataRow = new DataGridViewRow();
@@ -357,7 +357,7 @@ namespace K12.Club.General.Zizhu
                 return;
             }
 
-            MsgBox.Show("学生加入社团成功!!");
+            MsgBox.Show("学生加入课程成功!!");
 
             ClubEvents.RaiseAssnChanged();
             this.Close();
@@ -400,7 +400,7 @@ namespace K12.Club.General.Zizhu
         {
             #region 匯出
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-            saveFileDialog1.FileName = "汇出未选社团学生清单";
+            saveFileDialog1.FileName = "汇出未选课团学生清单";
             saveFileDialog1.Filter = "Excel (*.xls)|*.xls";
             if (saveFileDialog1.ShowDialog() != DialogResult.OK) return;
 

@@ -154,7 +154,7 @@ namespace K12.Club.General.Zizhu
                 bool SourceCount = (ClubAdmin.Instance.SelectedSource.Count > 0);
                 //刪除社團
                 bool a = (SourceCount && Permissions.刪除社團權限);
-                ClubAdmin.Instance.ListPaneContexMenu["刪除社團"].Enable = a;
+                ClubAdmin.Instance.ListPaneContexMenu["删除课程"].Enable = a;
                 edit["删除课程"].Enable = a;
 
                 //複製社團
@@ -176,6 +176,8 @@ namespace K12.Club.General.Zizhu
             detail1.Add(new RibbonFeature(Permissions.刪除社團, "删除课程"));
             detail1.Add(new RibbonFeature(Permissions.未選社團學生, "未选课程学生检查"));
             detail1.Add(new RibbonFeature(Permissions.開放選社時間, "开放选课时间"));
+            detail1.Add(new RibbonFeature(Permissions.匯出社團基本資料, "汇出课程基本资料权限"));
+            detail1.Add(new RibbonFeature(Permissions.匯入社團基本資料, "汇入课程基本资料权限"));
 
             detail1 = RoleAclSource.Instance["拓展性课程"]["报表"];
             detail1.Add(new RibbonFeature(Permissions.社團點名單_套表列印, "课程点名单(套表列印)"));
@@ -196,22 +198,22 @@ namespace K12.Club.General.Zizhu
         /// </summary>
         static private void DeleteClub()
         {
-            DialogResult dr = MsgBox.Show("确认删除所选社团?", MessageBoxButtons.YesNo, MessageBoxDefaultButton.Button2);
+            DialogResult dr = MsgBox.Show("确认删除所选课团?", MessageBoxButtons.YesNo, MessageBoxDefaultButton.Button2);
             if (dr == DialogResult.Yes)
             {
                 StringBuilder sb = new StringBuilder();
-                sb.AppendLine("已删除选择社团：");
+                sb.AppendLine("已删除选择课程：");
                 List<CLUBRecord> ClubList = tool._A.Select<CLUBRecord>(UDT_S.PopOneCondition("UID", ClubAdmin.Instance.SelectedSource));
 
                 foreach (CLUBRecord each in ClubList)
                 {
-                    sb.AppendLine(string.Format("学年度「{0}」学期「{1}」社团名称「{2}」", each.SchoolYear.ToString(), each.Semester.ToString(), each.ClubName));
+                    sb.AppendLine(string.Format("学年度「{0}」学期「{1}」课程名称「{2}」", each.SchoolYear.ToString(), each.Semester.ToString(), each.ClubName));
                 }
 
                 List<SCJoin> SCJList = tool._A.Select<SCJoin>(UDT_S.PopOneCondition("ref_club_id", ClubAdmin.Instance.SelectedSource));
                 if (SCJList.Count != 0)
                 {
-                    MsgBox.Show("删除社团必须清空社团参与学生!");
+                    MsgBox.Show("删除课程必须清空课程参与学生!");
                     return;
                 }
 
@@ -221,18 +223,18 @@ namespace K12.Club.General.Zizhu
                 }
                 catch (Exception ex)
                 {
-                    MsgBox.Show("社团删除失败!!\n" + ex.Message);
+                    MsgBox.Show("课程删除失败!!\n" + ex.Message);
                     SmartSchool.ErrorReporting.ReportingService.ReportException(ex);
                     return;
 
                 }
-                FISCA.LogAgent.ApplicationLog.Log("社团", "删除社团", sb.ToString());
-                MsgBox.Show("社团删除成功!!");
+                FISCA.LogAgent.ApplicationLog.Log("课程", "删除课程", sb.ToString());
+                MsgBox.Show("课程删除成功!!");
                 ClubEvents.RaiseAssnChanged();
             }
             else
             {
-                MsgBox.Show("已中止删除社团操作!!");
+                MsgBox.Show("已中止删除课程操作!!");
             }
         }
     }

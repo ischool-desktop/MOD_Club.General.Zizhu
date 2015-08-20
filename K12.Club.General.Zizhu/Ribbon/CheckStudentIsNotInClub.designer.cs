@@ -233,7 +233,7 @@
             this.labelX1.Name = "labelX1";
             this.labelX1.Size = new System.Drawing.Size(74, 21);
             this.labelX1.TabIndex = 0;
-            this.labelX1.Text = "未选社清单";
+            this.labelX1.Text = "未选课清单";
             // 
             // labelX2
             // 
@@ -248,7 +248,7 @@
             this.labelX2.Name = "labelX2";
             this.labelX2.Size = new System.Drawing.Size(163, 21);
             this.labelX2.TabIndex = 2;
-            this.labelX2.Text = "社团清单(使用右键指定)：";
+            this.labelX2.Text = "课程清单(使用右键指定)：";
             // 
             // labelX3
             // 
@@ -395,7 +395,7 @@
             this.Controls.Add(this.dataGridViewX1);
             this.DoubleBuffered = true;
             this.Name = "CheckStudentIsNotInClub";
-            this.Text = "未选社团学生";
+            this.Text = "未选课团学生";
             this.Load += new System.EventHandler(this.CheckStudentIsNotInClub_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewX1)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);

@@ -55,8 +55,8 @@
             this.lbHelp1.Name = "lbHelp1";
             this.lbHelp1.Size = new System.Drawing.Size(286, 91);
             this.lbHelp1.TabIndex = 5;
-            this.lbHelp1.Text = "说明：\r\n1.本功能将会复制社团至下一个学年度学期\r\n(目标学年期已自动加一学期,复制开始前请确认)\r\n2.如果下学期已有相同社团,会略过此社团\r\n3.下学期如未" +
-    "选社,可参考勾选以下项目:";
+            this.lbHelp1.Text = "说明：\r\n1.本功能将会复制课程至下一个学年度学期\r\n(目标学年期已自动加一学期,复制开始前请确认)\r\n2.如果下学期已有相同课程,会略过此课程\r\n3.下学期如未" +
+    "选课,可参考勾选以下项目:";
             // 
             // lbSchoolYear
             // 
@@ -100,7 +100,7 @@
             this.intSchoolYear.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.intSchoolYear.ButtonFreeText.Shortcut = DevComponents.DotNetBar.eShortcut.F2;
             this.intSchoolYear.Location = new System.Drawing.Point(111, 47);
-            this.intSchoolYear.MaxValue = 999;
+            this.intSchoolYear.MaxValue = 9999;
             this.intSchoolYear.MinValue = 90;
             this.intSchoolYear.Name = "intSchoolYear";
             this.intSchoolYear.ShowUpDown = true;
@@ -184,7 +184,7 @@
             this.checkBoxX1.Size = new System.Drawing.Size(100, 20);
             this.checkBoxX1.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
             this.checkBoxX1.TabIndex = 8;
-            this.checkBoxX1.Text = "复制社团<b><u>学生</u></b>";
+            this.checkBoxX1.Text = "复制课程<b><u>学生</u></b>";
             this.checkBoxX1.CheckedChanged += new System.EventHandler(this.checkBoxX1_CheckedChanged);
             // 
             // checkBoxX2
@@ -202,7 +202,7 @@
             this.checkBoxX2.Size = new System.Drawing.Size(213, 20);
             this.checkBoxX2.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
             this.checkBoxX2.TabIndex = 9;
-            this.checkBoxX2.Text = "复制社团<b><u>干部</u></b>(复制学生需被勾选)";
+            this.checkBoxX2.Text = "复制课程<b><u>干部</u></b>(复制学生需被勾选)";
             // 
             // CopyClub
             // 
@@ -221,7 +221,7 @@
             this.Controls.Add(this.lbHelp1);
             this.DoubleBuffered = true;
             this.Name = "CopyClub";
-            this.Text = "复制社团";
+            this.Text = "复制课程";
             this.Load += new System.EventHandler(this.CopyClub_Load);
             ((System.ComponentModel.ISupportInitialize)(this.intSchoolYear)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.intSemester)).EndInit();

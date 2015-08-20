@@ -5,86 +5,86 @@
     <Detector Name="PrimaryKey1">
       <Field Name="学年度"/>
       <Field Name="学期"/>
-      <Field Name="社团名称"/>
+      <Field Name="课程名称"/>
     </Detector>
   </DuplicateDetection>
   <FieldList>
-    <Field Required="True" Name="学年度" Description="学年度/学期/社团名称为键值必填">
+    <Field Required="True" Name="学年度" Description="学年度/学期/课程名称为键值必填">
       <Validate AutoCorrect="False" Description="「学年度」不允许空白。" ErrorType="Error" Validator="不可空白" When=""/>
       <Validate AutoCorrect="False" Description="「学年度」必须是数字。" ErrorType="Error" Validator="Integer极限" When=""/>
     </Field>
-    <Field Required="True" Name="学期" Description="学年度/学期/社团名称为键值必填">
+    <Field Required="True" Name="学期" Description="学年度/学期/课程名称为键值必填">
       <Validate AutoCorrect="False" Description="「学期」不允许空白。" ErrorType="Error" Validator="不可空白" When=""/>
       <Validate AutoCorrect="False" Description="「学期」只允许「1、2」。" ErrorType="Error" Validator="学期列举" When=""/>
     </Field>
-    <Field Required="True" Name="社团名称" Description="学年度/学期/社团名称为键值必填">
-      <Validate AutoCorrect="False" Description="「社团名称」不允许空白。" ErrorType="Error" Validator="不可空白" When=""/>
+    <Field Required="True" Name="课程名称" Description="学年度/学期/课程名称为键值必填">
+      <Validate AutoCorrect="False" Description="「课程名称」不允许空白。" ErrorType="Error" Validator="不可空白" When=""/>
     </Field>
     <Field Required="False" Name="代码" EmptyAlsoValidate="False" Description="">
       <Validate AutoCorrect="False" Description="「代码」必须是英数字元。" ErrorType="Error" Validator="多个英数字元" When=""/>
     </Field>
-    <Field Required="False" Name="场地" EmptyAlsoValidate="False" Description="社团的上课场地">
+    <Field Required="False" Name="场地" EmptyAlsoValidate="False" Description="课程的上课场地">
     </Field>
-    <Field Required="False" Name="类型" EmptyAlsoValidate="False" Description="社团活动之类型">
+    <Field Required="False" Name="类型" EmptyAlsoValidate="False" Description="课程活动之类型">
     </Field>
-    <Field Required="False" Name="老师1" EmptyAlsoValidate="False" Description="社团的上课老师,昵称请以( )括号隔开">
+    <Field Required="False" Name="老师1" EmptyAlsoValidate="False" Description="课程的上课老师,昵称请以( )括号隔开">
       <Validate AutoCorrect="False" Description="「老师1」不存在于ischool老师清单中" ErrorType="Error" Validator="老师是否存在系统" When="" />
     </Field>
-    <Field Required="False" Name="老师2" EmptyAlsoValidate="False" Description="社团的上课老师,昵称请以( )括号隔开">
+    <Field Required="False" Name="老师2" EmptyAlsoValidate="False" Description="课程的上课老师,昵称请以( )括号隔开">
       <Validate AutoCorrect="False" Description="「老师2」不存在于ischool老师清单中" ErrorType="Error" Validator="老师是否存在系统" When="" />
     </Field>
-    <Field Required="False" Name="老师3" EmptyAlsoValidate="False" Description="社团的上课老师,昵称请以( )括号隔开">
+    <Field Required="False" Name="老师3" EmptyAlsoValidate="False" Description="课程的上课老师,昵称请以( )括号隔开">
       <Validate AutoCorrect="False" Description="「老师3」不存在于ischool老师清单中" ErrorType="Error" Validator="老师是否存在系统" When="" />
     </Field>
-    <Field Required="False" Name="简介" EmptyAlsoValidate="False" Description="可说明社团特色">
+    <Field Required="False" Name="简介" EmptyAlsoValidate="False" Description="可说明课程特色">
     </Field>
 
-    <Field Required="False" Name="限制:一年级选社人数限制" EmptyAlsoValidate="False" Description="人数限制">
-      <Validate AutoCorrect="False" Description="「限制:一年级选社人数限制」必须是数字。" ErrorType="Error" Validator="Integer极限" When=""/>
+    <Field Required="False" Name="限制:一年级选课人数限制" EmptyAlsoValidate="False" Description="人数限制">
+      <Validate AutoCorrect="False" Description="「限制:一年级选课人数限制」必须是数字。" ErrorType="Error" Validator="Integer极限" When=""/>
     </Field>
-    <Field Required="False" Name="限制:二年级选社人数限制" EmptyAlsoValidate="False" Description="人数限制">
-      <Validate AutoCorrect="False" Description="「限制:二年级选社人数限制」必须是数字。" ErrorType="Error" Validator="Integer极限" When=""/>
+    <Field Required="False" Name="限制:二年级选课人数限制" EmptyAlsoValidate="False" Description="人数限制">
+      <Validate AutoCorrect="False" Description="「限制:二年级选课人数限制」必须是数字。" ErrorType="Error" Validator="Integer极限" When=""/>
     </Field>
-    <Field Required="False" Name="限制:三年级选社人数限制" EmptyAlsoValidate="False" Description="人数限制">
-      <Validate AutoCorrect="False" Description="「限制:三年级选社人数限制」必须是数字。" ErrorType="Error" Validator="Integer极限" When=""/>
+    <Field Required="False" Name="限制:三年级选课人数限制" EmptyAlsoValidate="False" Description="人数限制">
+      <Validate AutoCorrect="False" Description="「限制:三年级选课人数限制」必须是数字。" ErrorType="Error" Validator="Integer极限" When=""/>
     </Field>
-    <Field Required="False" Name="限制:四年级选社人数限制" EmptyAlsoValidate="False" Description="人数限制">
-      <Validate AutoCorrect="False" Description="「限制:四年级选社人数限制」必须是数字。" ErrorType="Error" Validator="Integer极限" When=""/>
+    <Field Required="False" Name="限制:四年级选课人数限制" EmptyAlsoValidate="False" Description="人数限制">
+      <Validate AutoCorrect="False" Description="「限制:四年级选课人数限制」必须是数字。" ErrorType="Error" Validator="Integer极限" When=""/>
     </Field>
-    <Field Required="False" Name="限制:五年级选社人数限制" EmptyAlsoValidate="False" Description="人数限制">
-      <Validate AutoCorrect="False" Description="「限制:五年级选社人数限制」必须是数字。" ErrorType="Error" Validator="Integer极限" When=""/>
-    </Field>
-
-    <Field Required="False" Name="限制:一年级选社人数男生限制" EmptyAlsoValidate="False" Description="人数限制">
-      <Validate AutoCorrect="False" Description="「限制:一年级选社人数男生限制」必须是数字。" ErrorType="Error" Validator="Integer极限" When=""/>
-    </Field>
-    <Field Required="False" Name="限制:二年级选社人数男生限制" EmptyAlsoValidate="False" Description="人数限制">
-      <Validate AutoCorrect="False" Description="「限制:二年级选社人数男生限制」必须是数字。" ErrorType="Error" Validator="Integer极限" When=""/>
-    </Field>
-    <Field Required="False" Name="限制:三年级选社人数男生限制" EmptyAlsoValidate="False" Description="人数限制">
-      <Validate AutoCorrect="False" Description="「限制:三年级选社人数男生限制」必须是数字。" ErrorType="Error" Validator="Integer极限" When=""/>
-    </Field>
-    <Field Required="False" Name="限制:四年级选社人数男生限制" EmptyAlsoValidate="False" Description="人数限制">
-      <Validate AutoCorrect="False" Description="「限制:四年级选社人数男生限制」必须是数字。" ErrorType="Error" Validator="Integer极限" When=""/>
-    </Field>
-    <Field Required="False" Name="限制:五年级选社人数男生限制" EmptyAlsoValidate="False" Description="人数限制">
-      <Validate AutoCorrect="False" Description="「限制:五年级选社人数男生限制」必须是数字。" ErrorType="Error" Validator="Integer极限" When=""/>
+    <Field Required="False" Name="限制:五年级选课人数限制" EmptyAlsoValidate="False" Description="人数限制">
+      <Validate AutoCorrect="False" Description="「限制:五年级选课人数限制」必须是数字。" ErrorType="Error" Validator="Integer极限" When=""/>
     </Field>
 
-    <Field Required="False" Name="限制:一年级选社人数女生限制" EmptyAlsoValidate="False" Description="人数限制">
-      <Validate AutoCorrect="False" Description="「限制:一年级选社人数女生限制」必须是数字。" ErrorType="Error" Validator="Integer极限" When=""/>
+    <Field Required="False" Name="限制:一年级选课人数男生限制" EmptyAlsoValidate="False" Description="人数限制">
+      <Validate AutoCorrect="False" Description="「限制:一年级选课人数男生限制」必须是数字。" ErrorType="Error" Validator="Integer极限" When=""/>
     </Field>
-    <Field Required="False" Name="限制:二年级选社人数女生限制" EmptyAlsoValidate="False" Description="人数限制">
-      <Validate AutoCorrect="False" Description="「限制:二年级选社人数女生限制」必须是数字。" ErrorType="Error" Validator="Integer极限" When=""/>
+    <Field Required="False" Name="限制:二年级选课人数男生限制" EmptyAlsoValidate="False" Description="人数限制">
+      <Validate AutoCorrect="False" Description="「限制:二年级选课人数男生限制」必须是数字。" ErrorType="Error" Validator="Integer极限" When=""/>
     </Field>
-    <Field Required="False" Name="限制:三年级选社人数女生限制" EmptyAlsoValidate="False" Description="人数限制">
-      <Validate AutoCorrect="False" Description="「限制:三年级选社人数女生限制」必须是数字。" ErrorType="Error" Validator="Integer极限" When=""/>
+    <Field Required="False" Name="限制:三年级选课人数男生限制" EmptyAlsoValidate="False" Description="人数限制">
+      <Validate AutoCorrect="False" Description="「限制:三年级选课人数男生限制」必须是数字。" ErrorType="Error" Validator="Integer极限" When=""/>
     </Field>
-    <Field Required="False" Name="限制:四年级选社人数女生限制" EmptyAlsoValidate="False" Description="人数限制">
-      <Validate AutoCorrect="False" Description="「限制:四年级选社人数女生限制」必须是数字。" ErrorType="Error" Validator="Integer极限" When=""/>
+    <Field Required="False" Name="限制:四年级选课人数男生限制" EmptyAlsoValidate="False" Description="人数限制">
+      <Validate AutoCorrect="False" Description="「限制:四年级选课人数男生限制」必须是数字。" ErrorType="Error" Validator="Integer极限" When=""/>
     </Field>
-    <Field Required="False" Name="限制:五年级选社人数女生限制" EmptyAlsoValidate="False" Description="人数限制">
-      <Validate AutoCorrect="False" Description="「限制:五年级选社人数女生限制」必须是数字。" ErrorType="Error" Validator="Integer极限" When=""/>
+    <Field Required="False" Name="限制:五年级选课人数男生限制" EmptyAlsoValidate="False" Description="人数限制">
+      <Validate AutoCorrect="False" Description="「限制:五年级选课人数男生限制」必须是数字。" ErrorType="Error" Validator="Integer极限" When=""/>
+    </Field>
+
+    <Field Required="False" Name="限制:一年级选课人数女生限制" EmptyAlsoValidate="False" Description="人数限制">
+      <Validate AutoCorrect="False" Description="「限制:一年级选课人数女生限制」必须是数字。" ErrorType="Error" Validator="Integer极限" When=""/>
+    </Field>
+    <Field Required="False" Name="限制:二年级选课人数女生限制" EmptyAlsoValidate="False" Description="人数限制">
+      <Validate AutoCorrect="False" Description="「限制:二年级选课人数女生限制」必须是数字。" ErrorType="Error" Validator="Integer极限" When=""/>
+    </Field>
+    <Field Required="False" Name="限制:三年级选课人数女生限制" EmptyAlsoValidate="False" Description="人数限制">
+      <Validate AutoCorrect="False" Description="「限制:三年级选课人数女生限制」必须是数字。" ErrorType="Error" Validator="Integer极限" When=""/>
+    </Field>
+    <Field Required="False" Name="限制:四年级选课人数女生限制" EmptyAlsoValidate="False" Description="人数限制">
+      <Validate AutoCorrect="False" Description="「限制:四年级选课人数女生限制」必须是数字。" ErrorType="Error" Validator="Integer极限" When=""/>
+    </Field>
+    <Field Required="False" Name="限制:五年级选课人数女生限制" EmptyAlsoValidate="False" Description="人数限制">
+      <Validate AutoCorrect="False" Description="「限制:五年级选课人数女生限制」必须是数字。" ErrorType="Error" Validator="Integer极限" When=""/>
     </Field>
 
   </FieldList>
@@ -126,11 +126,11 @@
         <Variation>false</Variation>
       </Item>
     </FieldValidator>
-    <!-- <RowValidator Name="社团学年期名称是否重复" Type="CLUBNAMECHECK" /> -->
+    <!-- <RowValidator Name="课程学年期名称是否重复" Type="CLUBNAMECHECK" /> -->
   </ValidatorList>
 
   <RowValidate>
-    <!--  <Validate AutoCorrect="false" Description="「学年度/学期/社团名称」汇入数据与系统数据不可重复组合" ErrorType="Error" Validator="社团学年期名称是否重复" When=""/> -->
+    <!--  <Validate AutoCorrect="false" Description="「学年度/学期/课程名称」汇入数据与系统数据不可重复组合" ErrorType="Error" Validator="课程学年期名称是否重复" When=""/> -->
   </RowValidate>
   <ConditionList/>
 </ValidateRule>

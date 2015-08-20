@@ -101,15 +101,21 @@
     <Compile Include="Utility\Constants.cs" />
     <Compile Include="Utility\FunctionSpliter.cs" />
     <Compile Include="ImportWizard\FieldProcessor.cs" />
-    <Compile Include="Forms\Step3\SelectFields.cs" />
+    <Compile Include="Forms\Step3\SelectFields.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\Step3\SelectFields.designer.cs">
       <DependentUpon>SelectFields.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Step1\SelectSource.cs" />
+    <Compile Include="Forms\Step1\SelectSource.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\Step1\SelectSource.designer.cs">
       <DependentUpon>SelectSource.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Step4\SelectValidate.cs" />
+    <Compile Include="Forms\Step4\SelectValidate.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\Step4\SelectValidate.designer.cs">
       <DependentUpon>SelectValidate.cs</DependentUpon>
     </Compile>
@@ -119,11 +125,15 @@
     <Compile Include="Forms\WizardForm.designer.cs">
       <DependentUpon>WizardForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Step2\SelectKey.cs" />
+    <Compile Include="Forms\Step2\SelectKey.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\Step2\SelectKey.Designer.cs">
       <DependentUpon>SelectKey.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Step5\SelectImport.cs" />
+    <Compile Include="Forms\Step5\SelectImport.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\Step5\SelectImport.Designer.cs">
       <DependentUpon>SelectImport.cs</DependentUpon>
     </Compile>

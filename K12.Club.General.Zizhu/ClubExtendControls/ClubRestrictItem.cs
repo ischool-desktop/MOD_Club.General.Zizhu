@@ -161,7 +161,7 @@ namespace K12.Club.General.Zizhu
 
             if (e.Error != null)
             {
-                FISCA.Presentation.Controls.MsgBox.Show("取得[选社限制]发生错误!!\n" + e.Error.Message);
+                FISCA.Presentation.Controls.MsgBox.Show("取得[选课限制]发生错误!!\n" + e.Error.Message);
                 SmartSchool.ErrorReporting.ReportingService.ReportException(e.Error);
                 return;
             }
@@ -343,7 +343,7 @@ namespace K12.Club.General.Zizhu
             }
             catch (Exception ex)
             {
-                MsgBox.Show("修改选社限制失败\n" + ex.Message);
+                MsgBox.Show("修改选课限制失败\n" + ex.Message);
                 SmartSchool.ErrorReporting.ReportingService.ReportException(ex);
                 return;
             }
@@ -356,7 +356,7 @@ namespace K12.Club.General.Zizhu
         private StringBuilder LogSet()
         {
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine(string.Format("已修改限制：(学年度「{0}」学期「{1}」社团「{2}」)", Log_ClubPrimary.SchoolYear.ToString(), Log_ClubPrimary.Semester.ToString(), Log_ClubPrimary.ClubName));
+            sb.AppendLine(string.Format("已修改限制：(学年度「{0}」学期「{1}」课程「{2}」)", Log_ClubPrimary.SchoolYear.ToString(), Log_ClubPrimary.Semester.ToString(), Log_ClubPrimary.ClubName));
 
             string chenge;
 

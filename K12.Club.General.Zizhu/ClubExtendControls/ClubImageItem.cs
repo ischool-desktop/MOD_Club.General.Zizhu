@@ -234,7 +234,7 @@ namespace K12.Club.General.Zizhu
                 return;
             }
 
-            FISCA.LogAgent.ApplicationLog.Log("拓展性课程", "变更照片", string.Format("已变更照片：\n学年度「{0}」学期「{1}」社团名称「{2}」", ClubPrimary.SchoolYear.ToString(), ClubPrimary.Semester.ToString(), ClubPrimary.ClubName));
+            FISCA.LogAgent.ApplicationLog.Log("拓展性课程", "变更照片", string.Format("已变更照片：\n学年度「{0}」学期「{1}」课程名称「{2}」", ClubPrimary.SchoolYear.ToString(), ClubPrimary.Semester.ToString(), ClubPrimary.ClubName));
         }
 
         //儲存完成

@@ -463,7 +463,7 @@ namespace K12.Club.General.Zizhu
 
             if (dt.Rows.Count > 0)
             {
-                ep_ClubName.SetError(txtClubName, "社团名称+学年度+学期不可重覆");
+                ep_ClubName.SetError(txtClubName, "课程名称+学年度+学期不可重覆");
                 return false;
             }
             else

@@ -20,7 +20,7 @@ namespace K12.Club.General.Zizhu
         public string GetLogString(CLUBRecord each)
         {
             StringBuilder log = new StringBuilder();
-            log.AppendLine(string.Format("学年度「{0}」学期「{1}」社团名称「{2}」", each.SchoolYear, each.Semester, each.ClubName));
+            log.AppendLine(string.Format("学年度「{0}」学期「{1}」课程名称「{2}」", each.SchoolYear, each.Semester, each.ClubName));
             if (!string.IsNullOrEmpty(each.ClubNumber))
                 log.AppendLine(string.Format("代码「{0}」", each.ClubNumber));
             if (!string.IsNullOrEmpty(each.Location))
@@ -54,37 +54,37 @@ namespace K12.Club.General.Zizhu
                 log.AppendLine(string.Format("简介「{0}」", each.About));
 
             if (each.Grade1Limit.HasValue)
-                log.AppendLine(string.Format("限制:一年级选社人数限制「{0}」", each.Grade1Limit.Value.ToString()));
+                log.AppendLine(string.Format("限制:一年级选课人数限制「{0}」", each.Grade1Limit.Value.ToString()));
             if (each.Grade2Limit.HasValue)
-                log.AppendLine(string.Format("限制:二年级选社人数限制「{0}」", each.Grade2Limit.Value.ToString()));
+                log.AppendLine(string.Format("限制:二年级选课人数限制「{0}」", each.Grade2Limit.Value.ToString()));
             if (each.Grade3Limit.HasValue)
-                log.AppendLine(string.Format("限制:三年级选社人数限制「{0}」", each.Grade3Limit.Value.ToString()));
+                log.AppendLine(string.Format("限制:三年级选课人数限制「{0}」", each.Grade3Limit.Value.ToString()));
             if (each.Grade4Limit.HasValue)
-                log.AppendLine(string.Format("限制:四年级选社人数限制「{0}」", each.Grade4Limit.Value.ToString()));
+                log.AppendLine(string.Format("限制:四年级选课人数限制「{0}」", each.Grade4Limit.Value.ToString()));
             if (each.Grade5Limit.HasValue)
-                log.AppendLine(string.Format("限制:五年级选社人数限制「{0}」", each.Grade5Limit.Value.ToString()));
+                log.AppendLine(string.Format("限制:五年级选课人数限制「{0}」", each.Grade5Limit.Value.ToString()));
 
             if (each.Grade1BoyLimit.HasValue)
-                log.AppendLine(string.Format("限制:一年级选社人数男生限制「{0}」", each.Grade1BoyLimit.Value.ToString()));
+                log.AppendLine(string.Format("限制:一年级选课人数男生限制「{0}」", each.Grade1BoyLimit.Value.ToString()));
             if (each.Grade2BoyLimit.HasValue)
-                log.AppendLine(string.Format("限制:二年级选社人数男生限制「{0}」", each.Grade2BoyLimit.Value.ToString()));
+                log.AppendLine(string.Format("限制:二年级选课人数男生限制「{0}」", each.Grade2BoyLimit.Value.ToString()));
             if (each.Grade3BoyLimit.HasValue)
-                log.AppendLine(string.Format("限制:三年级选社人数男生限制「{0}」", each.Grade3BoyLimit.Value.ToString()));
+                log.AppendLine(string.Format("限制:三年级选课人数男生限制「{0}」", each.Grade3BoyLimit.Value.ToString()));
             if (each.Grade4BoyLimit.HasValue)
-                log.AppendLine(string.Format("限制:四年级选社人数男生限制「{0}」", each.Grade4BoyLimit.Value.ToString()));
+                log.AppendLine(string.Format("限制:四年级选课人数男生限制「{0}」", each.Grade4BoyLimit.Value.ToString()));
             if (each.Grade5BoyLimit.HasValue)
-                log.AppendLine(string.Format("限制:五年级选社人数男生限制「{0}」", each.Grade5BoyLimit.Value.ToString()));
+                log.AppendLine(string.Format("限制:五年级选课人数男生限制「{0}」", each.Grade5BoyLimit.Value.ToString()));
 
             if (each.Grade1GirlLimit.HasValue)
-                log.AppendLine(string.Format("限制:一年级选社人数女生限制「{0}」", each.Grade1GirlLimit.Value.ToString()));
+                log.AppendLine(string.Format("限制:一年级选课人数女生限制「{0}」", each.Grade1GirlLimit.Value.ToString()));
             if (each.Grade2GirlLimit.HasValue)
-                log.AppendLine(string.Format("限制:二年级选社人数女生限制「{0}」", each.Grade2GirlLimit.Value.ToString()));
+                log.AppendLine(string.Format("限制:二年级选课人数女生限制「{0}」", each.Grade2GirlLimit.Value.ToString()));
             if (each.Grade3GirlLimit.HasValue)
-                log.AppendLine(string.Format("限制:三年级选社人数女生限制「{0}」", each.Grade3GirlLimit.Value.ToString()));
+                log.AppendLine(string.Format("限制:三年级选课人数女生限制「{0}」", each.Grade3GirlLimit.Value.ToString()));
             if (each.Grade4GirlLimit.HasValue)
-                log.AppendLine(string.Format("限制:四年级选社人数女生限制「{0}」", each.Grade4GirlLimit.Value.ToString()));
+                log.AppendLine(string.Format("限制:四年级选课人数女生限制「{0}」", each.Grade4GirlLimit.Value.ToString()));
             if (each.Grade5GirlLimit.HasValue)
-                log.AppendLine(string.Format("限制:五年级选社人数女生限制「{0}」", each.Grade5GirlLimit.Value.ToString()));
+                log.AppendLine(string.Format("限制:五年级选课人数女生限制「{0}」", each.Grade5GirlLimit.Value.ToString()));
 
             return log.ToString();
 
@@ -104,87 +104,87 @@ namespace K12.Club.General.Zizhu
 
             int x = 0;
 
-            #region 选社人数限制
+            #region 选课人数限制
 
-            if (int.TryParse("" + Row.GetValue("限制:一年级选社人数限制"), out x))
+            if (int.TryParse("" + Row.GetValue("限制:一年级选课人数限制"), out x))
                 club.Grade1Limit = x;
             else
                 club.Grade1Limit = null;
 
-            if (int.TryParse("" + Row.GetValue("限制:二年级选社人数限制"), out x))
+            if (int.TryParse("" + Row.GetValue("限制:二年级选课人数限制"), out x))
                 club.Grade2Limit = x;
             else
                 club.Grade2Limit = null;
 
-            if (int.TryParse("" + Row.GetValue("限制:三年级选社人数限制"), out x))
+            if (int.TryParse("" + Row.GetValue("限制:三年级选课人数限制"), out x))
                 club.Grade3Limit = x;
             else
                 club.Grade3Limit = null;
 
-            if (int.TryParse("" + Row.GetValue("限制:四年级选社人数限制"), out x))
+            if (int.TryParse("" + Row.GetValue("限制:四年级选课人数限制"), out x))
                 club.Grade4Limit = x;
             else
                 club.Grade4Limit = null;
 
-            if (int.TryParse("" + Row.GetValue("限制:五年级选社人数限制"), out x))
+            if (int.TryParse("" + Row.GetValue("限制:五年级选课人数限制"), out x))
                 club.Grade5Limit = x;
             else
                 club.Grade5Limit = null; 
 
             #endregion
 
-            #region 选社人数男生限制
+            #region 选课人数男生限制
 
-            if (int.TryParse("" + Row.GetValue("限制:一年级选社人数男生限制"), out x))
+            if (int.TryParse("" + Row.GetValue("限制:一年级选课人数男生限制"), out x))
                 club.Grade1BoyLimit = x;
             else
                 club.Grade1BoyLimit = null;
 
-            if (int.TryParse("" + Row.GetValue("限制:二年级选社人数男生限制"), out x))
+            if (int.TryParse("" + Row.GetValue("限制:二年级选课人数男生限制"), out x))
                 club.Grade2BoyLimit = x;
             else
                 club.Grade2BoyLimit = null;
 
-            if (int.TryParse("" + Row.GetValue("限制:三年级选社人数男生限制"), out x))
+            if (int.TryParse("" + Row.GetValue("限制:三年级选课人数男生限制"), out x))
                 club.Grade3BoyLimit = x;
             else
                 club.Grade3BoyLimit = null;
 
-            if (int.TryParse("" + Row.GetValue("限制:四年级选社人数男生限制"), out x))
+            if (int.TryParse("" + Row.GetValue("限制:四年级选课人数男生限制"), out x))
                 club.Grade4BoyLimit = x;
             else
                 club.Grade4BoyLimit = null;
 
-            if (int.TryParse("" + Row.GetValue("限制:五年级选社人数男生限制"), out x))
+            if (int.TryParse("" + Row.GetValue("限制:五年级选课人数男生限制"), out x))
                 club.Grade5BoyLimit = x;
             else
                 club.Grade5BoyLimit = null; 
 
             #endregion
 
-            #region 选社人数女生限制
+            #region 选课人数女生限制
 
-            if (int.TryParse("" + Row.GetValue("限制:一年级选社人数女生限制"), out x))
+            if (int.TryParse("" + Row.GetValue("限制:一年级选课人数女生限制"), out x))
                 club.Grade1GirlLimit = x;
             else
                 club.Grade1GirlLimit = null;
 
-            if (int.TryParse("" + Row.GetValue("限制:二年级选社人数女生限制"), out x))
+            if (int.TryParse("" + Row.GetValue("限制:二年级选课人数女生限制"), out x))
                 club.Grade2GirlLimit = x;
             else
                 club.Grade2GirlLimit = null;
 
-            if (int.TryParse("" + Row.GetValue("限制:三年级选社人数女生限制"), out x))
+            if (int.TryParse("" + Row.GetValue("限制:三年级选课人数女生限制"), out x))
                 club.Grade3GirlLimit = x;
             else
                 club.Grade3GirlLimit = null;
 
-            if (int.TryParse("" + Row.GetValue("限制:四年级选社人数女生限制"), out x))
+            if (int.TryParse("" + Row.GetValue("限制:四年级选课人数女生限制"), out x))
                 club.Grade4GirlLimit = x;
             else
                 club.Grade4GirlLimit = null;
 
-            if (int.TryParse("" + Row.GetValue("限制:五年级选社人数女生限制"), out x))
+            if (int.TryParse("" + Row.GetValue("限制:五年级选课人数女生限制"), out x))
                 club.Grade5GirlLimit = x;
             else
                 club.Grade5GirlLimit = null; 
@@ -321,7 +321,7 @@ namespace K12.Club.General.Zizhu
         {
             //检查与确认资料是否被修改
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine(string.Format("学年度「{0}」学期「{1}」社团名称「{2}」", log.New_club.SchoolYear, log.New_club.Semester, log.New_club.ClubName));
+            sb.AppendLine(string.Format("学年度「{0}」学期「{1}」课程名称「{2}」", log.New_club.SchoolYear, log.New_club.Semester, log.New_club.ClubName));
             if (log.lo_CLUB.ClubNumber != log.New_club.ClubNumber)
                 sb.AppendLine(ByOne("代码", log.lo_CLUB.ClubNumber, log.New_club.ClubNumber));
 
@@ -345,54 +345,54 @@ namespace K12.Club.General.Zizhu
 
 
             if (log.lo_CLUB.Grade1Limit != log.New_club.Grade1Limit)
-                sb.AppendLine(ByOne("限制:一年级选社人数限制", ByInet(log.lo_CLUB.Grade1Limit), ByInet(log.New_club.Grade1Limit)));
+                sb.AppendLine(ByOne("限制:一年级选课人数限制", ByInet(log.lo_CLUB.Grade1Limit), ByInet(log.New_club.Grade1Limit)));
 
             if (log.lo_CLUB.Grade2Limit != log.New_club.Grade2Limit)
-                sb.AppendLine(ByOne("限制:二年级选社人数限制", ByInet(log.lo_CLUB.Grade2Limit), ByInet(log.New_club.Grade2Limit)));
+                sb.AppendLine(ByOne("限制:二年级选课人数限制", ByInet(log.lo_CLUB.Grade2Limit), ByInet(log.New_club.Grade2Limit)));
 
             if (log.lo_CLUB.Grade3Limit != log.New_club.Grade3Limit)
-                sb.AppendLine(ByOne("限制:三年级选社人数限制", ByInet(log.lo_CLUB.Grade3Limit), ByInet(log.New_club.Grade3Limit)));
+                sb.AppendLine(ByOne("限制:三年级选课人数限制", ByInet(log.lo_CLUB.Grade3Limit), ByInet(log.New_club.Grade3Limit)));
 
             if (log.lo_CLUB.Grade4Limit != log.New_club.Grade4Limit)
-                sb.AppendLine(ByOne("限制:四年级选社人数限制", ByInet(log.lo_CLUB.Grade4Limit), ByInet(log.New_club.Grade4Limit)));
+                sb.AppendLine(ByOne("限制:四年级选课人数限制", ByInet(log.lo_CLUB.Grade4Limit), ByInet(log.New_club.Grade4Limit)));
 
             if (log.lo_CLUB.Grade5Limit != log.New_club.Grade5Limit)
-                sb.AppendLine(ByOne("限制:五年级选社人数限制", ByInet(log.lo_CLUB.Grade5Limit), ByInet(log.New_club.Grade5Limit)));
+                sb.AppendLine(ByOne("限制:五年级选课人数限制", ByInet(log.lo_CLUB.Grade5Limit), ByInet(log.New_club.Grade5Limit)));
 
 
 
 
             if (log.lo_CLUB.Grade1BoyLimit != log.New_club.Grade1BoyLimit)
-                sb.AppendLine(ByOne("限制:一年级选社人数男生限制", ByInet(log.lo_CLUB.Grade1BoyLimit), ByInet(log.New_club.Grade1BoyLimit)));
+                sb.AppendLine(ByOne("限制:一年级选课人数男生限制", ByInet(log.lo_CLUB.Grade1BoyLimit), ByInet(log.New_club.Grade1BoyLimit)));
 
             if (log.lo_CLUB.Grade2BoyLimit != log.New_club.Grade2BoyLimit)
-                sb.AppendLine(ByOne("限制:二年级选社人数男生限制", ByInet(log.lo_CLUB.Grade2BoyLimit), ByInet(log.New_club.Grade2BoyLimit)));
+                sb.AppendLine(ByOne("限制:二年级选课人数男生限制", ByInet(log.lo_CLUB.Grade2BoyLimit), ByInet(log.New_club.Grade2BoyLimit)));
 
             if (log.lo_CLUB.Grade3BoyLimit != log.New_club.Grade3BoyLimit)
-                sb.AppendLine(ByOne("限制:三年级选社人数男生限制", ByInet(log.lo_CLUB.Grade3BoyLimit), ByInet(log.New_club.Grade3BoyLimit)));
+                sb.AppendLine(ByOne("限制:三年级选课人数男生限制", ByInet(log.lo_CLUB.Grade3BoyLimit), ByInet(log.New_club.Grade3BoyLimit)));
 
             if (log.lo_CLUB.Grade4BoyLimit != log.New_club.Grade4BoyLimit)
-                sb.AppendLine(ByOne("限制:四年级选社人数男生限制", ByInet(log.lo_CLUB.Grade4BoyLimit), ByInet(log.New_club.Grade4BoyLimit)));
+                sb.AppendLine(ByOne("限制:四年级选课人数男生限制", ByInet(log.lo_CLUB.Grade4BoyLimit), ByInet(log.New_club.Grade4BoyLimit)));
 
             if (log.lo_CLUB.Grade5BoyLimit != log.New_club.Grade5BoyLimit)
-                sb.AppendLine(ByOne("限制:五年级选社人数男生限制", ByInet(log.lo_CLUB.Grade5BoyLimit), ByInet(log.New_club.Grade5BoyLimit)));
+                sb.AppendLine(ByOne("限制:五年级选课人数男生限制", ByInet(log.lo_CLUB.Grade5BoyLimit), ByInet(log.New_club.Grade5BoyLimit)));
 
 
 
             if (log.lo_CLUB.Grade1GirlLimit != log.New_club.Grade1GirlLimit)
-                sb.AppendLine(ByOne("限制:一年级选社人数女生限制", ByInet(log.lo_CLUB.Grade1GirlLimit), ByInet(log.New_club.Grade1GirlLimit)));
+                sb.AppendLine(ByOne("限制:一年级选课人数女生限制", ByInet(log.lo_CLUB.Grade1GirlLimit), ByInet(log.New_club.Grade1GirlLimit)));
 
             if (log.lo_CLUB.Grade2GirlLimit != log.New_club.Grade2GirlLimit)
-                sb.AppendLine(ByOne("限制:二年级选社人数女生限制", ByInet(log.lo_CLUB.Grade2GirlLimit), ByInet(log.New_club.Grade2GirlLimit)));
+                sb.AppendLine(ByOne("限制:二年级选课人数女生限制", ByInet(log.lo_CLUB.Grade2GirlLimit), ByInet(log.New_club.Grade2GirlLimit)));
 
             if (log.lo_CLUB.Grade3GirlLimit != log.New_club.Grade3GirlLimit)
-                sb.AppendLine(ByOne("限制:三年级选社人数女生限制", ByInet(log.lo_CLUB.Grade3GirlLimit), ByInet(log.New_club.Grade3GirlLimit)));
+                sb.AppendLine(ByOne("限制:三年级选课人数女生限制", ByInet(log.lo_CLUB.Grade3GirlLimit), ByInet(log.New_club.Grade3GirlLimit)));
 
             if (log.lo_CLUB.Grade4GirlLimit != log.New_club.Grade4GirlLimit)
-                sb.AppendLine(ByOne("限制:四年级选社人数女生限制", ByInet(log.lo_CLUB.Grade4GirlLimit), ByInet(log.New_club.Grade4GirlLimit)));
+                sb.AppendLine(ByOne("限制:四年级选课人数女生限制", ByInet(log.lo_CLUB.Grade4GirlLimit), ByInet(log.New_club.Grade4GirlLimit)));
 
             if (log.lo_CLUB.Grade5GirlLimit != log.New_club.Grade5GirlLimit)
-                sb.AppendLine(ByOne("限制:五年级选社人数女生限制", ByInet(log.lo_CLUB.Grade5GirlLimit), ByInet(log.New_club.Grade5GirlLimit)));
+                sb.AppendLine(ByOne("限制:五年级选课人数女生限制", ByInet(log.lo_CLUB.Grade5GirlLimit), ByInet(log.New_club.Grade5GirlLimit)));
 
 
             sb.AppendLine("");
