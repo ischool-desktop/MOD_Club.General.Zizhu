@@ -55,6 +55,7 @@ namespace K12.Club.General.Zizhu
             //_ChangeListener.Add(new Campus.Windows.TextBoxSource(txtCategory));
             _ChangeListener.Add(new Campus.Windows.TextBoxSource(tbClubNumber)); //社團編號
             _ChangeListener.Add(new Campus.Windows.TextBoxSource(tbAboutClub));
+            _ChangeListener.Add(new Campus.Windows.TextBoxSource(tbTotalNumberHours)); //总课时数
 
             _ChangeListener.Add(new Campus.Windows.TextBoxSource(tbLimit1));
             _ChangeListener.Add(new Campus.Windows.TextBoxSource(tbLimit2));
@@ -75,7 +76,7 @@ namespace K12.Club.General.Zizhu
             _ChangeListener.Add(new Campus.Windows.TextBoxSource(tbGirlLimit5));
 
             _ChangeListener.Add(new Campus.Windows.ComboBoxSource(cbTeacher, Campus.Windows.ComboBoxSource.ListenAttribute.SelectedIndex));
-            
+
             //社團類型
             _ChangeListener.Add(new Campus.Windows.ComboBoxSource(cbCategory, Campus.Windows.ComboBoxSource.ListenAttribute.Text));
             _ChangeListener.Add(new Campus.Windows.ComboBoxSource(cbLocation, Campus.Windows.ComboBoxSource.ListenAttribute.Text));
@@ -114,6 +115,7 @@ namespace K12.Club.General.Zizhu
                 cbTeacher2.Enabled = value;
                 cbTeacher3.Enabled = value;
                 tbAboutClub.Enabled = value;
+                tbTotalNumberHours.Enabled = value;
 
                 tbLimit1.Enabled = value;
                 tbLimit2.Enabled = value;
@@ -276,7 +278,13 @@ namespace K12.Club.General.Zizhu
             club.SchoolYear = intSchoolYear.Value; //學年度
             club.Semester = intSemester.Value; //學期
             club.ClubCategory = cbCategory.Text.Trim(); //類型
-            club.ClubNumber = tbClubNumber.Text.Trim(); //類型
+            club.ClubNumber = tbClubNumber.Text.Trim(); //代碼
+
+            int x;
+            if (int.TryParse(tbTotalNumberHours.Text, out x))
+                club.TotalNumberHours = x; //总课时数
+            else
+                club.TotalNumberHours = null;
 
             #region 總人數
 
@@ -312,7 +320,7 @@ namespace K12.Club.General.Zizhu
                 club.Grade4BoyLimit = tool.StringIsInt_DefIsZero(tbBoyLimit4.Text.Trim());
 
             if (!string.IsNullOrEmpty(tbBoyLimit5.Text.Trim()))
-                club.Grade5BoyLimit = tool.StringIsInt_DefIsZero(tbBoyLimit5.Text.Trim()); 
+                club.Grade5BoyLimit = tool.StringIsInt_DefIsZero(tbBoyLimit5.Text.Trim());
 
             #endregion
 
@@ -420,6 +428,10 @@ namespace K12.Club.General.Zizhu
                 k = false;
             }
 
+            int x;
+            if (!string.IsNullOrEmpty(tbTotalNumberHours.Text) && !int.TryParse(tbTotalNumberHours.Text, out x))
+                k = false;
+
             //選填欄位是否為正確之資料內容
             bool a = SetLimit(tbLimit1, ep_Grade1Limit, SetStringIsInt);
             bool b = SetLimit(tbLimit2, ep_Grade2Limit, SetStringIsInt);
@@ -439,8 +451,10 @@ namespace K12.Club.General.Zizhu
             bool ddd = SetLimit(tbGirlLimit4, ep_Grade4Limit, SetStringIsInt);
             bool eee = SetLimit(tbGirlLimit5, ep_Grade5Limit, SetStringIsInt);
 
-            if (!(a && b && c && d && e && 
-                aa && bb && cc && dd && ee && 
+
+
+            if (!(a && b && c && d && e &&
+                aa && bb && cc && dd && ee &&
                 aaa && bbb && ccc && ddd & eee))
                 k = false;
 
@@ -449,8 +463,6 @@ namespace K12.Club.General.Zizhu
 
         private bool CheckClubName()
         {
-            bool k = true;
-
             //社團名稱+學年度+學期不可重覆
             StringBuilder sb = new StringBuilder();
             sb.Append("select club_name from " + Tn._CLUBRecordUDT.ToLower() + " ");

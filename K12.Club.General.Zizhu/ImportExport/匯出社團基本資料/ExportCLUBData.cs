@@ -33,6 +33,8 @@ namespace K12.Club.General.Zizhu
             FieldList.Add("老师1");
             FieldList.Add("老师2");
             FieldList.Add("老师3");
+
+            FieldList.Add("总课时数");
             FieldList.Add("简介");
 
             FieldList.Add("限制:一年级选课人数限制");
@@ -102,6 +104,7 @@ namespace K12.Club.General.Zizhu
                                 case "老师1": row.Add(field, teacher1); break;
                                 case "老师2": row.Add(field, teacher2); break;
                                 case "老师3": row.Add(field, teacher3); break;
+                                case "总课时数": row.Add(field, records[i].TotalNumberHours.HasValue ? records[i].TotalNumberHours.Value.ToString() : ""); break;
                                 case "简介": row.Add(field, records[i].About); break;
 
                                 case "限制:一年级选课人数限制": row.Add(field, records[i].Grade1Limit.HasValue ? "" + records[i].Grade1Limit.Value : ""); break;

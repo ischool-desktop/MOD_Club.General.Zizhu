@@ -74,6 +74,8 @@
             this.lbTeacher2 = new DevComponents.DotNetBar.LabelX();
             this.cbTeacher3 = new DevComponents.DotNetBar.Controls.ComboBoxEx();
             this.lbTeacher3 = new DevComponents.DotNetBar.LabelX();
+            this.tbTotalNumberHours = new DevComponents.DotNetBar.Controls.TextBoxX();
+            this.labelX2 = new DevComponents.DotNetBar.LabelX();
             ((System.ComponentModel.ISupportInitialize)(this.intSchoolYear)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.intSemester)).BeginInit();
             this.groupPanel1.SuspendLayout();
@@ -85,7 +87,7 @@
             this.btnSave.AutoSize = true;
             this.btnSave.BackColor = System.Drawing.Color.Transparent;
             this.btnSave.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.btnSave.Location = new System.Drawing.Point(413, 386);
+            this.btnSave.Location = new System.Drawing.Point(413, 416);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 25);
             this.btnSave.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -99,7 +101,7 @@
             this.btnExit.AutoSize = true;
             this.btnExit.BackColor = System.Drawing.Color.Transparent;
             this.btnExit.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.btnExit.Location = new System.Drawing.Point(494, 386);
+            this.btnExit.Location = new System.Drawing.Point(494, 416);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(75, 25);
             this.btnExit.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -152,7 +154,7 @@
             // 
             this.txtClubName.Border.Class = "TextBoxBorder";
             this.txtClubName.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.txtClubName.Location = new System.Drawing.Point(68, 42);
+            this.txtClubName.Location = new System.Drawing.Point(68, 41);
             this.txtClubName.Name = "txtClubName";
             this.txtClubName.Size = new System.Drawing.Size(207, 25);
             this.txtClubName.TabIndex = 1;
@@ -166,7 +168,7 @@
             // 
             this.lbSchoolYear.BackgroundStyle.Class = "";
             this.lbSchoolYear.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.lbSchoolYear.Location = new System.Drawing.Point(13, 12);
+            this.lbSchoolYear.Location = new System.Drawing.Point(11, 12);
             this.lbSchoolYear.Name = "lbSchoolYear";
             this.lbSchoolYear.Size = new System.Drawing.Size(47, 21);
             this.lbSchoolYear.TabIndex = 20;
@@ -196,7 +198,7 @@
             // 
             this.lbClubName.BackgroundStyle.Class = "";
             this.lbClubName.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.lbClubName.Location = new System.Drawing.Point(13, 44);
+            this.lbClubName.Location = new System.Drawing.Point(11, 43);
             this.lbClubName.Name = "lbClubName";
             this.lbClubName.Size = new System.Drawing.Size(47, 21);
             this.lbClubName.TabIndex = 0;
@@ -209,10 +211,10 @@
             // 
             this.tbAboutClub.Border.Class = "TextBoxBorder";
             this.tbAboutClub.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.tbAboutClub.Location = new System.Drawing.Point(68, 266);
+            this.tbAboutClub.Location = new System.Drawing.Point(68, 295);
             this.tbAboutClub.Multiline = true;
             this.tbAboutClub.Name = "tbAboutClub";
-            this.tbAboutClub.Size = new System.Drawing.Size(501, 115);
+            this.tbAboutClub.Size = new System.Drawing.Size(501, 110);
             this.tbAboutClub.TabIndex = 15;
             // 
             // lbAboutClub
@@ -224,7 +226,7 @@
             // 
             this.lbAboutClub.BackgroundStyle.Class = "";
             this.lbAboutClub.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.lbAboutClub.Location = new System.Drawing.Point(13, 266);
+            this.lbAboutClub.Location = new System.Drawing.Point(11, 295);
             this.lbAboutClub.Name = "lbAboutClub";
             this.lbAboutClub.Size = new System.Drawing.Size(47, 21);
             this.lbAboutClub.TabIndex = 14;
@@ -260,7 +262,7 @@
             this.groupPanel1.Controls.Add(this.lbGrade1Limit);
             this.groupPanel1.Location = new System.Drawing.Point(281, 10);
             this.groupPanel1.Name = "groupPanel1";
-            this.groupPanel1.Size = new System.Drawing.Size(288, 249);
+            this.groupPanel1.Size = new System.Drawing.Size(288, 277);
             // 
             // 
             // 
@@ -303,7 +305,7 @@
             // 
             this.labelX1.BackgroundStyle.Class = "";
             this.labelX1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX1.Location = new System.Drawing.Point(79, 9);
+            this.labelX1.Location = new System.Drawing.Point(79, 1);
             this.labelX1.Name = "labelX1";
             this.labelX1.Size = new System.Drawing.Size(47, 21);
             this.labelX1.TabIndex = 29;
@@ -317,7 +319,7 @@
             // 
             this.labelX4.BackgroundStyle.Class = "";
             this.labelX4.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX4.Location = new System.Drawing.Point(224, 9);
+            this.labelX4.Location = new System.Drawing.Point(224, 1);
             this.labelX4.Name = "labelX4";
             this.labelX4.Size = new System.Drawing.Size(20, 21);
             this.labelX4.TabIndex = 21;
@@ -330,7 +332,7 @@
             // 
             this.tbLimit5.Border.Class = "TextBoxBorder";
             this.tbLimit5.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.tbLimit5.Location = new System.Drawing.Point(76, 182);
+            this.tbLimit5.Location = new System.Drawing.Point(76, 214);
             this.tbLimit5.Name = "tbLimit5";
             this.tbLimit5.Size = new System.Drawing.Size(53, 25);
             this.tbLimit5.TabIndex = 28;
@@ -343,7 +345,7 @@
             // 
             this.labelX3.BackgroundStyle.Class = "";
             this.labelX3.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX3.Location = new System.Drawing.Point(158, 8);
+            this.labelX3.Location = new System.Drawing.Point(158, 1);
             this.labelX3.Name = "labelX3";
             this.labelX3.Size = new System.Drawing.Size(20, 21);
             this.labelX3.TabIndex = 20;
@@ -356,7 +358,7 @@
             // 
             this.tbLimit4.Border.Class = "TextBoxBorder";
             this.tbLimit4.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.tbLimit4.Location = new System.Drawing.Point(76, 146);
+            this.tbLimit4.Location = new System.Drawing.Point(76, 170);
             this.tbLimit4.Name = "tbLimit4";
             this.tbLimit4.Size = new System.Drawing.Size(53, 25);
             this.tbLimit4.TabIndex = 27;
@@ -368,7 +370,7 @@
             // 
             this.tbGirlLimit5.Border.Class = "TextBoxBorder";
             this.tbGirlLimit5.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.tbGirlLimit5.Location = new System.Drawing.Point(208, 182);
+            this.tbGirlLimit5.Location = new System.Drawing.Point(208, 214);
             this.tbGirlLimit5.Name = "tbGirlLimit5";
             this.tbGirlLimit5.Size = new System.Drawing.Size(53, 25);
             this.tbGirlLimit5.TabIndex = 19;
@@ -380,7 +382,7 @@
             // 
             this.tbLimit3.Border.Class = "TextBoxBorder";
             this.tbLimit3.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.tbLimit3.Location = new System.Drawing.Point(76, 108);
+            this.tbLimit3.Location = new System.Drawing.Point(76, 124);
             this.tbLimit3.Name = "tbLimit3";
             this.tbLimit3.Size = new System.Drawing.Size(53, 25);
             this.tbLimit3.TabIndex = 26;
@@ -392,7 +394,7 @@
             // 
             this.tbGirlLimit4.Border.Class = "TextBoxBorder";
             this.tbGirlLimit4.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.tbGirlLimit4.Location = new System.Drawing.Point(208, 146);
+            this.tbGirlLimit4.Location = new System.Drawing.Point(208, 170);
             this.tbGirlLimit4.Name = "tbGirlLimit4";
             this.tbGirlLimit4.Size = new System.Drawing.Size(53, 25);
             this.tbGirlLimit4.TabIndex = 17;
@@ -404,7 +406,7 @@
             // 
             this.tbLimit2.Border.Class = "TextBoxBorder";
             this.tbLimit2.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.tbLimit2.Location = new System.Drawing.Point(76, 73);
+            this.tbLimit2.Location = new System.Drawing.Point(76, 81);
             this.tbLimit2.Name = "tbLimit2";
             this.tbLimit2.Size = new System.Drawing.Size(53, 25);
             this.tbLimit2.TabIndex = 25;
@@ -416,7 +418,7 @@
             // 
             this.tbGirlLimit3.Border.Class = "TextBoxBorder";
             this.tbGirlLimit3.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.tbGirlLimit3.Location = new System.Drawing.Point(208, 108);
+            this.tbGirlLimit3.Location = new System.Drawing.Point(208, 124);
             this.tbGirlLimit3.Name = "tbGirlLimit3";
             this.tbGirlLimit3.Size = new System.Drawing.Size(53, 25);
             this.tbGirlLimit3.TabIndex = 15;
@@ -440,7 +442,7 @@
             // 
             this.tbGirlLimit2.Border.Class = "TextBoxBorder";
             this.tbGirlLimit2.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.tbGirlLimit2.Location = new System.Drawing.Point(208, 73);
+            this.tbGirlLimit2.Location = new System.Drawing.Point(208, 81);
             this.tbGirlLimit2.Name = "tbGirlLimit2";
             this.tbGirlLimit2.Size = new System.Drawing.Size(53, 25);
             this.tbGirlLimit2.TabIndex = 13;
@@ -464,7 +466,7 @@
             // 
             this.tbBoyLimit5.Border.Class = "TextBoxBorder";
             this.tbBoyLimit5.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.tbBoyLimit5.Location = new System.Drawing.Point(142, 182);
+            this.tbBoyLimit5.Location = new System.Drawing.Point(142, 214);
             this.tbBoyLimit5.Name = "tbBoyLimit5";
             this.tbBoyLimit5.Size = new System.Drawing.Size(53, 25);
             this.tbBoyLimit5.TabIndex = 9;
@@ -477,7 +479,7 @@
             // 
             this.lbGrade5Limit.BackgroundStyle.Class = "";
             this.lbGrade5Limit.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.lbGrade5Limit.Location = new System.Drawing.Point(9, 184);
+            this.lbGrade5Limit.Location = new System.Drawing.Point(9, 216);
             this.lbGrade5Limit.Name = "lbGrade5Limit";
             this.lbGrade5Limit.Size = new System.Drawing.Size(54, 21);
             this.lbGrade5Limit.TabIndex = 8;
@@ -490,7 +492,7 @@
             // 
             this.tbBoyLimit4.Border.Class = "TextBoxBorder";
             this.tbBoyLimit4.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.tbBoyLimit4.Location = new System.Drawing.Point(142, 146);
+            this.tbBoyLimit4.Location = new System.Drawing.Point(142, 170);
             this.tbBoyLimit4.Name = "tbBoyLimit4";
             this.tbBoyLimit4.Size = new System.Drawing.Size(53, 25);
             this.tbBoyLimit4.TabIndex = 7;
@@ -503,7 +505,7 @@
             // 
             this.lbGrade4Limit.BackgroundStyle.Class = "";
             this.lbGrade4Limit.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.lbGrade4Limit.Location = new System.Drawing.Point(9, 148);
+            this.lbGrade4Limit.Location = new System.Drawing.Point(9, 172);
             this.lbGrade4Limit.Name = "lbGrade4Limit";
             this.lbGrade4Limit.Size = new System.Drawing.Size(54, 21);
             this.lbGrade4Limit.TabIndex = 6;
@@ -516,7 +518,7 @@
             // 
             this.tbBoyLimit3.Border.Class = "TextBoxBorder";
             this.tbBoyLimit3.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.tbBoyLimit3.Location = new System.Drawing.Point(142, 108);
+            this.tbBoyLimit3.Location = new System.Drawing.Point(142, 124);
             this.tbBoyLimit3.Name = "tbBoyLimit3";
             this.tbBoyLimit3.Size = new System.Drawing.Size(53, 25);
             this.tbBoyLimit3.TabIndex = 5;
@@ -529,7 +531,7 @@
             // 
             this.tbBoyLimit2.Border.Class = "TextBoxBorder";
             this.tbBoyLimit2.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.tbBoyLimit2.Location = new System.Drawing.Point(142, 73);
+            this.tbBoyLimit2.Location = new System.Drawing.Point(142, 81);
             this.tbBoyLimit2.Name = "tbBoyLimit2";
             this.tbBoyLimit2.Size = new System.Drawing.Size(53, 25);
             this.tbBoyLimit2.TabIndex = 3;
@@ -556,7 +558,7 @@
             // 
             this.lbGrade3Limit.BackgroundStyle.Class = "";
             this.lbGrade3Limit.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.lbGrade3Limit.Location = new System.Drawing.Point(9, 110);
+            this.lbGrade3Limit.Location = new System.Drawing.Point(9, 126);
             this.lbGrade3Limit.Name = "lbGrade3Limit";
             this.lbGrade3Limit.Size = new System.Drawing.Size(54, 21);
             this.lbGrade3Limit.TabIndex = 4;
@@ -570,7 +572,7 @@
             // 
             this.Grade2Limit.BackgroundStyle.Class = "";
             this.Grade2Limit.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.Grade2Limit.Location = new System.Drawing.Point(9, 75);
+            this.Grade2Limit.Location = new System.Drawing.Point(9, 83);
             this.Grade2Limit.Name = "Grade2Limit";
             this.Grade2Limit.Size = new System.Drawing.Size(54, 21);
             this.Grade2Limit.TabIndex = 2;
@@ -598,7 +600,7 @@
             this.cbTeacher.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.cbTeacher.FormattingEnabled = true;
             this.cbTeacher.ItemHeight = 19;
-            this.cbTeacher.Location = new System.Drawing.Point(68, 170);
+            this.cbTeacher.Location = new System.Drawing.Point(68, 196);
             this.cbTeacher.Name = "cbTeacher";
             this.cbTeacher.Size = new System.Drawing.Size(207, 25);
             this.cbTeacher.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -613,7 +615,7 @@
             // 
             this.lbTeacher.BackgroundStyle.Class = "";
             this.lbTeacher.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.lbTeacher.Location = new System.Drawing.Point(13, 172);
+            this.lbTeacher.Location = new System.Drawing.Point(11, 198);
             this.lbTeacher.Name = "lbTeacher";
             this.lbTeacher.Size = new System.Drawing.Size(47, 21);
             this.lbTeacher.TabIndex = 8;
@@ -628,7 +630,7 @@
             // 
             this.lbLocation.BackgroundStyle.Class = "";
             this.lbLocation.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.lbLocation.Location = new System.Drawing.Point(13, 108);
+            this.lbLocation.Location = new System.Drawing.Point(11, 136);
             this.lbLocation.Name = "lbLocation";
             this.lbLocation.Size = new System.Drawing.Size(47, 21);
             this.lbLocation.TabIndex = 4;
@@ -642,7 +644,7 @@
             this.cbLocation.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.cbLocation.FormattingEnabled = true;
             this.cbLocation.ItemHeight = 19;
-            this.cbLocation.Location = new System.Drawing.Point(68, 106);
+            this.cbLocation.Location = new System.Drawing.Point(68, 134);
             this.cbLocation.Name = "cbLocation";
             this.cbLocation.Size = new System.Drawing.Size(207, 25);
             this.cbLocation.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -657,7 +659,7 @@
             // 
             this.lbCategory.BackgroundStyle.Class = "";
             this.lbCategory.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.lbCategory.Location = new System.Drawing.Point(13, 140);
+            this.lbCategory.Location = new System.Drawing.Point(11, 167);
             this.lbCategory.Name = "lbCategory";
             this.lbCategory.Size = new System.Drawing.Size(47, 21);
             this.lbCategory.TabIndex = 6;
@@ -671,7 +673,7 @@
             this.cbCategory.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.cbCategory.FormattingEnabled = true;
             this.cbCategory.ItemHeight = 19;
-            this.cbCategory.Location = new System.Drawing.Point(68, 138);
+            this.cbCategory.Location = new System.Drawing.Point(68, 165);
             this.cbCategory.Name = "cbCategory";
             this.cbCategory.Size = new System.Drawing.Size(207, 25);
             this.cbCategory.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -684,7 +686,7 @@
             // 
             this.tbClubNumber.Border.Class = "TextBoxBorder";
             this.tbClubNumber.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.tbClubNumber.Location = new System.Drawing.Point(68, 74);
+            this.tbClubNumber.Location = new System.Drawing.Point(68, 72);
             this.tbClubNumber.Name = "tbClubNumber";
             this.tbClubNumber.Size = new System.Drawing.Size(207, 25);
             this.tbClubNumber.TabIndex = 3;
@@ -698,7 +700,7 @@
             // 
             this.lbClubNumber.BackgroundStyle.Class = "";
             this.lbClubNumber.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.lbClubNumber.Location = new System.Drawing.Point(13, 76);
+            this.lbClubNumber.Location = new System.Drawing.Point(11, 74);
             this.lbClubNumber.Name = "lbClubNumber";
             this.lbClubNumber.Size = new System.Drawing.Size(47, 21);
             this.lbClubNumber.TabIndex = 2;
@@ -712,7 +714,7 @@
             this.cbTeacher2.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.cbTeacher2.FormattingEnabled = true;
             this.cbTeacher2.ItemHeight = 19;
-            this.cbTeacher2.Location = new System.Drawing.Point(68, 202);
+            this.cbTeacher2.Location = new System.Drawing.Point(68, 227);
             this.cbTeacher2.Name = "cbTeacher2";
             this.cbTeacher2.Size = new System.Drawing.Size(207, 25);
             this.cbTeacher2.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -727,7 +729,7 @@
             // 
             this.lbTeacher2.BackgroundStyle.Class = "";
             this.lbTeacher2.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.lbTeacher2.Location = new System.Drawing.Point(13, 204);
+            this.lbTeacher2.Location = new System.Drawing.Point(11, 229);
             this.lbTeacher2.Name = "lbTeacher2";
             this.lbTeacher2.Size = new System.Drawing.Size(47, 21);
             this.lbTeacher2.TabIndex = 10;
@@ -741,7 +743,7 @@
             this.cbTeacher3.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.cbTeacher3.FormattingEnabled = true;
             this.cbTeacher3.ItemHeight = 19;
-            this.cbTeacher3.Location = new System.Drawing.Point(68, 234);
+            this.cbTeacher3.Location = new System.Drawing.Point(68, 258);
             this.cbTeacher3.Name = "cbTeacher3";
             this.cbTeacher3.Size = new System.Drawing.Size(207, 25);
             this.cbTeacher3.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -756,17 +758,46 @@
             // 
             this.lbTeacher3.BackgroundStyle.Class = "";
             this.lbTeacher3.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.lbTeacher3.Location = new System.Drawing.Point(13, 236);
+            this.lbTeacher3.Location = new System.Drawing.Point(11, 260);
             this.lbTeacher3.Name = "lbTeacher3";
             this.lbTeacher3.Size = new System.Drawing.Size(47, 21);
             this.lbTeacher3.TabIndex = 12;
             this.lbTeacher3.Text = "老师３";
             // 
+            // tbTotalNumberHours
+            // 
+            // 
+            // 
+            // 
+            this.tbTotalNumberHours.Border.Class = "TextBoxBorder";
+            this.tbTotalNumberHours.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.tbTotalNumberHours.Location = new System.Drawing.Point(68, 103);
+            this.tbTotalNumberHours.Name = "tbTotalNumberHours";
+            this.tbTotalNumberHours.Size = new System.Drawing.Size(207, 25);
+            this.tbTotalNumberHours.TabIndex = 25;
+            // 
+            // labelX2
+            // 
+            this.labelX2.AutoSize = true;
+            this.labelX2.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.labelX2.BackgroundStyle.Class = "";
+            this.labelX2.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX2.Location = new System.Drawing.Point(4, 105);
+            this.labelX2.Name = "labelX2";
+            this.labelX2.Size = new System.Drawing.Size(60, 21);
+            this.labelX2.TabIndex = 24;
+            this.labelX2.Text = "总课时数";
+            // 
             // NewAddClub
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(582, 421);
+            this.ClientSize = new System.Drawing.Size(582, 447);
+            this.Controls.Add(this.tbTotalNumberHours);
+            this.Controls.Add(this.labelX2);
             this.Controls.Add(this.cbTeacher3);
             this.Controls.Add(this.lbTeacher3);
             this.Controls.Add(this.cbTeacher2);
@@ -852,5 +883,7 @@
         private DevComponents.DotNetBar.Controls.TextBoxX tbLimit3;
         private DevComponents.DotNetBar.Controls.TextBoxX tbLimit2;
         private DevComponents.DotNetBar.Controls.TextBoxX tbLimit1;
+        private DevComponents.DotNetBar.Controls.TextBoxX tbTotalNumberHours;
+        private DevComponents.DotNetBar.LabelX labelX2;
     }
 }

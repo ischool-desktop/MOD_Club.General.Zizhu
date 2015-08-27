@@ -227,5 +227,16 @@ namespace K12.Club.General.Zizhu
         /// </summary>
         [Field(Field = "photo2", Indexed = false)]
         public string Photo2 { get; set; }
+
+
+        //total number of hours
+
+        /// <summary>
+        /// 總課時數
+        /// </summary>
+        [Field(Field = "total_number_hours", Indexed = false)]
+        public int? TotalNumberHours { get; set; }
+
+
     }
 }

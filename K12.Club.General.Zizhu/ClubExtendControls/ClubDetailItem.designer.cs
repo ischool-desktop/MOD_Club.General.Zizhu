@@ -46,6 +46,8 @@
             this.lbTeacher3 = new DevComponents.DotNetBar.LabelX();
             this.cbTeacher3 = new DevComponents.DotNetBar.Controls.ComboBoxEx();
             this.labelX1 = new DevComponents.DotNetBar.LabelX();
+            this.tbTotalNumberHours = new DevComponents.DotNetBar.Controls.TextBoxX();
+            this.lbTotalNumberHours = new DevComponents.DotNetBar.LabelX();
             this.SuspendLayout();
             // 
             // txtClubName
@@ -55,10 +57,10 @@
             // 
             this.txtClubName.Border.Class = "TextBoxBorder";
             this.txtClubName.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.txtClubName.Location = new System.Drawing.Point(67, 52);
+            this.txtClubName.Location = new System.Drawing.Point(88, 95);
             this.txtClubName.Margin = new System.Windows.Forms.Padding(4);
             this.txtClubName.Name = "txtClubName";
-            this.txtClubName.Size = new System.Drawing.Size(187, 25);
+            this.txtClubName.Size = new System.Drawing.Size(178, 25);
             this.txtClubName.TabIndex = 2;
             // 
             // txtAbout
@@ -68,11 +70,11 @@
             // 
             this.txtAbout.Border.Class = "TextBoxBorder";
             this.txtAbout.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.txtAbout.Location = new System.Drawing.Point(67, 157);
+            this.txtAbout.Location = new System.Drawing.Point(87, 200);
             this.txtAbout.Margin = new System.Windows.Forms.Padding(4);
             this.txtAbout.Multiline = true;
             this.txtAbout.Name = "txtAbout";
-            this.txtAbout.Size = new System.Drawing.Size(436, 67);
+            this.txtAbout.Size = new System.Drawing.Size(416, 67);
             this.txtAbout.TabIndex = 16;
             // 
             // cbLocation
@@ -81,9 +83,9 @@
             this.cbLocation.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.cbLocation.FormattingEnabled = true;
             this.cbLocation.ItemHeight = 19;
-            this.cbLocation.Location = new System.Drawing.Point(67, 87);
+            this.cbLocation.Location = new System.Drawing.Point(88, 130);
             this.cbLocation.Name = "cbLocation";
-            this.cbLocation.Size = new System.Drawing.Size(187, 25);
+            this.cbLocation.Size = new System.Drawing.Size(178, 25);
             this.cbLocation.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
             this.cbLocation.TabIndex = 4;
             // 
@@ -95,9 +97,9 @@
             this.cbTeacher1.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.cbTeacher1.FormattingEnabled = true;
             this.cbTeacher1.ItemHeight = 19;
-            this.cbTeacher1.Location = new System.Drawing.Point(315, 52);
+            this.cbTeacher1.Location = new System.Drawing.Point(325, 95);
             this.cbTeacher1.Name = "cbTeacher1";
-            this.cbTeacher1.Size = new System.Drawing.Size(188, 25);
+            this.cbTeacher1.Size = new System.Drawing.Size(178, 25);
             this.cbTeacher1.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
             this.cbTeacher1.TabIndex = 10;
             this.cbTeacher1.Leave += new System.EventHandler(this.cbTeacher1_Leave);
@@ -110,11 +112,11 @@
             // 
             this.lbClubName.BackgroundStyle.Class = "";
             this.lbClubName.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.lbClubName.Location = new System.Drawing.Point(28, 54);
+            this.lbClubName.Location = new System.Drawing.Point(21, 97);
             this.lbClubName.Name = "lbClubName";
-            this.lbClubName.Size = new System.Drawing.Size(34, 21);
+            this.lbClubName.Size = new System.Drawing.Size(60, 21);
             this.lbClubName.TabIndex = 1;
-            this.lbClubName.Text = "名称";
+            this.lbClubName.Text = "名　　称";
             // 
             // lbTeacher1
             // 
@@ -124,7 +126,7 @@
             // 
             this.lbTeacher1.BackgroundStyle.Class = "";
             this.lbTeacher1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.lbTeacher1.Location = new System.Drawing.Point(268, 54);
+            this.lbTeacher1.Location = new System.Drawing.Point(277, 97);
             this.lbTeacher1.Name = "lbTeacher1";
             this.lbTeacher1.Size = new System.Drawing.Size(41, 21);
             this.lbTeacher1.TabIndex = 9;
@@ -138,11 +140,11 @@
             // 
             this.lbLocation.BackgroundStyle.Class = "";
             this.lbLocation.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.lbLocation.Location = new System.Drawing.Point(28, 89);
+            this.lbLocation.Location = new System.Drawing.Point(21, 132);
             this.lbLocation.Name = "lbLocation";
-            this.lbLocation.Size = new System.Drawing.Size(34, 21);
+            this.lbLocation.Size = new System.Drawing.Size(60, 21);
             this.lbLocation.TabIndex = 3;
-            this.lbLocation.Text = "场地";
+            this.lbLocation.Text = "场　　地";
             // 
             // lbAbout
             // 
@@ -152,11 +154,11 @@
             // 
             this.lbAbout.BackgroundStyle.Class = "";
             this.lbAbout.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.lbAbout.Location = new System.Drawing.Point(28, 159);
+            this.lbAbout.Location = new System.Drawing.Point(21, 202);
             this.lbAbout.Name = "lbAbout";
-            this.lbAbout.Size = new System.Drawing.Size(34, 21);
+            this.lbAbout.Size = new System.Drawing.Size(60, 21);
             this.lbAbout.TabIndex = 15;
-            this.lbAbout.Text = "简介";
+            this.lbAbout.Text = "简　　介";
             // 
             // lbSchoolYear
             // 
@@ -166,10 +168,10 @@
             // 
             this.lbSchoolYear.BackgroundStyle.Class = "";
             this.lbSchoolYear.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.lbSchoolYear.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.lbSchoolYear.Location = new System.Drawing.Point(28, 16);
+            this.lbSchoolYear.Font = new System.Drawing.Font("微軟正黑體", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.lbSchoolYear.Location = new System.Drawing.Point(87, 15);
             this.lbSchoolYear.Name = "lbSchoolYear";
-            this.lbSchoolYear.Size = new System.Drawing.Size(105, 26);
+            this.lbSchoolYear.Size = new System.Drawing.Size(125, 32);
             this.lbSchoolYear.TabIndex = 0;
             this.lbSchoolYear.Text = "学年度 / 学期";
             // 
@@ -181,11 +183,11 @@
             // 
             this.lbCategory.BackgroundStyle.Class = "";
             this.lbCategory.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.lbCategory.Location = new System.Drawing.Point(28, 124);
+            this.lbCategory.Location = new System.Drawing.Point(21, 167);
             this.lbCategory.Name = "lbCategory";
-            this.lbCategory.Size = new System.Drawing.Size(34, 21);
+            this.lbCategory.Size = new System.Drawing.Size(60, 21);
             this.lbCategory.TabIndex = 5;
-            this.lbCategory.Text = "类型";
+            this.lbCategory.Text = "类　　型";
             // 
             // lbCLUBNumber
             // 
@@ -195,11 +197,11 @@
             // 
             this.lbCLUBNumber.BackgroundStyle.Class = "";
             this.lbCLUBNumber.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.lbCLUBNumber.Location = new System.Drawing.Point(275, 19);
+            this.lbCLUBNumber.Location = new System.Drawing.Point(277, 62);
             this.lbCLUBNumber.Name = "lbCLUBNumber";
-            this.lbCLUBNumber.Size = new System.Drawing.Size(34, 21);
+            this.lbCLUBNumber.Size = new System.Drawing.Size(44, 21);
             this.lbCLUBNumber.TabIndex = 7;
-            this.lbCLUBNumber.Text = "代码";
+            this.lbCLUBNumber.Text = "代   码";
             // 
             // tbCLUBNumber
             // 
@@ -208,10 +210,10 @@
             // 
             this.tbCLUBNumber.Border.Class = "TextBoxBorder";
             this.tbCLUBNumber.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.tbCLUBNumber.Location = new System.Drawing.Point(315, 17);
+            this.tbCLUBNumber.Location = new System.Drawing.Point(325, 60);
             this.tbCLUBNumber.Margin = new System.Windows.Forms.Padding(4);
             this.tbCLUBNumber.Name = "tbCLUBNumber";
-            this.tbCLUBNumber.Size = new System.Drawing.Size(188, 25);
+            this.tbCLUBNumber.Size = new System.Drawing.Size(178, 25);
             this.tbCLUBNumber.TabIndex = 8;
             // 
             // cbCategory
@@ -220,9 +222,9 @@
             this.cbCategory.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.cbCategory.FormattingEnabled = true;
             this.cbCategory.ItemHeight = 19;
-            this.cbCategory.Location = new System.Drawing.Point(67, 122);
+            this.cbCategory.Location = new System.Drawing.Point(88, 165);
             this.cbCategory.Name = "cbCategory";
-            this.cbCategory.Size = new System.Drawing.Size(187, 25);
+            this.cbCategory.Size = new System.Drawing.Size(178, 25);
             this.cbCategory.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
             this.cbCategory.TabIndex = 6;
             // 
@@ -234,7 +236,7 @@
             // 
             this.lbTeacher2.BackgroundStyle.Class = "";
             this.lbTeacher2.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.lbTeacher2.Location = new System.Drawing.Point(268, 89);
+            this.lbTeacher2.Location = new System.Drawing.Point(277, 132);
             this.lbTeacher2.Name = "lbTeacher2";
             this.lbTeacher2.Size = new System.Drawing.Size(41, 21);
             this.lbTeacher2.TabIndex = 11;
@@ -248,9 +250,9 @@
             this.cbTeacher2.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.cbTeacher2.FormattingEnabled = true;
             this.cbTeacher2.ItemHeight = 19;
-            this.cbTeacher2.Location = new System.Drawing.Point(315, 87);
+            this.cbTeacher2.Location = new System.Drawing.Point(325, 130);
             this.cbTeacher2.Name = "cbTeacher2";
-            this.cbTeacher2.Size = new System.Drawing.Size(188, 25);
+            this.cbTeacher2.Size = new System.Drawing.Size(178, 25);
             this.cbTeacher2.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
             this.cbTeacher2.TabIndex = 12;
             this.cbTeacher2.Leave += new System.EventHandler(this.cbTeacher2_Leave);
@@ -263,7 +265,7 @@
             // 
             this.lbTeacher3.BackgroundStyle.Class = "";
             this.lbTeacher3.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.lbTeacher3.Location = new System.Drawing.Point(268, 124);
+            this.lbTeacher3.Location = new System.Drawing.Point(277, 167);
             this.lbTeacher3.Name = "lbTeacher3";
             this.lbTeacher3.Size = new System.Drawing.Size(41, 21);
             this.lbTeacher3.TabIndex = 13;
@@ -277,9 +279,9 @@
             this.cbTeacher3.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.cbTeacher3.FormattingEnabled = true;
             this.cbTeacher3.ItemHeight = 19;
-            this.cbTeacher3.Location = new System.Drawing.Point(315, 122);
+            this.cbTeacher3.Location = new System.Drawing.Point(325, 165);
             this.cbTeacher3.Name = "cbTeacher3";
-            this.cbTeacher3.Size = new System.Drawing.Size(188, 25);
+            this.cbTeacher3.Size = new System.Drawing.Size(178, 25);
             this.cbTeacher3.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
             this.cbTeacher3.TabIndex = 14;
             this.cbTeacher3.Leave += new System.EventHandler(this.cbTeacher3_Leave);
@@ -292,16 +294,45 @@
             // 
             this.labelX1.BackgroundStyle.Class = "";
             this.labelX1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX1.Location = new System.Drawing.Point(505, 54);
+            this.labelX1.Location = new System.Drawing.Point(507, 96);
             this.labelX1.Name = "labelX1";
             this.labelX1.Size = new System.Drawing.Size(42, 21);
             this.labelX1.TabIndex = 17;
             this.labelX1.Text = "(评分)";
             // 
+            // tbTotalNumberHours
+            // 
+            // 
+            // 
+            // 
+            this.tbTotalNumberHours.Border.Class = "TextBoxBorder";
+            this.tbTotalNumberHours.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.tbTotalNumberHours.Location = new System.Drawing.Point(87, 60);
+            this.tbTotalNumberHours.Margin = new System.Windows.Forms.Padding(4);
+            this.tbTotalNumberHours.Name = "tbTotalNumberHours";
+            this.tbTotalNumberHours.Size = new System.Drawing.Size(178, 25);
+            this.tbTotalNumberHours.TabIndex = 19;
+            // 
+            // lbTotalNumberHours
+            // 
+            this.lbTotalNumberHours.AutoSize = true;
+            // 
+            // 
+            // 
+            this.lbTotalNumberHours.BackgroundStyle.Class = "";
+            this.lbTotalNumberHours.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.lbTotalNumberHours.Location = new System.Drawing.Point(21, 62);
+            this.lbTotalNumberHours.Name = "lbTotalNumberHours";
+            this.lbTotalNumberHours.Size = new System.Drawing.Size(60, 21);
+            this.lbTotalNumberHours.TabIndex = 18;
+            this.lbTotalNumberHours.Text = "总课时数";
+            // 
             // ClubDetailItem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.tbTotalNumberHours);
+            this.Controls.Add(this.lbTotalNumberHours);
             this.Controls.Add(this.cbCategory);
             this.Controls.Add(this.txtAbout);
             this.Controls.Add(this.txtClubName);
@@ -321,7 +352,7 @@
             this.Controls.Add(this.lbClubName);
             this.Controls.Add(this.labelX1);
             this.Name = "ClubDetailItem";
-            this.Size = new System.Drawing.Size(550, 240);
+            this.Size = new System.Drawing.Size(550, 280);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -347,5 +378,7 @@
         private DevComponents.DotNetBar.LabelX lbTeacher3;
         private DevComponents.DotNetBar.Controls.ComboBoxEx cbTeacher3;
         private DevComponents.DotNetBar.LabelX labelX1;
+        internal DevComponents.DotNetBar.Controls.TextBoxX tbTotalNumberHours;
+        private DevComponents.DotNetBar.LabelX lbTotalNumberHours;
     }
 }

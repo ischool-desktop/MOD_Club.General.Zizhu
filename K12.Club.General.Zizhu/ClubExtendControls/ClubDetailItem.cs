@@ -34,6 +34,7 @@ namespace K12.Club.General.Zizhu
         ErrorProvider ep_Teacher1 = new ErrorProvider();
         ErrorProvider ep_Teacher2 = new ErrorProvider();
         ErrorProvider ep_Teacher3 = new ErrorProvider();
+        ErrorProvider ep_Number = new ErrorProvider();
         //ErrorProvider ep_President = new ErrorProvider();
         //ErrorProvider ep_VicePresident = new ErrorProvider();
 
@@ -78,6 +79,7 @@ namespace K12.Club.General.Zizhu
             DataListener.Add(new TextBoxSource(txtAbout));
             //DataListener.Add(new TextBoxSource(tbCategory));
             DataListener.Add(new TextBoxSource(tbCLUBNumber));
+            DataListener.Add(new TextBoxSource(tbTotalNumberHours)); //總課時數
             DataListener.Add(new ComboBoxSource(cbTeacher1, ComboBoxSource.ListenAttribute.Text));
             DataListener.Add(new ComboBoxSource(cbTeacher2, ComboBoxSource.ListenAttribute.Text));
             DataListener.Add(new ComboBoxSource(cbTeacher3, ComboBoxSource.ListenAttribute.Text));
@@ -213,8 +215,12 @@ namespace K12.Club.General.Zizhu
             ep_Teacher1.SetError(cbTeacher1, null);
             ep_Teacher2.SetError(cbTeacher2, null);
             ep_Teacher3.SetError(cbTeacher3, null);
+            ep_Number.SetError(tbTotalNumberHours, null);
             //ep_President.SetError(cbPresident, null);
             //ep_VicePresident.SetError(cbVicePresident, null);
+
+            //總課時數
+            tbTotalNumberHours.Text = ClubPrimary.TotalNumberHours.HasValue ? ClubPrimary.TotalNumberHours.Value.ToString() : "";
 
             tbCLUBNumber.Text = ClubPrimary.ClubNumber;
             txtClubName.Text = ClubPrimary.ClubName;
@@ -390,6 +396,12 @@ namespace K12.Club.General.Zizhu
             if (!string.IsNullOrEmpty(chenge))
                 sb.AppendLine(chenge);
 
+            chenge = GetString("总课时数",
+                Log_ClubPrimary.TotalNumberHours.HasValue ? Log_ClubPrimary.TotalNumberHours.Value.ToString() : ""
+                , ClubPrimary.TotalNumberHours.HasValue ? ClubPrimary.TotalNumberHours.Value.ToString() : "");
+            if (!string.IsNullOrEmpty(chenge))
+                sb.AppendLine(chenge);
+
             chenge = GetString("简介", Log_ClubPrimary.About, ClubPrimary.About);
             if (!string.IsNullOrEmpty(chenge))
                 sb.AppendLine(chenge);
@@ -506,6 +518,13 @@ namespace K12.Club.General.Zizhu
 
             //社團編號(8/7)
             ClubPrimary.ClubNumber = tbCLUBNumber.Text;
+
+            //总课时数
+            int x;
+            if (int.TryParse(tbTotalNumberHours.Text, out x))
+                ClubPrimary.TotalNumberHours = x;
+            else
+                ClubPrimary.TotalNumberHours = null;
         }
 
         private bool CheckData()
@@ -563,6 +582,17 @@ namespace K12.Club.General.Zizhu
             bool d = tool.ComboBoxValueInItemList(cbTeacher3);
             if (!SetComboBoxError(d, cbTeacher3, ep_Teacher3, "老师必须存在于下拉清单中!!"))
                 a = false;
+
+            int e;
+            if (!string.IsNullOrEmpty(tbTotalNumberHours.Text) && !int.TryParse(tbTotalNumberHours.Text, out e) )
+            {
+                ep_Number.SetError(tbTotalNumberHours, "总课时数必须是数字!!");
+                a = false;
+            }
+            else
+            {
+                ep_Number.SetError(tbTotalNumberHours, "");
+            }
 
             return a;
         }

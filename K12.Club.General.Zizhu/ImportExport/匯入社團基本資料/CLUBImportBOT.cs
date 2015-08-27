@@ -50,6 +50,10 @@ namespace K12.Club.General.Zizhu
                     log.AppendLine(string.Format("老师3「{0}」", GetTeacherName(TeacherIDDic[each.RefTeacherID3])));
                 }
             }
+
+            if (each.TotalNumberHours.HasValue)
+                log.AppendLine(string.Format("总课时数「{0}」", each.TotalNumberHours.Value));
+
             if (!string.IsNullOrEmpty(each.About))
                 log.AppendLine(string.Format("简介「{0}」", each.About));
 
@@ -100,9 +104,13 @@ namespace K12.Club.General.Zizhu
             club.RefTeacherID2 = checkTeacherName("" + Row.GetValue("老师2"));
             club.RefTeacherID3 = checkTeacherName("" + Row.GetValue("老师3"));
 
-            club.About = Row.GetValue("简介");
+            int x;
+            if (int.TryParse("" + Row.GetValue("总课时数"), out x))
+                club.TotalNumberHours = x;
+            else
+                club.TotalNumberHours = null;
 
-            int x = 0;
+            club.About = Row.GetValue("简介");
 
             #region 选课人数限制
 
@@ -339,6 +347,12 @@ namespace K12.Club.General.Zizhu
 
             if (log.lo_CLUB.RefTeacherID3 != log.New_club.RefTeacherID3)
                 ByTeacher("老师3", log.lo_CLUB.RefTeacherID3, log.New_club.RefTeacherID3);
+
+            //总课时数
+            if (log.lo_CLUB.TotalNumberHours != log.New_club.TotalNumberHours)
+                sb.AppendLine(ByOne("总课时数",
+                    log.lo_CLUB.TotalNumberHours.HasValue ? log.lo_CLUB.TotalNumberHours.Value.ToString() : "",
+                    log.New_club.TotalNumberHours.HasValue ? log.New_club.TotalNumberHours.Value.ToString() : ""));
 
             if (log.lo_CLUB.About != log.New_club.About)
                 sb.AppendLine(ByOne("简介", log.lo_CLUB.About, log.New_club.About));

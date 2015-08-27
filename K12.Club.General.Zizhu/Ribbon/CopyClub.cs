@@ -221,6 +221,7 @@ namespace K12.Club.General.Zizhu
                 cr.ClubNumber = each.ClubNumber;
                 cr.ClubCategory = each.ClubCategory;
                 cr.ClubName = each.ClubName;
+                cr.TotalNumberHours = each.TotalNumberHours;
 
                 cr.Grade1Limit = each.Grade1Limit;
                 cr.Grade2Limit = each.Grade2Limit;

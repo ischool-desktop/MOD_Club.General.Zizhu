@@ -346,7 +346,9 @@
     <Content Include="Library\SmartSchool.ErrorReporting.dll" />
     <Content Include="Library\SmartSchool.ErrorReporting.pdb" />
     <Content Include="Library\SmartSchool.ErrorReporting.xml" />
-    <None Include="Resources\ImportCLUBDataValRule.xml" />
+    <None Include="Resources\ImportCLUBDataValRule.xml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Resources\Report.png" />
     <None Include="Resources\Import.Image.png" />
     <None Include="Resources\Export.Image.png" />

@@ -36,6 +36,9 @@
     <Field Required="False" Name="老师3" EmptyAlsoValidate="False" Description="课程的上课老师,昵称请以( )括号隔开">
       <Validate AutoCorrect="False" Description="「老师3」不存在于ischool老师清单中" ErrorType="Error" Validator="老师是否存在系统" When="" />
     </Field>
+    <Field Required="False" Name="总课时数" EmptyAlsoValidate="False" Description="总课时数">
+      <Validate AutoCorrect="False" Description="「总课时数」必须是数字。" ErrorType="Error" Validator="Integer极限" When=""/>
+    </Field>
     <Field Required="False" Name="简介" EmptyAlsoValidate="False" Description="可说明课程特色">
     </Field>
 
