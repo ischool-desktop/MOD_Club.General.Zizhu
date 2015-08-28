@@ -27,6 +27,14 @@
     </Field>
     <Field Required="False" Name="类型" EmptyAlsoValidate="False" Description="课程活动之类型">
     </Field>
+    <Field Required="False" Name="长短课程" EmptyAlsoValidate="False" Description="长短课程">
+    </Field>
+    <Field Required="False" Name="课程领域" EmptyAlsoValidate="False" Description="课程领域">
+    </Field>
+    <Field Required="False" Name="课程属性" EmptyAlsoValidate="False" Description="课程属性">
+    </Field>
+    <Field Required="False" Name="上课形式" EmptyAlsoValidate="False" Description="上课形式">
+    </Field>
     <Field Required="False" Name="老师1" EmptyAlsoValidate="False" Description="课程的上课老师,昵称请以( )括号隔开">
       <Validate AutoCorrect="False" Description="「老师1」不存在于ischool老师清单中" ErrorType="Error" Validator="老师是否存在系统" When="" />
     </Field>

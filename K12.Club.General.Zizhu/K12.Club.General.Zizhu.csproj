@@ -133,7 +133,7 @@
     <Reference Include="SmartSchool.ErrorReporting, Version=1.0.2.3, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Library\SmartSchool.ErrorReporting.dll</HintPath>
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -422,7 +422,7 @@
     <ProjectReference Include="..\Campus.Import\Campus.ImportZizhu.csproj">
       <Project>{b443ede2-16fb-4168-a8d5-61a9c1a8586b}</Project>
       <Name>Campus.ImportZizhu</Name>
-      <Private>False</Private>
+      <Private>True</Private>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

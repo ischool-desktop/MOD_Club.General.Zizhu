@@ -100,6 +100,11 @@ namespace K12.Club.General.Zizhu
             club.Location = Row.GetValue("场地");
             club.ClubCategory = Row.GetValue("类型");
 
+            club.FullPhase = Row.GetValue("长短课程") == "长课程";
+            club.Domain = Row.GetValue("课程领域");
+            club.Type = Row.GetValue("课程属性");
+            club.Formal = Row.GetValue("上课形式");
+
             club.RefTeacherID = checkTeacherName("" + Row.GetValue("老师1"));
             club.RefTeacherID2 = checkTeacherName("" + Row.GetValue("老师2"));
             club.RefTeacherID3 = checkTeacherName("" + Row.GetValue("老师3"));

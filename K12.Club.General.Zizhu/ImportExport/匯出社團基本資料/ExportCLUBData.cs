@@ -30,6 +30,11 @@ namespace K12.Club.General.Zizhu
             FieldList.Add("场地");
             FieldList.Add("类型");
 
+            FieldList.Add("长短课程");
+            FieldList.Add("课程领域");
+            FieldList.Add("课程属性");
+            FieldList.Add("上课形式");
+
             FieldList.Add("老师1");
             FieldList.Add("老师2");
             FieldList.Add("老师3");
@@ -101,6 +106,13 @@ namespace K12.Club.General.Zizhu
                                 case "代码": row.Add(field, records[i].ClubNumber); break;
                                 case "场地": row.Add(field, records[i].Location); break;
                                 case "类型": row.Add(field, records[i].ClubCategory); break;
+
+                                case "长短课程": row.Add(field, records[i].FullPhase.HasValue && records[i].FullPhase.Value ? "长课程" : ""); break;
+                                case "课程领域": row.Add(field, records[i].Domain); break;
+                                case "课程属性": row.Add(field, records[i].Type); break;
+                                case "上课形式": row.Add(field, records[i].Formal); break;
+
+
                                 case "老师1": row.Add(field, teacher1); break;
                                 case "老师2": row.Add(field, teacher2); break;
                                 case "老师3": row.Add(field, teacher3); break;

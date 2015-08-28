@@ -1,0 +1,826 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <link href="css/bootstrap.css" rel="stylesheet" />
+    <link href="css/bootstrap-theme.css" rel="stylesheet" />
+    <link href="css/bootstrap-responsive.css" rel="stylesheet" />
+    <script src="js/bootstrap.min.js"></script>
+
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar navbar-default">
+            <blockquote style="margin-bottom:0px;padding: 5px 20px;border-left: 0px;">
+                <h2>拓展型课程选课系统</h2>
+                <div class="container-fluid" style="margin-top: -25px;">
+                    <div class="collapse navbar-collapse">
+                        <button type="button" class="btn btn-default navbar-btn navbar-right input-sm">登出</button>
+                        <form class="navbar-form navbar-right" role="search">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input type="text" class="form-control input-sm" placeholder="搜寻课程...">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default input-sm" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                                    </span>
+                                </div>
+                            </div>
+                        </form>
+                    </div><!-- /.navbar-collapse -->
+                </div><!-- /.container-fluid -->
+            </blockquote>
+        </nav>
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 col-lg-5">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div>
+                            <div style="margin-bottom: 10px;">
+                                <span class="lead">2015第1学期选课</span>
+                                <div class="pull-right">
+                                    <a href="javascript:void(0)" class="btn btn-link" style="padding:0px"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> 刷新</a>
+                                </div>
+                            </div>
+                            <div>
+                                <span>
+                                    您好！请您<a href="javascript:void(0)"
+                                            ng-click="login()"
+                                            class="btn btn-link text-primary"
+                                            style="padding:0px">登录</a>。
+                                </span>
+                                <span>
+                                    选课<span class="text-danger">将于00:01:10後開始</span>。
+                                </span>
+                            </div>
+
+                        </div>
+                        <div>
+                            <div class="progress" style="margin-top:20px;margin-bottom:5px;">
+                                <div class="progress-bar progress-bar-success"
+                                     role="progressbar"
+                                     style="width:50%;">
+                                </div>
+                            </div>
+                            <p ng-if="current.progress<100"
+                               class="pull-right"
+                               style="margin-bottom:0px;">
+                                选课进度： 50%
+                            </p>
+                        </div>
+                    </div>
+                    <small class="pull-right">
+                        图例：
+                        <span class="text-primary"><span class="glyphicon glyphicon-check" aria-hidden="true"></span>  已选课</span> 、
+                        <!--<span class="text-primary"><span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span>可选课</span>、-->
+                        <span class="text-danger"><span class="glyphicon glyphicon-fire text-danger" aria-hidden="true"></span>  选课人数已额满或即将额满</span>。
+                    </small>
+                    <table class="table table-condensed table-striped table-hover"
+                           style="border-top: 1px solid #ddd;">
+                        <tr>
+                            <th>科技与创新</th>
+                            <td class="text-center"
+                                style="position: relative;width:50px;">
+                                <span style="position: absolute;margin-left: -45px;z-index: 2;">
+                                    阶段：
+                                </span>
+                                <span>
+                                    一
+                                </span>
+                                <span class="glyphicon "
+                                      style="min-width: 14px;"
+                                      aria-hidden="true">
+                                </span>
+                            </td>
+                            <td class="text-center"
+                                style="width:50px;">
+                                <span>
+                                    二
+                                </span>
+                                <span class="glyphicon "
+                                      style="min-width: 14px;"
+                                      aria-hidden="true">
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <!-- 提示已經選滿了(非即時同步) -->
+                            <td>
+                                <span class="col-xs-offset-1">指尖上的舞蹈</span>
+                                <span class="pull-right text-danger">
+                                    选课人数已额满。
+                                </span>
+                            </td>
+                            <td class="text-center">
+                                <a href="javascript:void(0)"
+                                   class="btn btn-link"
+                                   style="padding:0px;">
+                                    <span>
+                                        <span class="glyphicon glyphicon-unchecked text-primary"
+                                              aria-hidden="true"></span>
+                                    </span>
+                                </a>
+                                <span class="glyphicon glyphicon-fire text-danger"
+                                      style="min-width: 14px;"
+                                      aria-hidden="true"></span>
+                            </td>
+                            <td class="text-center">
+                                <a href="javascript:void(0)"
+                                   class="btn btn-link"
+                                   style="padding:0px;">
+                                    <span>
+                                        <span class="glyphicon glyphicon-unchecked text-primary"
+                                              aria-hidden="true"></span>
+                                    </span>
+                                </a>
+                                <span class="glyphicon glyphicon-fire text-danger"
+                                      style="min-width: 14px;"
+                                      aria-hidden="true"></span>
+                            </td>
+                        </tr>
+                    </table>
+                    <table class="table table-condensed table-striped table-hover"
+                           style="border-top: 1px solid #ddd;">
+                        <tr>
+                            <th>运动与生命</th>
+                            <td class="text-center" style="width:50px;"></td>
+                            <td class="text-center" style="width:50px;"></td>
+                        </tr>
+                        <!-- 同類別已經有選了就不能重複再選，选课按鈕class="disabled" -->
+                        <tr>
+                            <td><span class="col-xs-offset-1">趣味武术</span></td>
+                            <td class="text-center">
+                                <a href="javascript:void(0)"
+                                   class="btn btn-link disabled"
+                                   style="padding:0px;">
+                                    <span>
+                                        <span class="glyphicon glyphicon-unchecked text-muted"
+                                              aria-hidden="true"></span>
+                                    </span>
+                                </a>
+                                <span class="glyphicon"
+                                      style="min-width: 14px;"
+                                      aria-hidden="true"></span>
+                            </td>
+                            <td class="text-center">
+                                <a href="javascript:void(0)"
+                                   class="btn btn-link disabled"
+                                   style="padding:0px;">
+                                    <span>
+                                        <span class="glyphicon glyphicon-unchecked text-muted"
+                                              aria-hidden="true"></span>
+                                    </span>
+                                </a>
+                                <span class="glyphicon"
+                                      style="min-width: 14px;"
+                                      aria-hidden="true"></span>
+                            </td>
+                        </tr>
+                        <tr>
+
+                            <td><span class="col-xs-offset-1">学弈</span></td>
+                            <td class="text-center">
+                                <a href="javascript:void(0)"
+                                   class="btn btn-link disabled"
+                                   style="padding:0px;">
+                                    <span>
+                                        <span class="glyphicon glyphicon-unchecked text-muted"
+                                              aria-hidden="true"></span>
+                                    </span>
+                                </a>
+                                <span class="glyphicon"
+                                      style="min-width: 14px;"
+                                      aria-hidden="true"></span>
+                            </td>
+                            <td class="text-center">
+                                <a href="javascript:void(0)"
+                                   class="btn btn-link disabled"
+                                   style="padding:0px;">
+                                    <span>
+                                        <span class="glyphicon glyphicon-unchecked text-muted"
+                                              aria-hidden="true"></span>
+                                    </span>
+                                </a>
+                                <span class="glyphicon"
+                                      style="min-width: 14px;"
+                                      aria-hidden="true"></span>
+                            </td>
+                        </tr>
+                        <tr>
+
+                            <td><span class="col-xs-offset-1">舞向未来</span></td>
+                            <td class="text-center">
+                                <a href="javascript:void(0)"
+                                   class="btn btn-link disabled"
+                                   style="padding:0px;">
+                                    <span>
+                                        <span class="glyphicon glyphicon-unchecked text-muted"
+                                              aria-hidden="true"></span>
+                                    </span>
+                                </a>
+                                <span class="glyphicon"
+                                      style="min-width: 14px;"
+                                      aria-hidden="true"></span>
+                            </td>
+                            <td class="text-center">
+                                <a href="javascript:void(0)"
+                                   class="btn btn-link disabled"
+                                   style="padding:0px;">
+                                    <span>
+                                        <span class="glyphicon glyphicon-unchecked text-muted"
+                                              aria-hidden="true"></span>
+                                    </span>
+                                </a>
+                                <span class="glyphicon"
+                                      style="min-width: 14px;"
+                                      aria-hidden="true"></span>
+                            </td>
+                        </tr>
+                        <tr class="success">
+                            <td><span class="col-xs-offset-1">旋风跆拳道</span>
+                                <!-- 已選的課程可以退 -->
+                                <span class="pull-right text-muted">
+                                    确定要退选?
+                                    <a href="javascript:void(0)"
+                                       class="btn btn-link text-primary"
+                                       style="padding:0px;">
+                                        <span>
+                                            <span class="glyphicon glyphicon-ok"
+                                                  aria-hidden="true"></span>
+                                        </span>
+                                    </a>
+                                    <a href="javascript:void(0)"
+                                       class="btn btn-link text-primary"
+                                       style="padding:0px;">
+                                        <span>
+                                            <span class="glyphicon glyphicon-remove"
+                                                  aria-hidden="true"></span>
+                                        </span>
+                                    </a>
+                                </span>
+                            </td>
+                            <!-- 被選取的課程 -->
+                            <td class="text-center">
+                                <a href="javascript:void(0)"
+                                   class="btn btn-link"
+                                   style="padding:0px;">
+                                    <span>
+                                        <span class="glyphicon glyphicon-check text-primary"
+                                              aria-hidden="true"></span>
+                                    </span>
+                                </a>
+                                <span class="glyphicon"
+                                      style="min-width: 14px;"
+                                      aria-hidden="true"></span>
+                            </td>
+                            <td class="text-center">
+                                <a href="javascript:void(0)"
+                                   class="btn btn-link disabled"
+                                   style="padding:0px;">
+                                    <span>
+                                        <span class="glyphicon glyphicon-unchecked text-muted"
+                                              aria-hidden="true"></span>
+                                    </span>
+                                </a>
+                                <span class="glyphicon"
+                                      style="min-width: 14px;"
+                                      aria-hidden="true"></span>
+                            </td>
+                        </tr>
+                        <!-- 目前正檢視的課程 class="warning" -->
+                        <tr class="warning">
+                            <td><span class="col-xs-offset-1">“舞”与“轮”比</span></td>
+                            <td class="text-center">
+                                <a href="javascript:void(0)"
+                                   class="btn btn-link disabled"
+                                   style="padding:0px;">
+                                    <span>
+                                        <span class="glyphicon glyphicon-unchecked text-muted"
+                                              aria-hidden="true"></span>
+                                    </span>
+                                </a>
+                                <span class="glyphicon"
+                                      style="min-width: 14px;"
+                                      aria-hidden="true"></span>
+                            </td>
+                            <td class="text-center">
+                                <a href="javascript:void(0)"
+                                   class="btn btn-link disabled"
+                                   style="padding:0px;">
+                                    <span>
+                                        <span class="glyphicon glyphicon-unchecked text-muted"
+                                              aria-hidden="true"></span>
+                                    </span>
+                                </a>
+                                <span class="glyphicon"
+                                      style="min-width: 14px;"
+                                      aria-hidden="true"></span>
+                            </td>
+                        </tr>
+                    </table>
+                    <table class="table table-condensed table-striped table-hover"
+                           style="border-top: 1px solid #ddd;">
+                        <tr>
+                            <th>社会与生活</th>
+                            <td class="text-center" style="width:50px;"></td>
+                            <td class="text-center" style="width:50px;"></td>
+                        </tr>
+                        <tr>
+                            <td><span class="col-xs-offset-1">小小营养师</span></td>
+                            <td class="text-center">
+                                <a href="javascript:void(0)"
+                                   class="btn btn-link"
+                                   style="padding:0px;">
+                                    <span>
+                                        <span class="glyphicon glyphicon-unchecked text-primary"
+                                              aria-hidden="true"></span>
+                                    </span>
+                                </a>
+                                <span class="glyphicon"
+                                      style="min-width: 14px;"
+                                      aria-hidden="true"></span>
+                            </td>
+                            <td class="text-center">
+                                <a href="javascript:void(0)"
+                                   class="btn btn-link"
+                                   style="padding:0px;">
+                                    <span>
+                                        <span class="glyphicon glyphicon-unchecked text-primary"
+                                              aria-hidden="true"></span>
+                                    </span>
+                                </a>
+                                <span class="glyphicon"
+                                      style="min-width: 14px;"
+                                      aria-hidden="true"></span>
+                            </td>
+                        </tr>
+                    </table>
+                    <table class="table table-condensed table-striped table-hover"
+                           style="border-top: 1px solid #ddd;">
+                        <tr>
+                            <th>世界与未来</th>
+                            <td class="text-center" style="width:50px;"></td>
+                            <td class="text-center" style="width:50px;"></td>
+                        </tr>
+                        <tr>
+                            <td><span class="col-xs-offset-1">书法欣赏</span></td>
+                            <td class="text-center">
+                                <a href="javascript:void(0)"
+                                   class="btn btn-link"
+                                   style="padding:0px;">
+                                    <span>
+                                        <span class="glyphicon glyphicon-unchecked text-primary"
+                                              aria-hidden="true"></span>
+                                    </span>
+                                </a>
+                                <span class="glyphicon"
+                                      style="min-width: 14px;"
+                                      aria-hidden="true"></span>
+                            </td>
+                            <td class="text-center">
+                                <a href="javascript:void(0)"
+                                   class="btn btn-link"
+                                   style="padding:0px;">
+                                    <span>
+                                        <span class="glyphicon glyphicon-unchecked text-primary"
+                                              aria-hidden="true"></span>
+                                    </span>
+                                </a>
+                                <span class="glyphicon"
+                                      style="min-width: 14px;"
+                                      aria-hidden="true"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="col-xs-offset-1">儿童哲学</span></td>
+                            <td class="text-center">
+                                <a href="javascript:void(0)"
+                                   class="btn btn-link"
+                                   style="padding:0px;">
+                                    <span>
+                                        <span class="glyphicon glyphicon-unchecked text-primary"
+                                              aria-hidden="true"></span>
+                                    </span>
+                                </a>
+                                <span class="glyphicon"
+                                      style="min-width: 14px;"
+                                      aria-hidden="true"></span>
+                            </td>
+                            <td class="text-center">
+                                <a href="javascript:void(0)"
+                                   class="btn btn-link"
+                                   style="padding:0px;">
+                                    <span>
+                                        <span class="glyphicon glyphicon-unchecked text-primary"
+                                              aria-hidden="true"></span>
+                                    </span>
+                                </a>
+                                <span class="glyphicon glyphicon-fire text-danger"
+                                      style="min-width: 14px;"
+                                      aria-hidden="true"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="col-xs-offset-1">趣味历史</span></td>
+                            <td class="text-center">
+                                <a href="javascript:void(0)"
+                                   class="btn btn-link"
+                                   style="padding:0px;">
+                                    <span>
+                                        <span class="glyphicon glyphicon-unchecked text-primary"
+                                              aria-hidden="true"></span>
+                                    </span>
+                                </a>
+                                <span class="glyphicon"
+                                      style="min-width: 14px;"
+                                      aria-hidden="true"></span>
+                            </td>
+                            <td class="text-center">
+                                <a href="javascript:void(0)"
+                                   class="btn btn-link"
+                                   style="padding:0px;">
+                                    <span>
+                                        <span class="glyphicon glyphicon-unchecked text-primary"
+                                              aria-hidden="true"></span>
+                                    </span>
+                                </a>
+                                <span class="glyphicon glyphicon-fire text-danger"
+                                      style="min-width: 14px;"
+                                      aria-hidden="true"></span>
+                            </td>
+                        </tr>
+                    </table>
+                    <table class="table table-condensed table-striped table-hover"
+                           style="border-top: 1px solid #ddd;">
+                        <tr>
+                            <th>文学与艺术</span></th>
+                            <td class="text-center" style="width:50px;"></td>
+                            <td class="text-center" style="width:50px;"></td>
+                        </tr>
+                        <tr>
+                            <td><span class="col-xs-offset-1">奇思妙想创意画</span></td>
+                            <td class="text-center">
+                                <a href="javascript:void(0)"
+                                   class="btn btn-link"
+                                   style="padding:0px;">
+                                    <span>
+                                        <span class="glyphicon glyphicon-unchecked text-primary"
+                                              aria-hidden="true"></span>
+                                    </span>
+                                </a>
+                                <span class="glyphicon"
+                                      style="min-width: 14px;"
+                                      aria-hidden="true"></span>
+                            </td>
+                            <td class="text-center">
+                                <a href="javascript:void(0)"
+                                   class="btn btn-link"
+                                   style="padding:0px;">
+                                    <span>
+                                        <span class="glyphicon glyphicon-unchecked text-primary"
+                                              aria-hidden="true"></span>
+                                    </span>
+                                </a>
+                                <span class="glyphicon"
+                                      style="min-width: 14px;"
+                                      aria-hidden="true"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="col-xs-offset-1">儿童剧社——欢乐剧场</span></td>
+                            <td class="text-center">
+                                <a href="javascript:void(0)"
+                                   class="btn btn-link"
+                                   style="padding:0px;">
+                                    <span>
+                                        <span class="glyphicon glyphicon-unchecked text-primary"
+                                              aria-hidden="true"></span>
+                                    </span>
+                                </a>
+                                <span class="glyphicon"
+                                      style="min-width: 14px;"
+                                      aria-hidden="true"></span>
+                            </td>
+                            <td class="text-center">
+                                <a href="javascript:void(0)"
+                                   class="btn btn-link"
+                                   style="padding:0px;">
+                                    <span>
+                                        <span class="glyphicon glyphicon-unchecked text-primary"
+                                              aria-hidden="true"></span>
+                                    </span>
+                                </a>
+                                <span class="glyphicon"
+                                      style="min-width: 14px;"
+                                      aria-hidden="true"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="col-xs-offset-1">儿童装饰画</span></td>
+                            <td class="text-center">
+                                <a href="javascript:void(0)"
+                                   class="btn btn-link"
+                                   style="padding:0px;">
+                                    <span>
+                                        <span class="glyphicon glyphicon-unchecked text-primary"
+                                              aria-hidden="true"></span>
+                                    </span>
+                                </a>
+                                <span class="glyphicon"
+                                      style="min-width: 14px;"
+                                      aria-hidden="true"></span>
+                            </td>
+                            <td class="text-center">
+                                <a href="javascript:void(0)"
+                                   class="btn btn-link"
+                                   style="padding:0px;">
+                                    <span>
+                                        <span class="glyphicon glyphicon-unchecked text-primary"
+                                              aria-hidden="true"></span>
+                                    </span>
+                                </a>
+                                <span class="glyphicon"
+                                      style="min-width: 14px;"
+                                      aria-hidden="true"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="col-xs-offset-1">创意美术魔法师</span></td>
+                            <td class="text-center">
+                                <a href="javascript:void(0)"
+                                   class="btn btn-link"
+                                   style="padding:0px;">
+                                    <span>
+                                        <span class="glyphicon glyphicon-unchecked text-primary"
+                                              aria-hidden="true"></span>
+                                    </span>
+                                </a>
+                                <span class="glyphicon"
+                                      style="min-width: 14px;"
+                                      aria-hidden="true"></span>
+                            </td>
+                            <td class="text-center">
+                                <a href="javascript:void(0)"
+                                   class="btn btn-link"
+                                   style="padding:0px;">
+                                    <span>
+                                        <span class="glyphicon glyphicon-unchecked text-primary"
+                                              aria-hidden="true"></span>
+                                    </span>
+                                </a>
+                                <span class="glyphicon"
+                                      style="min-width: 14px;"
+                                      aria-hidden="true"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="col-xs-offset-1">U玩漫画</span></td>
+                            <td class="text-center">
+                                <a href="javascript:void(0)"
+                                   class="btn btn-link"
+                                   style="padding:0px;">
+                                    <span>
+                                        <span class="glyphicon glyphicon-unchecked text-primary"
+                                              aria-hidden="true"></span>
+                                    </span>
+                                </a>
+                                <span class="glyphicon"
+                                      style="min-width: 14px;"
+                                      aria-hidden="true"></span>
+                            </td>
+                            <td class="text-center">
+                                <a href="javascript:void(0)"
+                                   class="btn btn-link"
+                                   style="padding:0px;">
+                                    <span>
+                                        <span class="glyphicon glyphicon-unchecked text-primary"
+                                              aria-hidden="true"></span>
+                                    </span>
+                                </a>
+                                <span class="glyphicon glyphicon-fire text-danger"
+                                      style="min-width: 14px;"
+                                      aria-hidden="true"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="col-xs-offset-1">趣味素描</span></td>
+                            <td class="text-center">
+                                <a href="javascript:void(0)"
+                                   class="btn btn-link"
+                                   style="padding:0px;">
+                                    <span>
+                                        <span class="glyphicon glyphicon-unchecked text-primary"
+                                              aria-hidden="true"></span>
+                                    </span>
+                                </a>
+                                <span class="glyphicon glyphicon-fire text-danger"
+                                      style="min-width: 14px;"
+                                      aria-hidden="true"></span>
+                            </td>
+                            <td class="text-center">
+                                <a href="javascript:void(0)"
+                                   class="btn btn-link"
+                                   style="padding:0px;">
+                                    <span>
+                                        <span class="glyphicon glyphicon-unchecked text-primary"
+                                              aria-hidden="true"></span>
+                                    </span>
+                                </a>
+                                <span class="glyphicon glyphicon-fire text-danger"
+                                      style="min-width: 14px;"
+                                      aria-hidden="true"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="col-xs-offset-1">毕业剧</span></td>
+                            <td class="text-center">
+                                <a href="javascript:void(0)"
+                                   class="btn btn-link"
+                                   style="padding:0px;">
+                                    <span>
+                                        <span class="glyphicon glyphicon-unchecked text-primary"
+                                              aria-hidden="true"></span>
+                                    </span>
+                                </a>
+                                <span class="glyphicon"
+                                      style="min-width: 14px;"
+                                      aria-hidden="true"></span>
+                            </td>
+                            <td class="text-center">
+                                <a href="javascript:void(0)"
+                                   class="btn btn-link"
+                                   style="padding:0px;">
+                                    <span>
+                                        <span class="glyphicon glyphicon-unchecked text-primary"
+                                              aria-hidden="true"></span>
+                                    </span>
+                                </a>
+                                <span class="glyphicon glyphicon-fire text-danger"
+                                      style="min-width: 14px;"
+                                      aria-hidden="true"></span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="hidden-xs col-sm-6 col-lg-7">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <p class="lead">“舞”与“轮”比&nbsp;<small>运动与生命类别</small></p>
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <div class="thumbnail">
+                                            <img src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcT4zOHkAHVTm3oP8EULAGd1drzlgweqUw-nNzFt_ygfSgKuEDigww" alt="社團照片1" title="社團照片1">
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <div class="thumbnail">
+                                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqPc_QCHvPZ4NhnneTKqi1I18nZwZXss3tjtTUB69RKyLAQ4jC" alt="社團照片2" title="社團照片2">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="caption">
+                                    <p>不同時期有不同時期的理念與服務模式，社服曾數度盛極一時，也曾遇到幾次危機，儘管社服團有這許許多多的演變，唯一不變的是我們服務人群的信念，願大家記取學長姐們努力的經驗，配合實際的情形發揮更多的服務力量，為實現理想而努力不懈。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-lg-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">人数限制</div>
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <td class="col-xs-3 text-center"></td>
+                                        <td class="col-xs-3 text-center">總人數</td>
+                                        <td class="col-xs-3 text-center">男</td>
+                                        <td class="col-xs-3 text-center">女</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center">
+                                            一年级
+                                        </td>
+                                        <td>
+                                            --
+                                        </td>
+                                        <td>
+                                            --
+                                        </td>
+                                        <td>
+                                            --
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">
+                                            二年级
+                                        </td>
+                                        <td>
+                                            --
+                                        </td>
+                                        <td>
+                                            --
+                                        </td>
+                                        <td>
+                                            --
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">
+                                            三年级
+                                        </td>
+                                        <td>
+                                            --
+                                        </td>
+                                        <td>
+                                            --
+                                        </td>
+                                        <td>
+                                            --
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">
+                                            四年级
+                                        </td>
+                                        <td>
+                                            50
+                                        </td>
+                                        <td>
+                                            25
+                                        </td>
+                                        <td>
+                                            25
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">
+                                            五年级
+                                        </td>
+                                        <td>
+                                            50
+                                        </td>
+                                        <td>
+                                            25
+                                        </td>
+                                        <td>
+                                            25
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-lg-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">课程信息</div>
+                            <table class="table table-condensed">
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center">
+                                            课程类别
+                                        </td>
+                                        <td>
+                                            运动与生命
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">
+                                            课程编号
+                                        </td>
+                                        <td>
+                                            K00461054
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">
+                                            任课老师
+                                        </td>
+                                        <td>
+                                            沈臣
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">
+                                            场地
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">
+                                            总课时数
+                                        </td>
+                                        <td>14</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

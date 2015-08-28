@@ -1,0 +1,407 @@
+﻿<!DOCTYPE html>
+<html xmlns:ng="http://angularjs.org" id="ng-app" ng-app="MyApp">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="css/bootstrap.css" rel="stylesheet" />
+    <link href="css/bootstrap-theme.css" rel="stylesheet" />
+    <!--[if lte IE 7]>
+      <script src="/path/to/json2.js"></script>
+    <![endif]-->
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.min.js"></script>
+      <script src="js/respond.min.js"></script>
+    <![endif]-->
+    <script src="js/jquery-1.11.3.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/angular.1.2.28.js"></script>
+    <script src="js/xmlWriter.js"></script>
+    <script src="js/parseXml.js"></script>
+    <script src="js/xml2json.js"></script>
+    <script src="js/dsutil.js"></script>
+
+    <script src="js/ng.module.js"></script>
+</head>
+<body ng-controller="MyController">
+    <div class="container">
+        <nav class="navbar navbar-default">
+            <blockquote style="margin-bottom:0px;padding: 5px 20px;border-left: 0px;">
+                <h2>拓展型课程选课系统</h2>
+                <!--<footer style="padding-left:25px;">2015第1学期</footer>-->
+                <div class="container-fluid" style="margin-top: -25px;">
+                    <div class="collapse navbar-collapse">
+                        <button ng-if="current.student"
+                                type="button"
+                                class="btn btn-default navbar-btn navbar-right input-sm"
+                                ng-click="logout()">
+                            登出
+                        </button>
+                        <form class="navbar-form navbar-right" role="search">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input ng-model="search"
+                                           type="text"
+                                           class="form-control input-sm"
+                                           placeholder="搜寻课程...">
+                                    <span class="input-group-btn">
+                                        <button ng-click="setSearch()"
+                                                class="btn btn-default input-sm"
+                                                type="button">
+                                            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                        </form>
+                    </div><!-- /.navbar-collapse -->
+                </div><!-- /.container-fluid -->
+            </blockquote>
+        </nav>
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 col-lg-5">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div>
+                            <div style="margin-bottom: 10px;">
+                                <span class="lead">{{current.schoolYear}}第{{current.semester}}学期选课</span>
+                                <div ng-if="current.student"
+                                     class="pull-right">
+                                    <a ng-click="reload()"
+                                       href="javascript:void(0)"
+                                       class="btn btn-link"
+                                       style="padding:0px"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>刷新</a>
+                                </div>
+                            </div>
+                            <div>
+                                <span ng-if="current.student">
+                                    <strong>{{current.student.name}}</strong> 同學，您好！
+                                </span>
+                                <span ng-if="!current.student">
+                                    您好！请您<a href="javascript:void(0)"
+                                            ng-click="login()"
+                                            class="btn btn-link text-primary"
+                                            style="padding:0px">登录</a>。
+                                </span>
+                                <span ng-if="timing.msg">
+                                    选课<span class="text-danger">{{timing.msg}}</span>。
+                                </span>
+                                <span ng-if="loginError"
+                                      class="text-danger">
+                                    <strong>登录错误!</strong> {{loginError}}
+                                </span>
+                            </div>
+                        </div>
+                        <div ng-if="current.mode=='select'||current.mode=='end'">
+                            <div class="progress" style="margin-top:20px;margin-bottom:5px;">
+                                <div class="progress-bar progress-bar-success"
+                                     role="progressbar"
+                                     ng-style="{width:current.progress+'%'}">
+                                </div>
+                            </div>
+                            <p ng-if="current.progress<100"
+                               class="pull-right"
+                               style="margin-bottom:0px;">
+                                选课进度： {{current.progress}}%
+                            </p>
+                            <p ng-if="current.progress==100"
+                               class="pull-right text-success"
+                               style="margin-bottom:0px;">
+                                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;选课已完成
+                            </p>
+                        </div>
+                    </div>
+                    <small ng-if="searchFilter"
+                           class="pull-left">
+                        <a ng-click="unsetSearch()"
+                           href="javascript:void(0)"
+                           class="btn btn-link"
+                           style="padding: 0px 0px 0px 8px;border: none 0px;">
+                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                        </a>
+                        搜寻"{{searchFilter}}"
+                    </small>
+                    <small ng-if="current.mode=='select'||current.mode=='end'"
+                           class="pull-right">
+                        图例：
+                        <span class="text-primary"><span class="glyphicon glyphicon-check" aria-hidden="true"></span>  已选课</span>
+                        <span ng-if="current.mode=='select'">
+                            、
+                            <!--<span class="text-primary"><span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span>可选课</span>、-->
+                            <span class="text-danger"><span class="glyphicon glyphicon-ban-circle text-danger" aria-hidden="true"></span>  选课人数已额满</span>
+                        </span>。
+                    </small>
+                    <small ng-if="current.mode=='view'"
+                           class="pull-right">
+
+                    </small>
+                    <table ng-repeat="classification in classificationList"
+                           class="table table-condensed table-striped table-hover"
+                           style="border-top: 1px solid #ddd;">
+                        <tr ng-style="getClassificationStyle(classification)">
+                            <th>
+                                {{classification}}
+                            </th>
+                            <td ng-if="current.mode=='view'"
+                                class="col-xs-3 text-right">
+                                <span ng-if="$first">选课年级</span>
+                            </td>
+                            <td ng-if="(current.mode=='select'||current.mode=='end')&&current.levelMax>=1"
+                                class="text-center"
+                                style="position: relative;width:50px;">
+                                <!--<span ng-if="$first"
+                                      style="position: absolute;margin-left: -45px;z-index: 2;">
+                                    阶段：
+                                </span>
+                                <span ng-if="$first">
+                                    一
+                                </span>
+                                <span ng-if="$first"
+                                      class="glyphicon "
+                                      style="min-width: 14px;"
+                                      aria-hidden="true">
+                                </span>-->
+                            </td>
+                            <td ng-if="(current.mode=='select'||current.mode=='end')&&current.levelMax>=2"
+                                class="text-center"
+                                style="width:50px;">
+                                <!--<span ng-if=" $first">
+                                    二
+                                </span>
+                                <span ng-if="$first"
+                                      class="glyphicon "
+                                      style="min-width: 14px;"
+                                      aria-hidden="true">
+                                </span>-->
+                            </td>
+                            <td ng-if="(current.mode=='select'||current.mode=='end')&&current.levelMax>=3"
+                                class="text-center"
+                                style="width:50px;">
+                                <!--<span ng-if=" $first">
+                                    三
+                                </span>
+                                <span ng-if="$first"
+                                      class="glyphicon "
+                                      style="min-width: 14px;"
+                                      aria-hidden="true">
+                                </span>-->
+                            </td>
+                        </tr>
+                        <tr ng-repeat="course in courseWithClassification[classification]"
+                            ng-class="{'text-muted':(current.grade&&!course.limit[current.grade].all>0)}"
+                            class="{{rowClass(course)}}"
+                            ng-click="current.shown = course">
+                            <td>
+                                <span class="col-xs-offset-1">{{course.name}}</span>
+                                <span ng-if="course.showFull"
+                                      class="pull-right text-danger">
+                                    {{fullMsg}}
+                                </span>
+                                <span ng-if="course.showCancel"
+                                      class="pull-right text-muted">
+                                    确定要退选?
+                                    <a ng-click="removeCourse(course,course.showCancel)"
+                                       href="javascript:void(0)"
+                                       class="btn btn-link text-primary"
+                                       style="padding:0px;">
+                                        <span>
+                                            <span class="glyphicon glyphicon-ok"
+                                                  aria-hidden="true"></span>
+                                        </span>
+                                    </a>
+                                    <!--<a href="javascript:void(0)"
+                                       class="btn btn-link text-primary"
+                                       style="padding:0px;">
+                                        <span>
+                                            <span class="glyphicon glyphicon-remove"
+                                                  aria-hidden="true"></span>
+                                        </span>
+                                    </a>-->
+                                </span>
+                            </td>
+                            <td ng-if="current.mode=='view'"
+                                class="text-right"
+                                style="position:relative;">
+                                <span style="position:absolute;right:5px;z-index:1;margin-left:-20px;">
+                                    <span ng-repeat="grade in ['一','二','三','四','五']"><span ng-if="course.limit[grade+'年级'].all || course.limit[grade+'年级'].all == 0">&nbsp;{{grade}}</span><span ng-if="$last">年级</span></span>
+                                </span>
+                            </td>
+                            <td ng-repeat="i in [0,1,2]"
+                                ng-if="(current.mode=='select'||current.mode=='end')&&current.levelMax>i"
+                                class="text-center">
+                                <a href="javascript:void(0)"
+                                   class="btn btn-link"
+                                   ng-if="i==0 || course.fullPhase!='true'"
+                                   ng-class="{disabled:selectDisable(course,i+1)}"
+                                   ng-click="selectCourse(course,i+1)"
+                                   style="padding:0px;">
+                                    <span ng-if="current.selected[i]==course">
+                                        <span class="glyphicon glyphicon-check text-primary" aria-hidden="true"></span> <!--已选-->
+                                    </span>
+                                    <span ng-if="current.selected[i]!=course && course.limit[current.grade].all>0">
+                                        <!--选课-->
+                                        <span class="glyphicon glyphicon-unchecked text-primary"
+                                              ng-class="{'text-muted':selectDisable(course,i)}"
+                                              aria-hidden="true"></span>
+                                    </span>
+                                </a>
+                                <span ng-if="i==0||course.fullPhase!='true'"
+                                      ng-class="{'glyphicon-ban-circle text-danger':isFull(course, i + 1)&&course.limit[current.grade].all>0}"
+                                      class="glyphicon"
+                                      style="min-width: 14px;"
+                                      aria-hidden="true"></span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div ng-if="current.mode == 'select' ||current.mode=='end' || current.mode=='view'"
+                 class=" hidden-xs col-sm-6 col-lg-7">
+                <!--<div class="page-header" style="margin-top:0px;margin-bottom:5px;">
+                    <h3 style="margin-top:0px;">“舞”与“轮”比  <small>运动与生命</small></h3>
+                </div>-->
+                <!-- 無法選課警示 -->
+                <!--<p class="text-danger" role="alert">已选择"旋风跆拳道"，不得再选运动与生命类别的课程。</p>-->
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <p class="lead">{{current.shown.name}}&nbsp;<small>{{current.shown.classification}}</small></p>
+                                <!--<p class="text-danger" role="alert">已选择"旋风跆拳道"，不得再选运动与生命类别的课程。</p>-->
+
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <div class="thumbnail">
+                                            <img ng-src="{{current.shown.photo1 ? 'data:image/*;base64,'+ current.shown.photo1 : srcList[parseInt(current.shown.id) % srcList.length]}}" alt="" title="" />
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <div class="thumbnail">
+                                            <img ng-src="{{current.shown.photo2 ? 'data:image/*;base64,'+ current.shown.photo2 : srcList[(parseInt(current.shown.id) % srcList.length + 3) % srcList.length]}}" alt="" title="" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="caption">
+                                    <p>{{current.shown.description}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-lg-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">人数限制</div>
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <td class="col-xs-3 text-center"></td>
+                                        <td class="col-xs-3 text-center">總人數</td>
+                                        <td class="col-xs-3 text-center">男</td>
+                                        <td class="col-xs-3 text-center">女</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="grade in ['一年级','二年级','三年级','四年级','五年级']">
+                                        <td class="text-center">
+                                            {{grade}}
+                                        </td>
+                                        <td class="text-center">
+                                            {{current.shown.limit[grade].all || '--'}}
+                                        </td>
+                                        <td class="text-center">
+                                            {{current.shown.limit[grade].male || '--'}}
+                                        </td>
+                                        <td class="text-center">
+                                            {{current.shown.limit[grade].female || '--'}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-lg-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">课程信息</div>
+                            <table class="table table-condensed">
+                                <tbody>
+                                    <tr>
+                                        <td class="col-xs-5 text-center">
+                                            课程领域
+                                        </td>
+                                        <td>
+                                            {{current.shown.classification}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">
+                                            课程编号
+                                        </td>
+                                        <td>
+                                            {{current.shown.number}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">
+                                            任课老师
+                                        </td>
+                                        <td>
+                                            {{current.shown.teacher}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">
+                                            上课地点
+                                        </td>
+                                        <td>
+                                            {{current.shown.location}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">
+                                            总课时数
+                                        </td>
+                                        <td>{{current.shown.hours}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">
+                                            长短课程
+                                        </td>
+                                        <td>
+                                            {{current.shown.fullPhase=='true'?'长课程':'短课程'}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!--<div class="col-xs-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">课程简介</div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <div class="thumbnail">
+                                            <img src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcT4zOHkAHVTm3oP8EULAGd1drzlgweqUw-nNzFt_ygfSgKuEDigww" alt="社團照片1" title="社團照片1">
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <div class="thumbnail">
+                                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqPc_QCHvPZ4NhnneTKqi1I18nZwZXss3tjtTUB69RKyLAQ4jC" alt="社團照片2" title="社團照片2">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="caption">
+                                    <p>不同時期有不同時期的理念與服務模式，社服曾數度盛極一時，也曾遇到幾次危機，儘管社服團有這許許多多的演變，唯一不變的是我們服務人群的信念，願大家記取學長姐們努力的經驗，配合實際的情形發揮更多的服務力量，為實現理想而努力不懈。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

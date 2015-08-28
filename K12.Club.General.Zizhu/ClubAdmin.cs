@@ -339,6 +339,7 @@ namespace K12.Club.General.Zizhu
             this.AddListPaneField(Field5);
             #endregion
 
+
             #region 目前人數
             Field11 = new ListPaneField("目前人数");
             Field11.GetVariable += delegate(object sender, GetVariableEventArgs e)
@@ -583,7 +584,7 @@ namespace K12.Club.General.Zizhu
             }
 
             //依社團名稱排一下
-            Field1.Column.DataGridView.Sort(Field0.Column, ListSortDirection.Ascending);
+            //Field1.Column.DataGridView.Sort(Field0.Column, ListSortDirection.Ascending);
 
         }
 

@@ -76,7 +76,7 @@
             this.tbBoyLimit2.Location = new System.Drawing.Point(278, 77);
             this.tbBoyLimit2.Name = "tbBoyLimit2";
             this.tbBoyLimit2.Size = new System.Drawing.Size(98, 25);
-            this.tbBoyLimit2.TabIndex = 5;
+            this.tbBoyLimit2.TabIndex = 4;
             this.tbBoyLimit2.TextChanged += new System.EventHandler(this.tbGrade2Limit_TextChanged);
             // 
             // tbBoyLimit1
@@ -89,7 +89,7 @@
             this.tbBoyLimit1.Location = new System.Drawing.Point(278, 42);
             this.tbBoyLimit1.Name = "tbBoyLimit1";
             this.tbBoyLimit1.Size = new System.Drawing.Size(98, 25);
-            this.tbBoyLimit1.TabIndex = 3;
+            this.tbBoyLimit1.TabIndex = 1;
             this.tbBoyLimit1.TextChanged += new System.EventHandler(this.tbGrade1Limit_TextChanged);
             // 
             // lbGrade3Limit
@@ -144,7 +144,7 @@
             this.tbBoyLimit4.Location = new System.Drawing.Point(278, 147);
             this.tbBoyLimit4.Name = "tbBoyLimit4";
             this.tbBoyLimit4.Size = new System.Drawing.Size(98, 25);
-            this.tbBoyLimit4.TabIndex = 9;
+            this.tbBoyLimit4.TabIndex = 10;
             this.tbBoyLimit4.TextChanged += new System.EventHandler(this.tbBoyLimit4_TextChanged);
             // 
             // labelX1
@@ -171,7 +171,7 @@
             this.tbBoyLimit5.Location = new System.Drawing.Point(278, 182);
             this.tbBoyLimit5.Name = "tbBoyLimit5";
             this.tbBoyLimit5.Size = new System.Drawing.Size(98, 25);
-            this.tbBoyLimit5.TabIndex = 11;
+            this.tbBoyLimit5.TabIndex = 13;
             this.tbBoyLimit5.TextChanged += new System.EventHandler(this.tbBoyLimit5_TextChanged);
             // 
             // labelX2
@@ -198,7 +198,7 @@
             this.tbGirlLimit5.Location = new System.Drawing.Point(413, 182);
             this.tbGirlLimit5.Name = "tbGirlLimit5";
             this.tbGirlLimit5.Size = new System.Drawing.Size(98, 25);
-            this.tbGirlLimit5.TabIndex = 16;
+            this.tbGirlLimit5.TabIndex = 14;
             this.tbGirlLimit5.TextChanged += new System.EventHandler(this.tbGirlLimit5_TextChanged);
             // 
             // tbGirlLimit4
@@ -211,7 +211,7 @@
             this.tbGirlLimit4.Location = new System.Drawing.Point(413, 147);
             this.tbGirlLimit4.Name = "tbGirlLimit4";
             this.tbGirlLimit4.Size = new System.Drawing.Size(98, 25);
-            this.tbGirlLimit4.TabIndex = 15;
+            this.tbGirlLimit4.TabIndex = 11;
             this.tbGirlLimit4.TextChanged += new System.EventHandler(this.tbGirlLimit4_TextChanged);
             // 
             // tbGirlLimit1
@@ -224,7 +224,7 @@
             this.tbGirlLimit1.Location = new System.Drawing.Point(413, 42);
             this.tbGirlLimit1.Name = "tbGirlLimit1";
             this.tbGirlLimit1.Size = new System.Drawing.Size(98, 25);
-            this.tbGirlLimit1.TabIndex = 12;
+            this.tbGirlLimit1.TabIndex = 2;
             this.tbGirlLimit1.TextChanged += new System.EventHandler(this.tbGirlLimit1_TextChanged);
             // 
             // tbGirlLimit3
@@ -237,7 +237,7 @@
             this.tbGirlLimit3.Location = new System.Drawing.Point(413, 112);
             this.tbGirlLimit3.Name = "tbGirlLimit3";
             this.tbGirlLimit3.Size = new System.Drawing.Size(98, 25);
-            this.tbGirlLimit3.TabIndex = 14;
+            this.tbGirlLimit3.TabIndex = 8;
             this.tbGirlLimit3.TextChanged += new System.EventHandler(this.tbGirlLimit3_TextChanged);
             // 
             // tbGirlLimit2
@@ -250,7 +250,7 @@
             this.tbGirlLimit2.Location = new System.Drawing.Point(413, 77);
             this.tbGirlLimit2.Name = "tbGirlLimit2";
             this.tbGirlLimit2.Size = new System.Drawing.Size(98, 25);
-            this.tbGirlLimit2.TabIndex = 13;
+            this.tbGirlLimit2.TabIndex = 5;
             this.tbGirlLimit2.TextChanged += new System.EventHandler(this.tbGirlLimit2_TextChanged);
             // 
             // labelX3
@@ -305,7 +305,7 @@
             this.tbLimit5.Location = new System.Drawing.Point(143, 182);
             this.tbLimit5.Name = "tbLimit5";
             this.tbLimit5.Size = new System.Drawing.Size(98, 25);
-            this.tbLimit5.TabIndex = 23;
+            this.tbLimit5.TabIndex = 12;
             this.tbLimit5.TextChanged += new System.EventHandler(this.tbLimit5_TextChanged);
             // 
             // tbLimit4
@@ -318,7 +318,7 @@
             this.tbLimit4.Location = new System.Drawing.Point(143, 147);
             this.tbLimit4.Name = "tbLimit4";
             this.tbLimit4.Size = new System.Drawing.Size(98, 25);
-            this.tbLimit4.TabIndex = 22;
+            this.tbLimit4.TabIndex = 9;
             this.tbLimit4.TextChanged += new System.EventHandler(this.tbLimit4_TextChanged);
             // 
             // tbLimit1
@@ -331,7 +331,7 @@
             this.tbLimit1.Location = new System.Drawing.Point(143, 42);
             this.tbLimit1.Name = "tbLimit1";
             this.tbLimit1.Size = new System.Drawing.Size(98, 25);
-            this.tbLimit1.TabIndex = 19;
+            this.tbLimit1.TabIndex = 0;
             this.tbLimit1.TextChanged += new System.EventHandler(this.tbLimit1_TextChanged);
             // 
             // tbLimit3
@@ -344,7 +344,7 @@
             this.tbLimit3.Location = new System.Drawing.Point(143, 112);
             this.tbLimit3.Name = "tbLimit3";
             this.tbLimit3.Size = new System.Drawing.Size(98, 25);
-            this.tbLimit3.TabIndex = 21;
+            this.tbLimit3.TabIndex = 6;
             this.tbLimit3.TextChanged += new System.EventHandler(this.tbLimit3_TextChanged);
             // 
             // tbLimit2
@@ -357,7 +357,7 @@
             this.tbLimit2.Location = new System.Drawing.Point(143, 77);
             this.tbLimit2.Name = "tbLimit2";
             this.tbLimit2.Size = new System.Drawing.Size(98, 25);
-            this.tbLimit2.TabIndex = 20;
+            this.tbLimit2.TabIndex = 3;
             this.tbLimit2.TextChanged += new System.EventHandler(this.tbLimit2_TextChanged);
             // 
             // ClubRestrictItem

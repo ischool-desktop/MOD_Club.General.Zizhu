@@ -237,6 +237,28 @@ namespace K12.Club.General.Zizhu
         [Field(Field = "total_number_hours", Indexed = false)]
         public int? TotalNumberHours { get; set; }
 
+        /// <summary>
+        /// 長課程
+        /// </summary>
+        [Field(Field = "full_phase", Indexed = false)]
+        public bool? FullPhase { get; set; }
 
+        /// <summary>
+        /// 課程領域
+        /// </summary>
+        [Field(Field = "club_domain", Indexed = false)]
+        public string Domain { get; set; }
+
+        /// <summary>
+        /// 课程属性
+        /// </summary>
+        [Field(Field = "club_type", Indexed = false)]
+        public string Type { get; set; }
+
+        /// <summary>
+        /// 上课形式
+        /// </summary>
+        [Field(Field = "club_formal", Indexed = false)]
+        public string Formal { get; set; }
     }
 }

@@ -470,27 +470,27 @@ namespace K12.Club.General.Zizhu
         {
             #region 總數
 
-            if (!string.IsNullOrEmpty(tbBoyLimit1.Text.Trim())) //一年級總數上限
+            if (!string.IsNullOrEmpty(tbLimit1.Text.Trim())) //一年級總數上限
                 ClubPrimary.Grade1Limit = tool.StringIsInt_DefIsZero(tbLimit1.Text.Trim());
             else
                 ClubPrimary.Grade1Limit = null;
 
-            if (!string.IsNullOrEmpty(tbBoyLimit2.Text.Trim())) //二年級總數上限
+            if (!string.IsNullOrEmpty(tbLimit2.Text.Trim())) //二年級總數上限
                 ClubPrimary.Grade2Limit = tool.StringIsInt_DefIsZero(tbLimit2.Text.Trim());
             else
                 ClubPrimary.Grade2Limit = null;
 
-            if (!string.IsNullOrEmpty(tbBoyLimit3.Text.Trim())) //三年級總數上限
+            if (!string.IsNullOrEmpty(tbLimit3.Text.Trim())) //三年級總數上限
                 ClubPrimary.Grade3Limit = tool.StringIsInt_DefIsZero(tbLimit3.Text.Trim());
             else
                 ClubPrimary.Grade3Limit = null;
 
-            if (!string.IsNullOrEmpty(tbBoyLimit4.Text.Trim())) //四年級總數上限
+            if (!string.IsNullOrEmpty(tbLimit4.Text.Trim())) //四年級總數上限
                 ClubPrimary.Grade4Limit = tool.StringIsInt_DefIsZero(tbLimit4.Text.Trim());
             else
                 ClubPrimary.Grade4Limit = null;
 
-            if (!string.IsNullOrEmpty(tbBoyLimit5.Text.Trim())) //五年級總數上限
+            if (!string.IsNullOrEmpty(tbLimit5.Text.Trim())) //五年級總數上限
                 ClubPrimary.Grade5Limit = tool.StringIsInt_DefIsZero(tbLimit5.Text.Trim());
             else
                 ClubPrimary.Grade5Limit = null;
