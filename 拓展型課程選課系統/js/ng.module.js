@@ -8,6 +8,7 @@
 angular.module('MyApp', []).controller('MyController', ['$scope', '$timeout', function ($scope, $timeout) {
     var clientID = "200b644d9a6360d9ac131aa5810e4408";
     var application = "zzxx.mhedu.sh.cn";
+    var dn = "zzxx.mhedu.sh.cn";
     var redirect_uri = location.href.lastIndexOf('#') >= 0 ? location.href.substr(0, location.href.lastIndexOf('#')) : location.href;
 
     $scope.search = "";
@@ -397,7 +398,7 @@ angular.module('MyApp', []).controller('MyController', ['$scope', '$timeout', fu
         return "";
     };
     $scope.login = function () {
-        window.location.assign("https://auth.ischoolcenter.com/logout.php?next=" + encodeURIComponent("oauth/authorize.php?application=" + application + "&client_id=" + clientID + "&response_type=token&redirect_uri=" + redirect_uri + "&scope=" + application + ":MOD_Club.Zizhu.student"));
+        window.location.assign("https://auth.ischoolcenter.com/logout.php?next=" + encodeURIComponent("oauth/authorize.php?application=" + application + (dn ? ("&dn=" + dn) : "") + "&client_id=" + clientID + "&response_type=token&redirect_uri=" + redirect_uri + "&scope=" + application + ":MOD_Club.Zizhu.student"));
     }
     $scope.logout = function () {
         window.location.href = location.href.substr(0, location.href.lastIndexOf('#'));
