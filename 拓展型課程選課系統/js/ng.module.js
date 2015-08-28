@@ -6,7 +6,7 @@
     };
 }
 angular.module('MyApp', []).controller('MyController', ['$scope', '$timeout', function ($scope, $timeout) {
-    var clientID = "228d17a3af8f6a583f79949eebe0a5b9";
+    var clientID = "200b644d9a6360d9ac131aa5810e4408";
     var application = "zzxx.mhedu.sh.cn";
     var redirect_uri = location.href.lastIndexOf('#') >= 0 ? location.href.substr(0, location.href.lastIndexOf('#')) : location.href;
 
@@ -28,7 +28,7 @@ angular.module('MyApp', []).controller('MyController', ['$scope', '$timeout', fu
     $scope.courseList = [];
     $scope.scCount = {};
 
-    var publicConn = dsutil.creatConnection(location.protocol + "//dsa.ischool.com.tw/dsa4/zzxx.mhedu.sh.cn/MOD_Club.Zizhu.public");
+    var publicConn = dsutil.creatConnection("https://dsa.ischoolcenter.com/1admin/zzxx.mhedu.sh.cn/MOD_Club.Zizhu.public");
     publicConn.send({
         service: 'GetClubList',
         autoRetry: true,
@@ -80,7 +80,7 @@ angular.module('MyApp', []).controller('MyController', ['$scope', '$timeout', fu
                     vars[key] = hash.substring(hash.indexOf("=") + 1);
                 }
                 if (vars.access_token) {
-                    var studentConn = dsutil.creatConnection(location.protocol + "//dsa.ischool.com.tw/dsa4/zzxx.mhedu.sh.cn/MOD_Club.Zizhu.student", {
+                    var studentConn = dsutil.creatConnection("https://dsa.ischoolcenter.com/1admin/zzxx.mhedu.sh.cn/MOD_Club.Zizhu.student", {
                         "@": ['Type'],
                         Type: 'PassportAccessToken',
                         AccessToken: vars.access_token
@@ -397,7 +397,7 @@ angular.module('MyApp', []).controller('MyController', ['$scope', '$timeout', fu
         return "";
     };
     $scope.login = function () {
-        window.location.assign("https://auth.ischool.com.tw/logout.php?next=" + encodeURIComponent("oauth/authorize.php?application=" + application + "&client_id=" + clientID + "&response_type=token&redirect_uri=" + redirect_uri + "&scope=" + application + ":MOD_Club.Zizhu.student"));
+        window.location.assign("https://auth.ischoolcenter.com/logout.php?next=" + encodeURIComponent("oauth/authorize.php?application=" + application + "&client_id=" + clientID + "&response_type=token&redirect_uri=" + redirect_uri + "&scope=" + application + ":MOD_Club.Zizhu.student"));
     }
     $scope.logout = function () {
         window.location.href = location.href.substr(0, location.href.lastIndexOf('#'));
