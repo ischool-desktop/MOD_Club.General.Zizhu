@@ -156,6 +156,7 @@ angular.module('MyApp', []).controller('MyController', ['$scope', '$timeout', fu
                                                     if ($scope.current.selected[i])
                                                         scount++;
                                                 }
+
                                                 switch ($scope.current.levelMax) {
                                                     case 1:
                                                         if (scount == 0)
@@ -341,11 +342,11 @@ angular.module('MyApp', []).controller('MyController', ['$scope', '$timeout', fu
     }
     $scope.getClassificationStyle = function (classification) {
         var styles = {
-            "文学与艺术": { 'background-color': 'rgba(255,153,51,0.2)' },
-            "社会与生活": { 'background-color': 'rgba(255,255,0,0.2)' },
-            "运动与生命": { 'background-color': 'rgba(51,204,51,0.2)' },
-            "科技与创新": { 'background-color': 'rgba(51,204,204,0.2)' },
-            "世界与未来": { 'background-color': 'rgba(0,153,255,0.2)' }
+            "文学与艺术": 'orange_left',
+            "社会与生活": 'yellow_left',
+            "运动与生命": 'green_left',
+            "科技与创新": 'cyan_left',
+            "世界与未来": 'blue_left'
         };
         for (var key in styles) {
             if (classification.indexOf(key) >= 0)
