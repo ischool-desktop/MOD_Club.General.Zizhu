@@ -107,10 +107,12 @@ angular.module('MyApp', []).controller('MyController', ['$scope', '$timeout', fu
                                         $scope.$apply(function () {
                                             var gradeString = ['一年级', '二年级', '三年级', '四年级', '五年级'];
                                             if (parseInt(resp.gradeYear, 10)) {
-                                                if (parseInt(resp.gradeYear, 10) <= 2)
-                                                    $scope.current.levelMax = 3;
-                                                else
-                                                    $scope.current.levelMax = 2;
+                                                // 2015/9/2 all gradeYear levelMax = 2
+                                                // if (parseInt(resp.gradeYear, 10) <= 2)
+                                                //     $scope.current.levelMax = 3;
+                                                // else
+                                                //     $scope.current.levelMax = 2;
+                                                $scope.current.levelMax = 2;
                                                 $scope.current.gradeYear = parseInt(resp.gradeYear, 10);
                                                 $scope.current.grade = gradeString[parseInt(resp.gradeYear, 10) - 1];
                                             }
