@@ -29,7 +29,9 @@ angular.module('MyApp', []).controller('MyController', ['$scope', '$timeout', fu
     $scope.courseList = [];
     $scope.scCount = {};
 
-    var publicConn = dsutil.creatConnection("https://dsa.ischoolcenter.com/1admin/zzxx.mhedu.sh.cn/MOD_Club.Zizhu.public");
+    // var publicConn = dsutil.creatConnection("https://dsa.ischoolcenter.com/1admin/zzxx.mhedu.sh.cn/MOD_Club.Zizhu.public");
+    var publicConn = dsutil.creatConnection("https://1admin-ap.ischool.com.tw/dsacn/zzxx.mhedu.sh.cn/MOD_Club.Zizhu.public");
+
     publicConn.send({
         service: 'GetClubList',
         autoRetry: true,
@@ -81,7 +83,8 @@ angular.module('MyApp', []).controller('MyController', ['$scope', '$timeout', fu
                     vars[key] = hash.substring(hash.indexOf("=") + 1);
                 }
                 if (vars.access_token) {
-                    var studentConn = dsutil.creatConnection("https://dsa.ischoolcenter.com/1admin/zzxx.mhedu.sh.cn/MOD_Club.Zizhu.student", {
+                    // var studentConn = dsutil.creatConnection("https://dsa.ischoolcenter.com/1admin/zzxx.mhedu.sh.cn/MOD_Club.Zizhu.student", {
+                    var studentConn = dsutil.creatConnection("https://1admin-ap.ischool.com.tw/dsacn/zzxx.mhedu.sh.cn/MOD_Club.Zizhu.student", {
                         "@": ['Type'],
                         Type: 'PassportAccessToken',
                         AccessToken: vars.access_token
@@ -436,7 +439,7 @@ angular.module('MyApp', []).controller('MyController', ['$scope', '$timeout', fu
             }
             else {
                 if (now >= $scope.timing.start) {
-                    $scope.timing.msg = "将于" + getTimeString(parseInt(($scope.timing.end - now) / 1000, 10)) + "後結束";
+                    $scope.timing.msg = "将于" + getTimeString(parseInt(($scope.timing.end - now) / 1000, 10)) + "后结束";
 
                     if ($scope.current.student) {
                         if ($scope.current.mode != 'select') {
@@ -452,7 +455,7 @@ angular.module('MyApp', []).controller('MyController', ['$scope', '$timeout', fu
                     }
                 }
                 else {
-                    $scope.timing.msg = "将于" + getTimeString(parseInt(($scope.timing.start - now) / 1000, 10)) + "後開始";
+                    $scope.timing.msg = "将于" + getTimeString(parseInt(($scope.timing.start - now) / 1000, 10)) + "后开始";
                     if ($scope.current.mode != 'view') {
                         $scope.current.mode = 'view';
                         $scope.reflash();
