@@ -274,6 +274,15 @@ namespace K12.Club.General.Zizhu
             }
         }
 
+        public static string 匯出社團學生名單 { get { return "K12.Club.Universal.ExportSCJoin.cs"; } }
+        public static bool 匯出社團學生名單權限
+        {
+            get
+            {
+                return FISCA.Permission.UserAcl.Current[匯出社團學生名單].Executable;
+            }
+        }
+
         public static string 匯入社團基本資料 { get { return "K12.Club.Universal.ImportCLUBData.cs"; } }
         public static bool 匯入社團基本資料權限
         {

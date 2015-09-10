@@ -18,7 +18,7 @@ using FISCA.Presentation.Controls;
 
 namespace K12.Club.General.Zizhu
 {
-    public partial class ExportStudentV2 : FISCA.Presentation.Controls.BaseForm, SmartSchool.API.PlugIn.Export.ExportWizard
+    public partial class ExportClub : FISCA.Presentation.Controls.BaseForm, SmartSchool.API.PlugIn.Export.ExportWizard
     {
         private string _Title;
         private IntelliSchool.DSA.ClientFramework.ControlCommunication.ListViewCheckAllManager _CheckAllManager = new IntelliSchool.DSA.ClientFramework.ControlCommunication.ListViewCheckAllManager();
@@ -33,7 +33,7 @@ namespace K12.Club.General.Zizhu
 
         AccessHelper _AccessHelper = new AccessHelper();
 
-        public ExportStudentV2(string title, Image img)
+        public ExportClub(string title, Image img)
         {
             InitializeComponent();
             _Title = this.Text = title;
@@ -394,7 +394,20 @@ namespace K12.Club.General.Zizhu
             saveFileDialog1.Filter = "Excel (*.xls)|*.xls|所有檔案 (*.*)|*.*";
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                List<string> idlist = new List<string>(K12.Presentation.NLDPanels.Student.SelectedSource);
+                List<string> idlist = new List<string>();
+                #region 取得選取學生編號
+                if (ClubAdmin.Instance.SelectedSource.Count != 0)
+                {
+                    List<CLUBRecord> GraduateList = _AccessHelper.Select<CLUBRecord>(UDT_S.PopOneCondition("UID", ClubAdmin.Instance.SelectedSource));//取得UDT清單
+                    foreach (CLUBRecord stu in GraduateList)
+                    {
+                        if (!idlist.Contains(stu.UID))
+                        {
+                            idlist.Add(stu.UID);
+                        }
+                    }
+                }
+                #endregion
 
                 List<string> studentFieldList = new List<string>();
                 List<string> exportFieldList = new List<string>(_SelectedFields);

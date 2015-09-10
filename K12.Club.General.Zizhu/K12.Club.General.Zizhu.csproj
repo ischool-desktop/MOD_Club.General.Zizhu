@@ -201,6 +201,13 @@
       <DependentUpon>ExtracurricularActivitiesView.cs</DependentUpon>
     </Compile>
     <Compile Include="ImportExport\CLUBFieldValidatorFactory.cs" />
+    <Compile Include="ImportExport\ExportSCJoin.cs" />
+    <Compile Include="ImportExport\ExportClub.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ImportExport\ExportClub.designer.cs">
+      <DependentUpon>ExportClub.cs</DependentUpon>
+    </Compile>
     <Compile Include="ImportExport\ExportStudentV2.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -382,6 +389,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ExtracurricularActivitiesView.resx">
       <DependentUpon>ExtracurricularActivitiesView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ImportExport\ExportClub.resx">
+      <DependentUpon>ExportClub.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ImportExport\ExportStudentV2.resx">
       <DependentUpon>ExportStudentV2.cs</DependentUpon>

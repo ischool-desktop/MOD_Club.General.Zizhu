@@ -32,6 +32,7 @@ namespace K12.Club.General.Zizhu
         private QueryHelper _QueryHelper = new QueryHelper();
 
         List<CLUBRecord> CLUBRecordList = new List<CLUBRecord>();
+        Dictionary<string, CLUBRecord> ClubRefIDList = new Dictionary<string, CLUBRecord>();
 
         List<SCJoin> SCJoinList = new List<SCJoin>();
 
@@ -42,7 +43,7 @@ namespace K12.Club.General.Zizhu
         /// <summary>
         /// 已選社團學生
         /// </summary>
-        Dictionary<string, SCJoin> StudentScjoinDic = new Dictionary<string, SCJoin>();
+        Dictionary<string, List<SCJoin>> StudentScjoinDic = new Dictionary<string, List<SCJoin>>();
 
         /// <summary>
         /// 未選社團學生
@@ -99,31 +100,32 @@ namespace K12.Club.General.Zizhu
             CLUBRecordList = _AccessHelper.Select<CLUBRecord>(string.Format("school_year={0} and semester={1}", School.DefaultSchoolYear, School.DefaultSemester));
 
             //取得本學期,所有社團參與記錄
-            List<string> ClubRefIDList = new List<string>();
+            ClubRefIDList.Clear();
             foreach (CLUBRecord record in CLUBRecordList)
             {
-                if (!ClubRefIDList.Contains(record.UID))
+                if (!ClubRefIDList.ContainsKey(record.UID))
                 {
-                    ClubRefIDList.Add(record.UID);
+                    ClubRefIDList.Add(record.UID, record);
                 }
             }
 
             //取得學校所有學生記錄
             //學生記錄來自於社團ID
-            string ClubIdString = string.Join("','", ClubRefIDList);
+            string ClubIdString = string.Join("','", ClubRefIDList.Keys);
             List<SCJoin> Scjoin = _AccessHelper.Select<SCJoin>(string.Format("ref_club_id in ('{0}')", ClubIdString));
             foreach (SCJoin join in Scjoin)
             {
                 if (!StudentScjoinDic.ContainsKey(join.RefStudentID))
                 {
-                    StudentScjoinDic.Add(join.RefStudentID, join);
+                    StudentScjoinDic.Add(join.RefStudentID, new List<SCJoin>());
                 }
+                StudentScjoinDic[join.RefStudentID].Add(join);
             }
 
             //取得學校內所有一般生記錄
             //班級/座號/學號/姓名
             //(沒有班級之學生,不列入記錄
-            DataTable studentDT = _QueryHelper.Select("select student.id,class.class_name,student.seat_no,student.student_number,student.name,class.grade_year from student join class on student.ref_class_id=class.id where student.status=1 or student.status=2 ORDER BY class.grade_year,class.class_name,student.seat_no");
+            DataTable studentDT = _QueryHelper.Select("select student.id,class.class_name,student.seat_no,student.gender,student.student_number,student.name,class.grade_year from student left outer join class on student.ref_class_id=class.id where student.status=1 or student.status=2 ORDER BY class.grade_year,class.class_name,student.seat_no");
 
             IsStudentList.Clear();
             List<StudRecord> sTUDlIST = new List<StudRecord>();
@@ -133,6 +135,21 @@ namespace K12.Club.General.Zizhu
                 if (!StudentScjoinDic.ContainsKey(re.id))
                 {
                     IsStudentList.Add(re);
+                }
+                else if (StudentScjoinDic[re.id].Count != 2)
+                {
+                    bool fullPhase = false;
+                    foreach (var scJoin in StudentScjoinDic[re.id])
+                    {
+                        if (scJoin.Phase == 1 && ClubRefIDList[scJoin.RefClubID].FullPhase.HasValue && ClubRefIDList[scJoin.RefClubID].FullPhase.Value == true)
+                        {
+                            fullPhase = true;
+                        }
+                    }
+                    if (!fullPhase)
+                    {
+                        IsStudentList.Add(re);
+                    }
                 }
             }
         }
@@ -159,12 +176,25 @@ namespace K12.Club.General.Zizhu
                 DataGridViewRow dataRow = new DataGridViewRow();
                 dataRow.CreateCells(dataGridViewX1);
                 dataRow.Tag = re;
-                dataRow.Cells[0].Value = re.grade_year;
-                dataRow.Cells[1].Value = re.class_name;
-                dataRow.Cells[2].Value = re.seat_no;
-                dataRow.Cells[3].Value = re.name;
+                dataRow.Cells[0].Value = re.class_name;
+                dataRow.Cells[1].Value = re.seat_no;
+                dataRow.Cells[2].Value = re.name;
+                dataRow.Cells[3].Value = re.gender;
                 dataRow.Cells[4].Value = re.student_number;
-
+                if (StudentScjoinDic.ContainsKey(re.id))
+                {
+                    foreach (var scJoin in StudentScjoinDic[re.id])
+                    {
+                        if (scJoin.Phase == 1)
+                        {
+                            dataRow.Cells[5].Value = ClubRefIDList[scJoin.RefClubID].ClubName;
+                        }
+                        if (scJoin.Phase == 2)
+                        {
+                            dataRow.Cells[6].Value = ClubRefIDList[scJoin.RefClubID].ClubName;
+                        }
+                    }
+                }
                 dataGridViewX1.Rows.Add(dataRow);
             }
             #endregion
@@ -400,7 +430,7 @@ namespace K12.Club.General.Zizhu
         {
             #region 匯出
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-            saveFileDialog1.FileName = "汇出未选课团学生清单";
+            saveFileDialog1.FileName = "未完成选课学生清单";
             saveFileDialog1.Filter = "Excel (*.xls)|*.xls";
             if (saveFileDialog1.ShowDialog() != DialogResult.OK) return;
 
@@ -421,9 +451,10 @@ namespace K12.Club.General.Zizhu
             id = "" + row[0];
             class_name = "" + row[1];
             seat_no = "" + row[2];
-            student_number = "" + row[3];
-            name = "" + row[4];
-            grade_year = "" + row[5];
+            gender = ("" + row[3]) == "1" ? "男" : ("" + row[3]) == "0" ? "女" : "";
+            student_number = "" + row[4];
+            name = "" + row[5];
+            grade_year = "" + row[6];
         }
 
         public string id { get; set; }
@@ -432,6 +463,6 @@ namespace K12.Club.General.Zizhu
         public string student_number { get; set; }
         public string name { get; set; }
         public string grade_year { get; set; }
-
+        public string gender { get; set; }
     }
 }

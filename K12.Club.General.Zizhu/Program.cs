@@ -28,6 +28,22 @@ namespace K12.Club.General.Zizhu
             //驗證規則
             FactoryProvider.FieldFactory.Add(new CLUBFieldValidatorFactory());
 
+
+            #region 匯出學生選課資料
+
+            K12.Presentation.NLDPanels.Student.RibbonBarItems["资料统计"]["汇出"].Size = RibbonBarButton.MenuButtonSize.Large;
+            K12.Presentation.NLDPanels.Student.RibbonBarItems["资料统计"]["汇出"].Image = Properties.Resources.Export_Image;
+            K12.Presentation.NLDPanels.Student.RibbonBarItems["资料统计"]["汇出"]["拓展性课程"]["汇出学生选课纪录"].Enable = Permissions.匯出社團學生名單權限;
+            K12.Presentation.NLDPanels.Student.RibbonBarItems["资料统计"]["汇出"]["拓展性课程"]["汇出学生选课纪录"].Click += delegate
+            {
+                SmartSchool.API.PlugIn.Export.Exporter exporter = new K12.Club.General.Zizhu.ImportExport.ExportSCJoin();
+
+                ExportStudentV2 wizard = new ExportStudentV2(exporter.Text, exporter.Image);
+                exporter.InitializeExport(wizard);
+                wizard.ShowDialog();
+            };
+
+            #endregion
             #region 社團基本資料
 
             FeatureAce UserPermission = FISCA.Permission.UserAcl.Current[Permissions.社團基本資料];
@@ -50,7 +66,7 @@ namespace K12.Club.General.Zizhu
             {
                 ClubAdmin.Instance.AddDetailBulider(new FISCA.Presentation.DetailBulider<ClubStudent>());
                 ClubAdmin.Instance.AddDetailBulider(new FISCA.Presentation.DetailBulider<ClubStudent_2>());
-                ClubAdmin.Instance.AddDetailBulider(new FISCA.Presentation.DetailBulider<ClubStudent_3>());
+                //ClubAdmin.Instance.AddDetailBulider(new FISCA.Presentation.DetailBulider<ClubStudent_3>());
             }
 
             UserPermission = FISCA.Permission.UserAcl.Current[Permissions.學生社團成績_資料項目];
@@ -104,7 +120,7 @@ namespace K12.Club.General.Zizhu
             totle["汇出"]["汇出课程基本资料"].Click += delegate
             {
                 SmartSchool.API.PlugIn.Export.Exporter exporter = new ExportCLUBData();
-                ExportStudentV2 wizard = new ExportStudentV2(exporter.Text, exporter.Image);
+                ExportClub wizard = new ExportClub(exporter.Text, exporter.Image);
                 exporter.InitializeExport(wizard);
                 wizard.ShowDialog();
             };
@@ -169,6 +185,9 @@ namespace K12.Club.General.Zizhu
             };
 
             Catalog detail1;
+
+            detail1 = RoleAclSource.Instance["学生"]["功能按钮"];
+            detail1.Add(new RibbonFeature(Permissions.匯出社團學生名單, "汇出学生选课纪录权限"));
 
             detail1 = RoleAclSource.Instance["拓展性课程"]["功能按钮"];
             detail1.Add(new RibbonFeature(Permissions.新增社團, "新增课程"));
