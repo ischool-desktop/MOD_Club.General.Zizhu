@@ -29,7 +29,9 @@ angular.module('MyApp', []).controller('MyController', ['$scope', '$timeout', fu
     $scope.courseList = [];
     $scope.scCount = {};
 
-    var publicConn = dsutil.creatConnection("https://dsa.ischoolcenter.com/1admin/zzxx.mhedu.sh.cn/MOD_Club.Zizhu.public");
+    // var publicConn = dsutil.creatConnection("https://dsa.ischoolcenter.com/1admin/zzxx.mhedu.sh.cn/MOD_Club.Zizhu.public");
+    var publicConn = dsutil.creatConnection("https://1admin-ap.ischool.com.tw/dsacn/zzxx.mhedu.sh.cn/MOD_Club.Zizhu.public");
+
     publicConn.send({
         service: 'GetClubList',
         autoRetry: true,
@@ -81,7 +83,8 @@ angular.module('MyApp', []).controller('MyController', ['$scope', '$timeout', fu
                     vars[key] = hash.substring(hash.indexOf("=") + 1);
                 }
                 if (vars.access_token) {
-                    var studentConn = dsutil.creatConnection("https://dsa.ischoolcenter.com/1admin/zzxx.mhedu.sh.cn/MOD_Club.Zizhu.student", {
+                    // var studentConn = dsutil.creatConnection("https://dsa.ischoolcenter.com/1admin/zzxx.mhedu.sh.cn/MOD_Club.Zizhu.student", {
+                    var studentConn = dsutil.creatConnection("https://1admin-ap.ischool.com.tw/dsacn/zzxx.mhedu.sh.cn/MOD_Club.Zizhu.student", {
                         "@": ['Type'],
                         Type: 'PassportAccessToken',
                         AccessToken: vars.access_token
@@ -103,14 +106,16 @@ angular.module('MyApp', []).controller('MyController', ['$scope', '$timeout', fu
                                     service: 'GetStatus',
                                     autoRetry: true,
                                     result: function (resp, errorInfo, XMLHttpRequest) {
-                                        $scope.reflashTick = 5;
+                                        $scope.reflashTick = 8;
                                         $scope.$apply(function () {
                                             var gradeString = ['一年级', '二年级', '三年级', '四年级', '五年级'];
                                             if (parseInt(resp.gradeYear, 10)) {
-                                                if (parseInt(resp.gradeYear, 10) <= 2)
-                                                    $scope.current.levelMax = 3;
-                                                else
-                                                    $scope.current.levelMax = 2;
+                                                // 2015/9/2 all gradeYear levelMax = 2
+                                                // if (parseInt(resp.gradeYear, 10) <= 2)
+                                                //     $scope.current.levelMax = 3;
+                                                // else
+                                                //     $scope.current.levelMax = 2;
+                                                $scope.current.levelMax = 2;
                                                 $scope.current.gradeYear = parseInt(resp.gradeYear, 10);
                                                 $scope.current.grade = gradeString[parseInt(resp.gradeYear, 10) - 1];
                                             }
@@ -156,6 +161,7 @@ angular.module('MyApp', []).controller('MyController', ['$scope', '$timeout', fu
                                                     if ($scope.current.selected[i])
                                                         scount++;
                                                 }
+
                                                 switch ($scope.current.levelMax) {
                                                     case 1:
                                                         if (scount == 0)
@@ -341,11 +347,11 @@ angular.module('MyApp', []).controller('MyController', ['$scope', '$timeout', fu
     }
     $scope.getClassificationStyle = function (classification) {
         var styles = {
-            "文学与艺术": { 'background-color': 'rgba(255,153,51,0.2)' },
-            "社会与生活": { 'background-color': 'rgba(255,255,0,0.2)' },
-            "运动与生命": { 'background-color': 'rgba(51,204,51,0.2)' },
-            "科技与创新": { 'background-color': 'rgba(51,204,204,0.2)' },
-            "世界与未来": { 'background-color': 'rgba(0,153,255,0.2)' }
+            "文学与艺术": 'orange_left',
+            "社会与生活": 'yellow_left',
+            "运动与生命": 'green_left',
+            "科技与创新": 'cyan_left',
+            "世界与未来": 'blue_left'
         };
         for (var key in styles) {
             if (classification.indexOf(key) >= 0)
@@ -404,6 +410,10 @@ angular.module('MyApp', []).controller('MyController', ['$scope', '$timeout', fu
         window.location.href = location.href.substr(0, location.href.lastIndexOf('#'));
     }
     var countTime = function () {
+        if (!document.hasFocus()) {
+            $scope.countTimer = $timeout(countTime, 1000);
+            return;
+        }
         $scope.reflashTick--;
         function getTimeString(timespan) {
             function pad(num, size) {
@@ -433,7 +443,7 @@ angular.module('MyApp', []).controller('MyController', ['$scope', '$timeout', fu
             }
             else {
                 if (now >= $scope.timing.start) {
-                    $scope.timing.msg = "将于" + getTimeString(parseInt(($scope.timing.end - now) / 1000, 10)) + "後結束";
+                    $scope.timing.msg = "将于" + getTimeString(parseInt(($scope.timing.end - now) / 1000, 10)) + "后结束";
 
                     if ($scope.current.student) {
                         if ($scope.current.mode != 'select') {
@@ -449,7 +459,7 @@ angular.module('MyApp', []).controller('MyController', ['$scope', '$timeout', fu
                     }
                 }
                 else {
-                    $scope.timing.msg = "将于" + getTimeString(parseInt(($scope.timing.start - now) / 1000, 10)) + "後開始";
+                    $scope.timing.msg = "将于" + getTimeString(parseInt(($scope.timing.start - now) / 1000, 10)) + "后开始";
                     if ($scope.current.mode != 'view') {
                         $scope.current.mode = 'view';
                         $scope.reflash();
