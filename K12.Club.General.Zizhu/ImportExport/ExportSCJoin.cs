@@ -116,7 +116,7 @@ namespace K12.Club.General.Zizhu.ImportExport
 
                 string ClubIdString = string.Join("','", ClubRefIDList.Keys);
                 List<SCJoin> Scjoin = helper.Select<SCJoin>(string.Format("ref_club_id in ('{0}') and ref_student_id in ('{1}')", ClubIdString, string.Join("','", e.List)));
-                
+
                 Dictionary<string, List<SCJoin>> StudentScjoinDic = new Dictionary<string, List<SCJoin>>();
                 foreach (SCJoin join in Scjoin)
                 {
@@ -160,7 +160,10 @@ namespace K12.Club.General.Zizhu.ImportExport
                                         {
                                             if (item.Phase == 1)
                                             {
-                                                row.Add(field, ClubRefIDList[item.RefClubID].ClubName);
+                                                if (row.ContainsKey(field))
+                                                    row[field] += "," + ClubRefIDList[item.RefClubID].ClubName;
+                                                else
+                                                    row.Add(field, ClubRefIDList[item.RefClubID].ClubName);
                                             }
                                         }
                                     }
@@ -172,11 +175,17 @@ namespace K12.Club.General.Zizhu.ImportExport
                                         {
                                             if (item.Phase == 1 && ClubRefIDList[item.RefClubID].FullPhase.HasValue && ClubRefIDList[item.RefClubID].FullPhase.Value == true)
                                             {
-                                                row.Add(field, "--");
+                                                if (row.ContainsKey(field))
+                                                    row[field] += ",--";
+                                                else
+                                                    row.Add(field, "--");
                                             }
                                             if (item.Phase == 2)
                                             {
-                                                row.Add(field, ClubRefIDList[item.RefClubID].ClubName);
+                                                if (row.ContainsKey(field))
+                                                    row[field] += "," + ClubRefIDList[item.RefClubID].ClubName;
+                                                else
+                                                    row.Add(field, ClubRefIDList[item.RefClubID].ClubName);
                                             }
                                         }
                                     }

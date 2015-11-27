@@ -136,17 +136,36 @@ namespace K12.Club.General.Zizhu
                 {
                     IsStudentList.Add(re);
                 }
-                else if (StudentScjoinDic[re.id].Count != 2)
+                else
                 {
-                    bool fullPhase = false;
+                    bool hasP1 = false, hasP2 = false, hasError = false;
                     foreach (var scJoin in StudentScjoinDic[re.id])
                     {
-                        if (scJoin.Phase == 1 && ClubRefIDList[scJoin.RefClubID].FullPhase.HasValue && ClubRefIDList[scJoin.RefClubID].FullPhase.Value == true)
+                        if (scJoin.Phase == 1)
                         {
-                            fullPhase = true;
+                            if (hasP1)
+                                hasError = true;
+                            else
+                                hasP1 = true;
+                            if (ClubRefIDList[scJoin.RefClubID].FullPhase.HasValue && ClubRefIDList[scJoin.RefClubID].FullPhase.Value == true)
+                            {
+                                if (hasP2)
+                                    hasError = true;
+                                else
+                                    hasP2 = true;
+                            }
+                        }
+                        if (scJoin.Phase == 2)
+                        {
+                            if (hasP2)
+                                hasError = true;
+                            else
+                                hasP2 = true;
+                            if (ClubRefIDList[scJoin.RefClubID].FullPhase.HasValue && ClubRefIDList[scJoin.RefClubID].FullPhase.Value == true)
+                                hasError = true;
                         }
                     }
-                    if (!fullPhase)
+                    if (!hasP1 || !hasP2 || hasError)
                     {
                         IsStudentList.Add(re);
                     }
