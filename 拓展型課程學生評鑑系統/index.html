@@ -1,0 +1,363 @@
+﻿<!DOCTYPE html>
+<html xmlns:ng="http://angularjs.org" id="ng-app" ng-app="MyApp">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="css/bootstrap.css" rel="stylesheet" />
+    <link href="css/bootstrap-theme.css" rel="stylesheet" />
+    <link href="css/NewSkin.css" rel="stylesheet" type="text/css">
+    <link href="css/mycss.css" rel="stylesheet" type="text/css">
+    <!--[if lte IE 7]>
+      <script src="/path/to/json2.js"></script>
+    <![endif]-->
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.min.js"></script>
+      <script src="js/respond.min.js"></script>
+    <![endif]-->
+    <script src="js/jquery-1.11.3.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/angular.1.2.28.js"></script>
+    <script src="js/xmlWriter.js"></script>
+    <script src="js/parseXml.js"></script>
+    <script src="js/xml2json.js"></script>
+    <script src="js/dsutil.js"></script>
+
+    <script src="js/ng.module.js"></script>
+    <title>华东师范大学附属紫竹小学 - 拓展型课程学生自我评价系统</title>
+</head>
+<body ng-controller="MyController">
+    <div class="container box">
+        <nav class="navbar navbar-default">
+            <blockquote style="margin-bottom:0px;padding: 5px 20px;border-left: 0px;">
+                <img src="img/Logo.jpg" style="float:left;">
+                <h2><strong>拓展型课程学生自我评价系统</strong></h2>
+                <!--<footer style="padding-left:25px;">2015第1学期</footer>-->
+                <div class="container-fluid" style="margin-top: -40px;">
+                    <div class="collapse navbar-collapse">
+                        <button ng-if="current.student"
+                                type="button"
+                                class="btn btn-default navbar-btn navbar-right input-sm" style="border-radius: 10px; border: 2px solid rgb(8, 125, 11); border-image: none;"
+                                ng-click="logout()">
+                            登出
+                        </button>
+                        <!--<form class="navbar-form navbar-right" role="search">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input ng-model="search"
+                                           type="text"
+                                           style="border-top:2px; border-bottom:2px; border-left:2px; border-color:rgb(8, 125, 11); border-style:solid;"
+                                           class="form-control input-sm"
+                                           placeholder="搜寻课程...">
+                                    <span class="input-group-btn">
+                                        <button ng-click="setSearch()"
+                                                class="btn btn-default input-sm"
+                                                type="button"
+                                                style="border-top:2px; border-bottom:2px; border-right:2px; border-color:rgb(8, 125, 11); border-style:solid;">
+                                            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                        </form>-->
+                    </div><!-- /.navbar-collapse -->
+                </div><!-- /.container-fluid -->
+            </blockquote>
+        </nav>
+
+        <div class="row" style="min-height:600px;">
+            <div class="col-xs-12 col-sm-6 col-lg-5">
+                <div class="panel panel-default">
+                    <div class="panel-body panel-body-title marginBottom">
+                        <div>
+                            <div style="margin-bottom: 10px;">
+                                <span class="lead styleType">{{current.schoolYear}}第{{current.semester}}学期 拓展型课程</span>
+                                <div ng-if="current.student"
+                                     class="pull-right">
+                                    <a ng-click="reload()"
+                                       href="javascript:void(0)"
+                                       class="btn btn-link"
+                                       style="padding:0px"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>刷新</a>
+                                </div>
+                            </div>
+                            <div class="linePadding">
+                                <span ng-if="current.student">
+                                    <strong>{{current.student.name}}</strong> 同学，您好
+                                </span>
+                                <span ng-if="!current.student">
+                                    您好！请您&nbsp;&nbsp;<a href="javascript:void(0)"
+                                                        ng-click="login()"
+                                                        class="btn btn-link text-primary"
+                                                        style="padding:0px">登录</a>&nbsp;&nbsp;。
+                                </span>
+                                <span ng-if="timing.msg">
+                                    输入时间&nbsp;&nbsp;<span class="text-danger">{{timing.msg}}</span>&nbsp;&nbsp;。
+                                </span>
+                                <span ng-if="loginError"
+                                      class="text-danger">
+                                    <strong>登录错误!</strong> {{loginError}}
+                                </span>
+                            </div>
+                        </div>
+                        <div ng-if="current.mode=='eval'||current.mode=='end'">
+                            <div class="progress" style="margin-top:20px;margin-bottom:5px;">
+                                <div class="progress-bar progress-bar-success"
+                                     role="progressbar"
+                                     ng-class="{'progress-bar-warning':current.progress!='100'}"
+                                     ng-style="{width:current.progress+'%'}">
+                                </div>
+                            </div>
+                            <p ng-if="current.progress<100"
+                               class="pull-right"
+                               style="margin-bottom:0px;">
+                                学生评价输入进度： {{current.progress}}%
+                            </p>
+                            <p ng-if="current.progress==100"
+                               class="pull-right"
+                               style="margin-bottom:0px;">
+                                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;学生评价输入完成
+                            </p>
+                        </div>
+                    </div>
+
+                    <table ng-repeat="classification in classificationList"
+                           ng-if="hasSelectedCourse(courseWithClassification[classification])"
+                           class="table table-condensed table-striped table-hover lesson">
+                        <tr>
+                            <th ng-class="getClassificationStyle(classification)">
+                                {{classification}}
+                            </th>
+                            <td class="col-xs-3 text-center" colspan="{{current.levelMax}}"></td>
+                        </tr>
+                        <tr ng-repeat="course in courseWithClassification[classification]"
+                            ng-if="hasSelectedCourse(course)"
+                            ng-class="{'text-muted':(current.grade&&!course.limit[current.grade].all>0)}"
+                            class="{{rowClass(course)}}"
+                            ng-click="current.shown = course">
+                            <td name="border">
+                                <span class="col-xs-offset-1">{{course.name}}</span>
+                                <span ng-if="course.showFull"
+                                      class="pull-right text-danger">
+                                    {{fullMsg}}
+                                </span>
+                                <span ng-if="course.showCancel"
+                                      class="pull-right text-muted">
+                                    确定要退选?
+                                    <a ng-click="removeCourse(course,course.showCancel)"
+                                       href="javascript:void(0)"
+                                       class="btn btn-link text-primary"
+                                       style="padding:0px;">
+                                        <span>
+                                            <span class="glyphicon glyphicon-ok"
+                                                  aria-hidden="true"></span>
+                                        </span>
+                                    </a>
+                                </span>
+                            </td>
+                            <td ng-repeat="i in [0,1,2]"
+                                ng-if="current.levelMax>i"
+                                class="text-center">
+                                <a href="javascript:void(0)"
+                                   class="btn btn-link"
+                                   ng-if="i==0 || course.fullPhase!='true'"
+                                   ng-class="{disabled:selectDisable(course,i+1)}"
+                                   ng-click="selectCourse(course,i+1)"
+                                   style="padding:0px;">
+                                    <span ng-if="current.selected[i]==course">
+                                        <span class="glyphicon glyphicon-check text-primary" aria-hidden="true"></span> <!--已选-->
+                                    </span>
+                                    <span ng-if="current.selected[i]!=course && course.limit[current.grade].all>0">
+                                        <!--选课-->
+                                        <span class="glyphicon glyphicon-unchecked text-primary"
+                                              ng-class="{'text-muted':selectDisable(course,i)}"
+                                              aria-hidden="true"></span>
+                                    </span>
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div ng-if="current.mode=='eval'||current.mode=='end'"
+                 class=" col-xs-12 col-sm-6 col-lg-7">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <p class="lead panel-body-title styleTypeRight">{{current.shown.name}}&nbsp;<small>{{current.shown.classification}}</small></p>
+
+                                <div class="row">
+                                    <div class="col-xs-12 col-lg-6">
+                                        <div class="panel-heading panel-body-title">自我评价</div>
+                                        <table class="table table-condensed">
+                                            <thead>
+                                                <tr>
+                                                    <td class="col-xs-6 text-center">
+                                                        <div style="line-height:23px;margin-top:5px;">
+                                                            <b>项目</b>
+                                                        </div>
+                                                    </td>
+                                                    <td class="col-xs-2 text-center">
+                                                        <div style="border-bottom: red solid 5px;line-height:23px;margin-top:5px;"><b>合格</b></div>
+                                                    </td>
+                                                    <td class="col-xs-2 text-center">
+                                                        <div style="border-bottom: yellow solid 5px;line-height:23px;margin-top:5px;"><b>良好</b></div>
+                                                    </td>
+                                                    <td class="col-xs-2 text-center">
+                                                        <div style="border-bottom: blue solid 5px;line-height:23px;margin-top:5px;"><b>优秀</b></div>
+                                                    </td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="title in ['审美与表现力','情趣与实践力','健康与幸福感','思维与创造力','责任与自信力']">
+                                                    <td class="text-center">
+                                                        {{title}}
+                                                    </td>
+                                                    <!-- current.mode=='eval' -->
+                                                    <td ng-if="current.mode=='eval'"
+                                                        class="text-center"
+                                                        ng-click="current.assessment[current.shown.id][title]='合格'"
+                                                        style="cursor:pointer">
+                                                        <span ng-if="current.assessment[current.shown.id][title]=='合格'">
+                                                            <span class="glyphicon glyphicon-check text-primary" aria-hidden="true"></span> <!--已选-->
+                                                        </span>
+                                                        <span ng-if="current.assessment[current.shown.id][title]!=='合格'">
+                                                            <span class="glyphicon glyphicon-unchecked text-primary"
+                                                                  aria-hidden="true"></span>
+                                                        </span>
+                                                    </td>
+                                                    <td ng-if="current.mode=='eval'"
+                                                        class="text-center"
+                                                        ng-click="current.assessment[current.shown.id][title]='良好'"
+                                                        style="cursor:pointer">
+                                                        <span ng-if="current.assessment[current.shown.id][title]=='良好'">
+                                                            <span class="glyphicon glyphicon-check text-primary" aria-hidden="true"></span> <!--已选-->
+                                                        </span>
+
+                                                        <span ng-if="current.assessment[current.shown.id][title]!=='良好'">
+                                                            <span class="glyphicon glyphicon-unchecked text-primary"
+                                                                  aria-hidden="true"></span>
+                                                        </span>
+                                                    </td>
+                                                    <td ng-if="current.mode=='eval'"
+                                                        class="text-center"
+                                                        ng-click="current.assessment[current.shown.id][title]='优秀'"
+                                                        style="cursor:pointer">
+                                                        <span ng-if="current.assessment[current.shown.id][title]=='优秀'">
+                                                            <span class="glyphicon glyphicon-check text-primary" aria-hidden="true"></span> <!--已选-->
+                                                        </span>
+                                                        <span ng-if="current.assessment[current.shown.id][title]!=='优秀'">
+                                                            <span class="glyphicon glyphicon-unchecked text-primary"
+                                                                  aria-hidden="true"></span>
+                                                        </span>
+                                                    </td>
+                                                    <!--current.mode!=='eval'-->
+                                                    <td ng-if="current.mode!=='eval'"
+                                                        class="text-center">
+                                                        <span ng-if="current.assessment[current.shown.id][title]=='合格'">
+                                                            <span class="glyphicon glyphicon-check text-primary" aria-hidden="true"></span> <!--已选-->
+                                                        </span>
+                                                        <span ng-if="current.assessment[current.shown.id][title]!=='合格'">
+                                                            <span class="glyphicon glyphicon-unchecked text-primary"
+                                                                  aria-hidden="true"></span>
+                                                        </span>
+                                                    </td>
+                                                    <td ng-if="current.mode!=='eval'"
+                                                        class="text-center">
+                                                        <span ng-if="current.assessment[current.shown.id][title]=='良好'">
+                                                            <span class="glyphicon glyphicon-check text-primary" aria-hidden="true"></span> <!--已选-->
+                                                        </span>
+
+                                                        <span ng-if="current.assessment[current.shown.id][title]!=='良好'">
+                                                            <span class="glyphicon glyphicon-unchecked text-primary"
+                                                                  aria-hidden="true"></span>
+                                                        </span>
+                                                    </td>
+                                                    <td ng-if="current.mode!=='eval'"
+                                                        class="text-center">
+                                                        <span ng-if="current.assessment[current.shown.id][title]=='优秀'">
+                                                            <span class="glyphicon glyphicon-check text-primary" aria-hidden="true"></span> <!--已选-->
+                                                        </span>
+                                                        <span ng-if="current.assessment[current.shown.id][title]!=='优秀'">
+                                                            <span class="glyphicon glyphicon-unchecked text-primary"
+                                                                  aria-hidden="true"></span>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="col-xs-12 col-lg-6">
+                                        <div class="panel-heading panel-body-title">活动意见及建议</div>
+                                        <form ng-class="{disabled:current.mode!=='eval'}">
+                                            <small class="radio">
+                                                我&nbsp;
+                                                <label>
+                                                    <input type="radio"
+                                                           ng-model="current.assessment[current.shown.id]['继续学习']"
+                                                           value="true"
+                                                           ng-disabled="{{current.mode!=='eval'}}">
+                                                    愿意
+                                                </label>
+                                                <label>
+                                                    <input type="radio"
+                                                           ng-model="current.assessment[current.shown.id]['继续学习']"
+                                                           value="false"
+                                                           ng-disabled="{{current.mode!=='eval'}}">
+                                                    不愿意
+                                                </label>
+                                                &nbsp;继续学习这门课程，因为：
+                                            </small>
+                                        </form>
+                                        <textarea style="width:100%;height: 70px;margin-bottom:10px"
+                                                  ng-model="current.assessment[current.shown.id]['感想']"
+                                                  ng-disabled="{{current.mode!=='eval'}}"></textarea>
+                                        <div class="panel-heading panel-body-title">家长评价</div>
+                                        <small>对孩子的学习兴趣及收获评价：</small>
+                                        <textarea style="width:100%;height: 70px;"
+                                                  ng-model="current.assessment[current.shown.id]['家长评价']"
+                                                  ng-disabled="{{current.mode!=='eval'}}"></textarea>
+                                    </div>
+
+                                    <button ng-if="current.mode=='eval'"
+                                            type="button"
+                                            class="btn btn-default pull-right"
+                                            style="margin-top: 10px;"
+                                            ng-click="submitAssessment()">
+                                        送出
+                                    </button>
+                                </div>
+                                <hr />
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <div class="thumbnail">
+                                            <img ng-src="{{current.shown.photo1 ? 'data:image/*;base64,'+ current.shown.photo1 : srcList[parseInt(current.shown.id) % srcList.length]}}" alt="" title="" />
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <div class="thumbnail">
+                                            <img ng-src="{{current.shown.photo2 ? 'data:image/*;base64,'+ current.shown.photo2 : srcList[(parseInt(current.shown.id) % srcList.length + 3) % srcList.length]}}" alt="" title="" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="caption">
+                                    <p class="fontSize">{{current.shown.description}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--<div class="col-xs-12">
+                        <div class="panel panel-default">
+                        </div>
+                    </div>-->
+                </div>
+            </div>
+        </div>
+        <footer class="footer-default">华东师范大学附属紫竹小学&nbsp;&nbsp;&nbsp;&nbsp;版权所有</footer>
+        <div class="imgPosition"></div>
+    </div>
+</body>
+</html>

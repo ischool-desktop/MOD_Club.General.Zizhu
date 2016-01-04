@@ -1,0 +1,700 @@
+﻿<!DOCTYPE html>
+<html ng-app="enterconduct">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+
+    <script>
+        
+        function gogoLogin() {
+            var application = "zzxx.mhedu.sh.cn";
+            var clientID = "200b644d9a6360d9ac131aa5810e4408";
+            var dn = "zzxx.mhedu.sh.cn";
+            var redirect_uri = location.href.lastIndexOf('#') >= 0 ? location.href.substr(0, location.href.lastIndexOf('#')) : location.href;
+            window.location.assign("https://auth.ischoolcenter.com/logout.php?next=" + encodeURIComponent("oauth/authorize.php?application=" + application + (dn ? ("&dn=" + dn) : "") + "&client_id=" + clientID + "&response_type=token&redirect_uri=" + redirect_uri + "&scope=" + application + ":MOD_Club.Zizhu.evl.teacher"));
+        }
+        if (location.href.lastIndexOf('#') >= 0) {
+            var bookmark = location.href.substr(location.href.lastIndexOf('#') + 1);
+
+            var vars = [], hashes = bookmark.split('&');
+            for (var i = 0; i < hashes.length; i++) {
+                hash = decodeURIComponent(hashes[i]);
+                var key = hash.substring(0, hash.indexOf("="));
+                vars.push(key);
+                vars[key] = hash.substring(hash.indexOf("=") + 1);
+            }
+            if (vars.access_token) {
+                window.accesstoken = vars.access_token;
+            }
+            else {
+                gogoLogin();
+            }
+        }
+        else {
+            gogoLogin();
+        }
+    </script>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/base.css" rel="stylesheet" />
+    <script src="js/jquery-1.11.3.min.js"></script>
+    <script src="js/jquery-ui.min.js"></script>
+    <script src="js/angular.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/enterconduct.js"></script>
+    <script src="js/angular-strap.min.js"></script>
+    <script src="js/angular-strap.tpl.min.js"></script>
+    <script src="js/xmlWriter.js"></script>
+    <script src="js/parseXml.js"></script>
+    <script src="js/xml2json.js"></script>
+    <script src="js/dsutil.js"></script>
+    <style>
+        #affixPanel.affix {
+            top: 15px;
+        }
+
+        .stuName {
+            -webkit-animation-duration: 1.5s;
+            -moz-animation-duration: 1.5s;
+            animation-duration: 1.5s;
+            -webkit-animation-name: fadein;
+            -moz-animation-name: fadein;
+            animation-name: fadein;
+            -webkit-animation-delay: 0.01s;
+            -moz-animation-delay: 0.01s;
+            animation-delay: 0.01s;
+        }
+        /* Code for Chrome, Safari and Opera */
+        @-webkit-keyframes fadein {
+            from {
+                color: lightgray;
+            }
+        }
+        /* Standard syntax */
+        @keyframes fadein {
+            from {
+                color: lightgray;
+            }
+        }
+
+        .ovHint {
+            display: none;
+            position: absolute;
+            z-index: 1;
+            white-space: nowrap;
+            text-align: right;
+        }
+
+        th:hover .ovHint {
+            display: inherit;
+        }
+    </style>
+</head>
+
+<body ng-controller="MainCtrl">
+    <div id="gadget" class="my-page">
+        <h1>{{current.SchoolYear}} {{current.Semester == '1' ? '上学期' : (current.Semester == '2' ? '下学期' :'')}} 拓展型课程评鉴输入</h1>
+        <div class="alert alert-info"
+             ng-if="current.MiddleOpeningC == 'true' || current.FinalOpeningC == 'true'"
+             style="padding: 8px;margin-bottom: 10px;">
+            <p ng-if="current.FinalOpeningC == 'true'">开放时间: {{current.FinalBeginC | date:'yyyy-MM-dd HH:mm:ss'}} ~ {{current.FinalEndC | date:'yyyy-MM-dd HH:mm:ss'}}</p>
+        </div>
+        <div ng-if="courseList">
+            <!--<div class="btn-group">
+                <a href="" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown"
+                   ng-class="{disabled:savingSeril!=0}">
+                    <span ng-if="teacherType == 'homeroom'">Homeroom Teacher</span>
+                    <span ng-if="teacherType == 'subject'">Subject Teacher</span>
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li ng-class="{active:teacherType == 'homeroom'}"
+                        ng-if="current.HomeroomTeacher">
+                        <a href="javascript:;" ng-click="switchTeacherType('homeroom')">Homeroom teacher</a>
+                    </li>
+                    <li ng-class="{active:teacherType == 'subject'}"
+                        ng-if="current.SubjectTeacher">
+                        <a href="javascript:;" ng-click="switchTeacherType('subject')">Subject Teacher</a>
+                    </li>
+                </ul>
+            </div>-->
+            <div class="btn-group">
+                <a href=""
+                   ng-class="{disabled:savingSeril!=0}"
+                   class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
+                    {{currentCourse.Title}}
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li ng-repeat="item in courseList" ng-class="{active:item.selected}" ng-if="item.Show">
+                        <a href="javascript:;" ng-click="selectCourse(item)">{{item.Title}}</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="btn-group">
+                <a href=""
+                   ng-class="{disabled:savingSeril!=0}"
+                   class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
+                    {{currentStudent.ClassName}}, {{currentStudent.SeatNo}}, {{currentStudent.Name}}
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li ng-repeat="item in studentList" ng-class="{active:item.selected}">
+                        <a href="javascript:;" ng-click="selectStudent(item)">{{item.ClassName}}, {{item.SeatNo}}, {{item.Name}}</a>
+                    </li>
+                </ul>
+            </div>
+
+
+            <div class="btn-group pull-right"
+                 ng-if="currentStudent"
+                 style="margin-right:4px;">
+                <a class="btn btn-default btn-sm dropdown-toggle"
+                   data-toggle="dropdown">
+                    <i class="glyphicon glyphicon-th-list"></i>
+                    总览
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li ng-repeat="item in currentStudent.EditConduct.Conducts.Conduct">
+                        <a href="javascript:;"
+                           ng-click="overview(item, 3)">
+                            {{item.Group}}
+                        </a>
+                    </li>
+                    <li ng-if="teacherType == 'homeroom'">
+                        <a href="javascript:;"
+                           ng-click="overview({type:'Comment'}, 3)">
+                            教师的话
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="btn-group pull-right"
+                 ng-if="currentCourse&&current.FinalOpeningC=='true'"
+                 style="margin-right:4px;">
+                <a class="btn btn-sm btn-default"
+                   ng-click="configDefaultValue(3)"
+                   ng-if="currentConduct">
+                    <i class="glyphicon glyphicon-tasks"></i>
+                    批次给值
+                </a>
+            </div>
+
+            <div style="margin-top:10px;position:relative;">
+                <div ng-controller="affixCtrl"
+                     style="position:absolute;width:370px;right:0px;">
+                    <div style="width:355px;margin-left: 15px;" id="affixPanel">
+                        <table class="table table-bordered" style="margin-bottom:-1px;">
+                            <thead>
+                                <tr>
+                                    <th colspan="2">
+                                        管理面板
+                                        <div class="pull-right">
+                                            <div class="btn-group">
+                                                <a href=""
+                                                   ng-class="{disabled:savingSeril!=0}"
+                                                   class="btn btn-default btn-xs dropdown-toggle"
+                                                   data-toggle="dropdown">
+                                                    切换学生
+                                                    <span class="caret"></span>
+                                                </a>
+                                                <ul class="dropdown-menu dropdown-menu-right" style="overflow: auto;max-height: 400px;">
+                                                    <li ng-repeat="item in studentList" ng-class="{active:item.selected}">
+                                                        <a href="javascript:;" ng-click="selectStudent(item)">{{item.ClassName}}, {{item.SeatNo}}, {{item.Name}}</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="btn-group">
+                                                <a class="btn btn-default btn-xs"
+                                                   style="padding-left: 15px;padding-right: 15px;"
+                                                   ng-class="{disabled:savingSeril!=0}"
+                                                   ng-click="selectPrevStudent()">
+                                                    <i class="glyphicon glyphicon-chevron-left"></i>
+                                                </a>
+                                            </div>
+                                            <div class="btn-group">
+                                                <a class="btn btn-default btn-xs"
+                                                   style="padding-left: 15px;padding-right: 15px;"
+                                                   ng-class="{disabled:savingSeril!=0}"
+                                                   ng-click="selectNextStudent()">
+                                                    <i class="glyphicon glyphicon-chevron-right"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody ng-repeat="stu in studentList"
+                                   ng-if="stu==currentStudent">
+                                <tr>
+                                    <td class="col-xs-3" rowspan="2">学生</td>
+                                    <td class="col-xs-9 stuName">
+                                        {{stu.ClassName}}, {{stu.SeatNo}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="stuName">
+                                        {{stu.Name}}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table table-bordered" style="margin:0;margin-bottom: -1px;" ng-if="currentConduct">
+                            <thead>
+                                <tr>
+                                    <th colspan="2">
+                                        <div class="pull-right"
+                                             ng-if="teacherType == 'homeroom'">
+                                            <div class="btn-group">
+                                                <a href=""
+                                                   class="btn btn-xs btn-default dropdown-toggle"
+                                                   data-toggle="dropdown">
+                                                    <span ng-if="jumpMode=='Group'">类别输入</span>
+                                                    <span ng-if="jumpMode=='All'">学生模式</span>
+                                                    <span class="caret"></span>
+                                                </a>
+                                                <ul class="dropdown-menu dropdown-menu-right">
+                                                    <li ng-class="{'active':jumpMode=='Group'}">
+                                                        <a href="javascript:;" ng-click="setJumpMode('Group')">
+                                                            类别输入
+                                                            <div ng-click="setJumpMode('Group')"
+                                                                 style="cursor:pointer;width:250px;margin:5px 10px;word-wrap:break-word;white-space:pre-wrap;"
+                                                                 class="small">固定输入类别，循序检视学生。</div>
+                                                        </a>
+                                                    </li>
+                                                    <li ng-class="{'active':jumpMode=='All'}">
+                                                        <a href="javascript:;" ng-click="setJumpMode('All')">
+                                                            学生模式
+                                                            <div ng-click="setJumpMode('All')"
+                                                                 style="cursor:pointer;width:250px;margin-left:15px;word-wrap:break-word;white-space:pre-wrap;"
+                                                                 class="small">循序检视学生的所有项目。</div>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+
+                                            <div ng-if="currentConduct.canInputGrade"
+                                                 class="btn-group"
+                                                 style="">
+                                                <a ng-if="currentConduct.canInputGrade"
+                                                   class="btn btn-xs btn-default" ng-click="submit()">
+                                                    <i class="glyphicon glyphicon-floppy-disk"></i>
+                                                    存档
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="2">
+                                        <div class="progress" style="margin-bottom: 0px">
+                                            <div class="progress-bar progress-bar-success progress-bar-striped"
+                                                 role="progressbar"
+                                                 style="min-width: 40px;"
+                                                 ng-style="{width:calcProgress().width}"
+                                                 ng-class="{'progress-bar-warning':calcProgress().width!='100%'}">
+                                                {{calcProgress().progress}}
+                                            </div>
+                                        </div>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <b ng-if="currentConduct.type!='Comment'">{{currentConduct.Group}}:</b>
+                                        <b ng-if="currentConduct.type=='Comment'">教师的话:</b>
+                                        <div class="pull-right">
+                                            <div class="btn-group">
+                                                <a class="btn btn-default btn-xs"
+                                                   style="padding-left: 15px;padding-right: 15px;"
+                                                   ng-class="{disabled:savingSeril!=0}"
+                                                   ng-click="prevItem()">
+                                                    <i class="glyphicon glyphicon-chevron-left"></i>
+                                                </a>
+                                            </div>
+                                            <div class="btn-group">
+                                                <a class="btn btn-default btn-xs"
+                                                   style="padding-left: 15px;padding-right: 15px;"
+                                                   ng-class="{disabled:savingSeril!=0}"
+                                                   ng-click="nextItem()">
+                                                    <i class="glyphicon glyphicon-chevron-right"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr ng-if="currentConduct.type!='Comment'">
+                                    <td class="col-xs-9">
+                                        <div style="min-height:90px;">{{currentConduct.index}} . {{currentConduct.Title}}</div>
+                                    </td>
+                                    <td class="col-xs-3">
+                                        <div style="height: 100%;display: inline-block;vertical-align: top;position:relative">
+                                            <input id="grade-textbox"
+                                                   type="text"
+                                                   class="form-control"
+                                                   ng-if="currentConduct.canInputGrade"
+                                                   ng-model="currentConduct.tempGrade"
+                                                   ng-keydown="enterGrade($event)">
+
+                                            <span ng-if="!currentConduct.canInputGrade">{{currentConduct.tempGrade}}</span>
+                                            <span ng-if="savingSeril!=0"
+                                                  style="z-index:1;position:absolute;right:0px;bottom:-20px;"
+                                                  class="text-danger">储存中...</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr ng-if="currentConduct.type=='Comment'">
+                                    <td colspan="2">
+                                        <div style="height: 100%;width:100%;display: inline-block;vertical-align: top;position:relative">
+                                            <textarea id="comment-textarea"
+                                                      class="form-control"
+                                                      rows="3"
+                                                      ng-keydown="enterComment($event)"
+                                                      ng-model="currentConduct.tempGrade"
+                                                      ng-if="currentConduct.canInputGrade"
+                                                      style=""></textarea>
+                                            <span class="small">Shift+回车键换下一行，点击回车键存档。</span>
+                                            <div ng-if="!currentConduct.canInputGrade"
+                                                 style="white-space: pre-wrap;word-break: break-all;min-height: 50px;">{{currentConduct.tempGrade}}</div>
+                                            <span ng-if="savingSeril!=0"
+                                                  style="z-index:1;position:absolute;right:0px;bottom:-20px;"
+                                                  class="text-danger">储存中...</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div ng-if="currentConduct.type!='Comment'&&
+                             currentConduct.canInputGrade" style="margin:10px;">
+                            <p ng-repeat="item in currentConduct.Code">
+                                {{item.Key}} = <a ng-if="currentConduct.canInputGrade" class="btn btn-xs {{toUpperCase(currentConduct.tempGrade)==toUpperCase(item.Value)||toUpperCase(currentConduct.tempGrade)==toUpperCase(item.Key)?'btn-warning':'btn-default'}}" style="min-width:30px;" ng-click="clickGrade(item.Value)">{{item.Value}}</a><span ng-if="!currentConduct.canInputGrade">{{item.Value}}</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="printlist" style="margin-right:370px;">
+                    <table class="table table-bordered table-striped table-hover"
+                           ng-repeat="item in currentStudent.EditConduct.Conducts.Conduct"
+                           style="margin-bottom:-1px;">
+                        <thead>
+                            <tr>
+                                <th class="col-xs-2"></th>
+                                <th class="col-xs-10"
+                                    style=" position:relative;">
+                                    <span>{{item.Group}}</span>
+                                    <div style="position:absolute;top:-25px;"
+                                         id="{{'scrollAnchor'+fixGroupName(item.Group)}}"></div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="temp in item.Item" ng-class="{'warning':temp.selected}">
+                                <td ng-click="selectConduct(temp,3)" style="cursor:pointer;position: relative;">
+                                    {{temp.Grade}}
+                                    <div ng-if="!temp.Grade&&current.FinalOpeningC==='true'"
+                                         style="border: solid red 2px;width: 1px;height: 1px;position: absolute;left: 5px;top: 5px;z-index: 1;border-radius: 3px;"></div>
+                                </td>
+                                <td>{{$index+1}}. {{temp.Title}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-bordered table-hover"
+                           ng-if="teacherType == 'homeroom'&&currentStudent">
+                        <thead>
+                            <tr>
+                                <th style="width:50%;position:relative;">
+                                    教师的话
+                                    <div style="position:absolute;top:-25px;"
+                                         id="{{'scrollAnchorComment'}}"></div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td ng-click="selectConduct({type:'Comment'}, 3)"
+                                    ng-class="{'warning':currentConduct.type == 'Comment'&&currentConduct.Period==3}"
+                                    style="cursor:pointer;position: relative;">
+                                    <div style="white-space: pre-wrap;word-break: break-all;min-height: 50px;">{{currentStudent.Comment}}</div>
+                                    <div ng-if="!currentStudent.Comment&&current.FinalOpeningC==='true'"
+                                         style="border: solid red 2px;width: 1px;height: 1px;position: absolute;left: 5px;top: 5px;z-index: 1;border-radius: 3px;">
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalOverview" tabindex="-1" role="dialog">
+        <div class=" modal-dialog modal-lg">
+            <div class="modal-content"
+                 ng-if="modal.conductGroup.type!='Comment'">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title">
+                        {{currentCourse.Title}} [{{modal.conductGroup.Group}}] 总览
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <ol>
+                        <li ng-repeat="item in modal.conductGroup.Item">
+                            {{item.Title}}
+                        </li>
+                    </ol>
+                    <div class="pull-right"
+                         ng-if="(modal.period==1&&current.MiddleOpeningC=='true')||(modal.period>1&&current.FinalOpeningC=='true')"
+                         style="margin-bottom: 5px;">
+                        <span>
+                            快速编辑:
+                        </span>
+                        <div class="btn-group">
+                            <a ng-repeat="code in modal.conductGroup.Code"
+                               class="btn btn-xs {{getOverrideVal()==code.Value?'btn-warning':'btn-default'}}"
+                               style="min-width:30px;"
+                               ng-click="setOverrideVal(code.Value)">{{code.Value}}</a>
+                        </div>
+                    </div>
+                    <table class="table table-bordered table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>
+                                    学生
+                                    <span ng-if="savingSeril!=0"
+                                          class="text-danger pull-right">储存中...</span>
+                                </th>
+                                <th class="text-center"
+                                    style="width:75px;cursor:pointer;position:relative;"
+                                    ng-repeat="item in modal.conductGroup.Item">
+                                    {{$index+1}}
+
+                                    <h4 class="ovHint"
+                                        style="top:-45px;"
+                                        ng-style="{right:(modal.conductGroup.Item.length-$index-1)*-75}">
+                                        <b class="label label-default">
+                                            {{$index+1}}. {{item.Title}}
+                                        </b>
+                                    </h4>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="student in studentList">
+                                <td>
+                                    {{student.ClassName}}, {{student.SeatNo}}, {{student.Name}}
+                                </td>
+                                <td ng-repeat="item in modal.conductGroup.Item"
+                                    class="text-center"
+                                    style="cursor:pointer;position:relative;"
+                                    ng-click="setVal(student, item, modal.period, getOverrideVal())">
+                                    <div ng-if="!getVal(student, modal.conductGroup.Group, item.Title, modal.period)"
+                                         style="border: solid red 2px;width: 1px;height: 1px;position: absolute;left: 5px;top: 5px;z-index: 1;border-radius: 3px;"></div>
+                                    <strong ng-style="getColor(student, modal.conductGroup.Group, item.Title, modal.period)">
+                                        {{getVal(student, modal.conductGroup.Group, item.Title, modal.period)}}
+                                    </strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <th class="text-center"
+                                    style="width:75px;cursor:pointer;position:relative;"
+                                    ng-repeat="item in modal.conductGroup.Item">
+                                    {{$index+1}}
+
+                                    <h4 class="ovHint"
+                                        style="bottom:-45px;"
+                                        ng-style="{right:(modal.conductGroup.Item.length-$index-1)*-75}">
+                                        <b class="label label-default">
+                                            {{$index+1}}. {{item.Title}}
+                                        </b>
+                                    </h4>
+                                </th>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="clearfix" style="margin-top:-15px;margin-bottom:20px;">
+                        <div class="pull-right"
+                             ng-if="(modal.period==1&&current.MiddleOpeningC=='true')||(modal.period>1&&current.FinalOpeningC=='true')"
+                             style="margin-bottom: 5px;">
+                            <span>
+                                快速编辑:
+                            </span>
+                            <div class="btn-group">
+                                <a ng-repeat="code in modal.conductGroup.Code"
+                                   class="btn btn-xs {{getOverrideVal()==code.Value?'btn-warning':'btn-default'}}"
+                                   style="min-width:30px;"
+                                   ng-click="setOverrideVal(code.Value)">{{code.Value}}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-content"
+                 ng-if="modal.conductGroup.type=='Comment'">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title"
+                        ng-if="modal.period!=1">
+                        {{currentCourse.Title}} 教师的话
+                    </h4>
+                </div>
+
+                <div class="modal-body">
+                    <table class="table table-bordered table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th class="col-xs-5">学生</th>
+                                <th class="col-xs-7">教师的话</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="student in studentList">
+                                <td>
+                                    {{student.ClassName}}, {{student.SeatNo}}, {{student.Name}}
+                                </td>
+                                <td ng-if="modal.period==1"
+                                    style="cursor:pointer;position:relative;"
+                                    ng-click="selectStudentConduct(student,{type:'Comment'}, 1)">
+                                    <div style="white-space:pre-wrap;word-break break-all;">{{student.MidtermComment}}</div>
+                                    <div ng-if="!student.MidtermComment"
+                                         style="border: solid red 2px;width: 1px;height: 1px;position: absolute;left: 5px;top: 5px;z-index: 1;border-radius: 3px;">
+                                    </div>
+                                </td>
+                                <td ng-if="modal.period==2"
+                                    style="cursor:pointer;position:relative;"
+                                    ng-click="selectStudentConduct(student,{type:'Comment'}, 2)">
+                                    <div style="white-space: pre-wrap;word-break: break-all;">{{student.FinalComment}}</div>
+                                    <div ng-if="!student.FinalComment"
+                                         style="border: solid red 2px;width: 1px;height: 1px;position: absolute;left: 5px;top: 5px;z-index: 1;border-radius: 3px;">
+                                    </div>
+                                </td>
+                                <td ng-if="modal.period==3"
+                                    style="cursor:pointer;position:relative;"
+                                    ng-click="selectStudentConduct(student,{type:'Comment'}, 3)">
+                                    <div style="white-space: pre-wrap;word-break: break-all;">{{student.Comment}}</div>
+                                    <div ng-if="!student.Comment"
+                                         style="border: solid red 2px;width: 1px;height: 1px;position: absolute;left: 5px;top: 5px;z-index: 1;border-radius: 3px;">
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modalConfigDefaultValue" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title">{{currentCourse.Title}} 批次给值</h4>
+                </div>
+                <div class="modal-body ">
+                    <div>
+                        <ul>
+                            <li>
+                                设定预设值,然后点击"批次给值"。
+                            </li>
+                            <li>
+                                如果已经有对学生评分，已评分项目不会被覆盖。
+                            </li>
+                            <li>
+                                使用"<span>
+                                    <i class="glyphicon glyphicon-erase"></i>
+                                    清除
+                                </span>"可清除已评分项目的值。
+                            </li>
+                        </ul>
+                        <div class="clearfix">
+                            <div class="pull-right"
+                                 style="margin-bottom: 5px;">
+                                <div class="btn-group"
+                                     style="margin-bottom:10px;">
+                                    <a class="btn btn-default btn-sm"
+                                       ng-click="useDefaultValueForAll()">
+                                        <i class="glyphicon glyphicon-th-list"></i>
+                                        批次给值
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-if="showDefaultValueForAllProgress"
+                         style="margin-bottom:10px;"
+                         class="progress">
+                        <div class="progress-bar progress-bar-striped {{showDefaultValueForAllProgress}}"
+                             role="progressbar"
+                             ng-style="{width:useDefaultValueForAllProgress}">
+                        </div>
+                    </div>
+
+                    <div ng-repeat="item in currentStudent.EditConduct.Conducts.Conduct">
+                        <table class="table table-bordered table-striped table-hover" style="margin-bottom:-1px;">
+                            <thead>
+                                <tr>
+                                    <th style="line-height: 22px;padding: 7px 8px;">
+                                        <div class="pull-right">
+                                            <span style="vertical-align: middle;">Set to All: </span>
+                                            <div class="btn-group">
+                                                <a ng-repeat="code in item.Code"
+                                                   ng-if="currentConduct.canInputGrade"
+                                                   class="btn btn-xs {{1==2?'btn-warning':'btn-primary'}}"
+                                                   style="min-width:30px;"
+                                                   ng-click="setGroupDefault(currentCourse.GradeYear,currentCourse.SubjectChineseName,item,code.Value)">{{code.Value}}</a>
+                                            </div>
+                                        </div>
+                                        <span style="vertical-align: middle;">{{item.Group}}</span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="temp in item.Item">
+                                    <td>
+                                        <div class="pull-right">
+                                            <div class="btn-group">
+                                                <a ng-if="currentConduct.canInputGrade"
+                                                   class="btn btn-xs {{getDefault(currentCourse.GradeYear,currentCourse.SubjectChineseName,item.Group,temp.Title)=='erase'?'btn-warning':'btn-default'}}"
+                                                   ng-click="setDefault(currentCourse.GradeYear,currentCourse.SubjectChineseName,item.Group,temp.Title,'erase')">
+                                                    <i class="glyphicon glyphicon-erase"></i>
+                                                    清除
+                                                </a>
+                                            </div>
+                                            <div class="btn-group">
+                                                <a ng-repeat="code in temp.Code"
+                                                   ng-if="currentConduct.canInputGrade"
+                                                   class="btn btn-xs {{getDefault(currentCourse.GradeYear,currentCourse.SubjectChineseName,item.Group,temp.Title)==code.Value?'btn-warning':'btn-default'}}"
+                                                   style="min-width:30px;"
+                                                   ng-click="setDefault(currentCourse.GradeYear,currentCourse.SubjectChineseName,item.Group,temp.Title,code.Value)">{{code.Value}}</a>
+                                            </div>
+                                        </div>
+                                        <span>{{$index+1}}. {{temp.Title}}</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
