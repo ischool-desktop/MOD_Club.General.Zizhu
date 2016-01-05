@@ -87,11 +87,14 @@
                                 <span ng-if="current.student">
                                     <strong>{{current.student.name}}</strong> 同学，您好
                                 </span>
-                                <span ng-if="!current.student">
+                                <span ng-if="!current.student&&!loginProgress">
                                     您好！请您&nbsp;&nbsp;<a href="javascript:void(0)"
                                                         ng-click="login()"
                                                         class="btn btn-link text-primary"
                                                         style="padding:0px">登录</a>&nbsp;&nbsp;。
+                                </span>
+                                <span ng-if="loginProgress">
+                                    帳號登入中...
                                 </span>
                                 <span ng-if="timing.msg">
                                     输入时间&nbsp;&nbsp;<span class="text-danger">{{timing.msg}}</span>&nbsp;&nbsp;。
@@ -130,15 +133,19 @@
                             <th ng-class="getClassificationStyle(classification)">
                                 {{classification}}
                             </th>
-                            <td class="col-xs-3 text-center" colspan="{{current.levelMax}}"></td>
+                            <td class="col-xs-3 text-center"></td>
                         </tr>
                         <tr ng-repeat="course in courseWithClassification[classification]"
                             ng-if="hasSelectedCourse(course)"
-                            ng-class="{'text-muted':(current.grade&&!course.limit[current.grade].all>0)}"
                             class="{{rowClass(course)}}"
-                            ng-click="current.shown = course">
+                            ng-click="current.shown = course"
+                            style="cursor:pointer;">
                             <td name="border">
-                                <span class="col-xs-offset-1">{{course.name}}</span>
+                                <span class="col-xs-offset-1">
+                                    <span class="glyphicon {{current.shown == course?'glyphicon-check':'glyphicon-unchecked'}}"
+                                          aria-hidden="true"></span>
+                                    {{course.name}}
+                                </span>
                                 <span ng-if="course.showFull"
                                       class="pull-right text-danger">
                                     {{fullMsg}}
@@ -157,26 +164,7 @@
                                     </a>
                                 </span>
                             </td>
-                            <td ng-repeat="i in [0,1,2]"
-                                ng-if="current.levelMax>i"
-                                class="text-center">
-                                <a href="javascript:void(0)"
-                                   class="btn btn-link"
-                                   ng-if="i==0 || course.fullPhase!='true'"
-                                   ng-class="{disabled:selectDisable(course,i+1)}"
-                                   ng-click="selectCourse(course,i+1)"
-                                   style="padding:0px;">
-                                    <span ng-if="current.selected[i]==course">
-                                        <span class="glyphicon glyphicon-check text-primary" aria-hidden="true"></span> <!--已选-->
-                                    </span>
-                                    <span ng-if="current.selected[i]!=course && course.limit[current.grade].all>0">
-                                        <!--选课-->
-                                        <span class="glyphicon glyphicon-unchecked text-primary"
-                                              ng-class="{'text-muted':selectDisable(course,i)}"
-                                              aria-hidden="true"></span>
-                                    </span>
-                                </a>
-                            </td>
+                            <td class="text-center"></td>
                         </tr>
                     </table>
                 </div>
@@ -191,7 +179,12 @@
 
                                 <div class="row">
                                     <div class="col-xs-12 col-lg-6">
-                                        <div class="panel-heading panel-body-title">自我评价</div>
+                                        <div class="panel-heading panel-body-title">
+                                            <span ng-if="chechValue(['审美与表现力','情趣与实践力','健康与幸福感','思维与创造力','责任与自信力'])"
+                                                  style="color:red"
+                                                  class="glyphicon glyphicon-asterisk"></span>
+                                            自我评价
+                                        </div>
                                         <table class="table table-condensed">
                                             <thead>
                                                 <tr>
@@ -291,7 +284,12 @@
                                         </table>
                                     </div>
                                     <div class="col-xs-12 col-lg-6">
-                                        <div class="panel-heading panel-body-title">活动意见及建议</div>
+                                        <div class="panel-heading panel-body-title">
+                                            <span ng-if="chechValue(['继续学习','感想'])"
+                                                  style="color:red"
+                                                  class="glyphicon glyphicon-asterisk"></span>
+                                            活动意见及建议
+                                        </div>
                                         <form ng-class="{disabled:current.mode!=='eval'}">
                                             <small class="radio">
                                                 我&nbsp;
@@ -315,7 +313,12 @@
                                         <textarea style="width:100%;height: 70px;margin-bottom:10px"
                                                   ng-model="current.assessment[current.shown.id]['感想']"
                                                   ng-disabled="{{current.mode!=='eval'}}"></textarea>
-                                        <div class="panel-heading panel-body-title">家长评价</div>
+                                        <div class="panel-heading panel-body-title">
+                                            <span ng-if="chechValue(['家长评价'])"
+                                                  style="color:red"
+                                                  class="glyphicon glyphicon-asterisk"></span>
+                                            家长评价
+                                        </div>
                                         <small>对孩子的学习兴趣及收获评价：</small>
                                         <textarea style="width:100%;height: 70px;"
                                                   ng-model="current.assessment[current.shown.id]['家长评价']"
@@ -329,8 +332,14 @@
                                             ng-click="submitAssessment()">
                                         送出
                                     </button>
+                                    <div ng-if="chechValue(['继续学习','感想'])"
+                                         class="pull-right"
+                                         style="color:red;line-height: 32px;margin-top: 10px;">
+                                        <span class="glyphicon glyphicon-asterisk"></span>
+                                        尚未完成输入。
+                                    </div>
                                 </div>
-                                <hr />
+                                <!--<hr />
                                 <div class="row">
                                     <div class="col-xs-6">
                                         <div class="thumbnail">
@@ -345,7 +354,7 @@
                                 </div>
                                 <div class="caption">
                                     <p class="fontSize">{{current.shown.description}}</p>
-                                </div>
+                                </div>-->
                             </div>
                         </div>
                     </div>

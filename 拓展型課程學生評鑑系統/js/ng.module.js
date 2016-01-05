@@ -42,12 +42,14 @@ angular.module('MyApp', []).controller('MyController', ['$scope', '$timeout', fu
             vars[key] = hash.substring(hash.indexOf("=") + 1);
         }
         if (vars.access_token) {
+            $scope.loginProgress = true;
             var studentConn = dsutil.creatConnection("https://1admin-ap.ischool.com.tw/dsacn/zzxx.mhedu.sh.cn/MOD_Club.Zizhu.evl.student", {
                 "@": ['Type'],
                 Type: 'PassportAccessToken',
                 AccessToken: vars.access_token
             });
             studentConn.OnLoginError(function (err) {
+                $scope.loginProgress = false;
                 if (err.XMLHttpRequest.responseText.indexOf("User doesn't exist") > 0) {
                     $scope.loginError = "账号设定错误。";
                     $scope.current.mode = "view";
@@ -58,6 +60,7 @@ angular.module('MyApp', []).controller('MyController', ['$scope', '$timeout', fu
                 $scope.$apply($scope.reflash);
             });
             studentConn.ready(function () {
+                $scope.loginProgress = false;
 
                 studentConn.send({
                     service: 'GetClubList',
@@ -131,7 +134,7 @@ angular.module('MyApp', []).controller('MyController', ['$scope', '$timeout', fu
                                             if (!$scope.countTimer)
                                                 countTime();
 
-                                            var finishedAssessmentCount = 0;
+                                            var assessmentValueCount = 0;
                                             [].concat(resp.assessment || []).forEach(function (asm) {
                                                 if (!$scope.current.assessment[asm.ref_club_id]) {
                                                     $scope.current.assessment[asm.ref_club_id] = asm.detial.Assessment;
@@ -145,11 +148,9 @@ angular.module('MyApp', []).controller('MyController', ['$scope', '$timeout', fu
                                                 '继续学习',
                                                 '感想',
                                                 '家长评价'].forEach(function (title) {
-                                                    if (!asm.detial.Assessment[title])
-                                                        finished = false;
+                                                    if (asm.detial.Assessment[title])
+                                                        assessmentValueCount++;
                                                 });
-                                                if (finished)
-                                                    finishedAssessmentCount++;
                                             });
 
                                             $scope.current.selected = [null, null, null];
@@ -169,44 +170,15 @@ angular.module('MyApp', []).controller('MyController', ['$scope', '$timeout', fu
                                             });
 
                                             if ($scope.current.selected[0] && $scope.current.selected[0].fullPhase == 'true') {
-                                                if (finishedAssessmentCount == 1)
-                                                    $scope.current.progress = 100;
-                                                else
-                                                    $scope.current.progress = 0;
+                                                $scope.current.progress = 100 * assessmentValueCount / (8);
                                             }
                                             else {
-                                                var scount = 0;
-                                                for (var i = 0; i < $scope.current.levelMax; i++) {
-                                                    if ($scope.current.selected[i])
-                                                        scount++;
+                                                if ($scope.current.levelMax == 0) {
+                                                    $scope.current.progress = 0;
                                                 }
-                                                scount = scount - finishedAssessmentCount;
-                                                switch ($scope.current.levelMax) {
-                                                    case 1:
-                                                        if (scount == 0)
-                                                            $scope.current.progress = 100;
-                                                        if (scount == 1)
-                                                            $scope.current.progress = 0;
-                                                        break;
-                                                    case 2:
-                                                        if (scount == 0)
-                                                            $scope.current.progress = 100;
-                                                        if (scount == 1)
-                                                            $scope.current.progress = 50;
-                                                        if (scount == 2)
-                                                            $scope.current.progress = 0;
-                                                        break;
-                                                    case 3:
-                                                        if (scount == 0)
-                                                            $scope.current.progress = 100;
-                                                        if (scount == 1)
-                                                            $scope.current.progress = 66;
-                                                        if (scount == 2)
-                                                            $scope.current.progress = 33;
-                                                        if (scount == 3)
-                                                            $scope.current.progress = 0;
-                                                        break;
-                                                }
+                                                else
+                                                    $scope.current.progress = 100 * assessmentValueCount / (8 * $scope.current.levelMax);
+
                                             }
                                             $scope.reflash();
                                         });
@@ -246,6 +218,15 @@ angular.module('MyApp', []).controller('MyController', ['$scope', '$timeout', fu
     }
 
     $scope.parseInt = window.parseInt;
+
+    $scope.chechValue = function (list) {
+        var finished = true;
+        [].concat(list || []).forEach(function (title) {
+            if (!$scope.current.assessment[$scope.current.shown.id] || !$scope.current.assessment[$scope.current.shown.id][title])
+                finished = false;
+        });
+        return !finished;
+    }
 
     $scope.srcList = [
 		"http://pic1.ooopic.com/uploadfilepic/yuanwenjian/2009-10-17/OOOPIC_760996499_20091017bc8dfbd1a1a24095.jpg",
