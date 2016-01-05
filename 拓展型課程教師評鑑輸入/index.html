@@ -8,7 +8,7 @@
     <title></title>
 
     <script>
-        
+
         function gogoLogin() {
             var application = "zzxx.mhedu.sh.cn";
             var clientID = "200b644d9a6360d9ac131aa5810e4408";
@@ -56,10 +56,11 @@
             top: 15px;
         }
 
-        .stuName {
-            -webkit-animation-duration: 1.5s;
-            -moz-animation-duration: 1.5s;
-            animation-duration: 1.5s;
+        .fadeinStudent {
+            opacity: 1;
+            -webkit-animation-duration: 1s;
+            -moz-animation-duration: 1s;
+            animation-duration: 1s;
             -webkit-animation-name: fadein;
             -moz-animation-name: fadein;
             animation-name: fadein;
@@ -67,16 +68,59 @@
             -moz-animation-delay: 0.01s;
             animation-delay: 0.01s;
         }
+
+        .fadeoutMsg {
+            opacity: 0;
+            -webkit-animation-duration: 5s;
+            -moz-animation-duration: 5s;
+            animation-duration: 5s;
+            -webkit-animation-name: fadeout;
+            -moz-animation-name: fadeout;
+            animation-name: fadeout;
+            -webkit-animation-delay: 0.01s;
+            -moz-animation-delay: 0.01s;
+            animation-delay: 0.01s;
+        }
         /* Code for Chrome, Safari and Opera */
         @-webkit-keyframes fadein {
             from {
-                color: lightgray;
+                color: darkgray;
+                opacity: 0.85;
+            }
+        }
+
+        @-webkit-keyframes fadeout {
+            0% {
+                opacity: 1;
+            }
+
+            40% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
             }
         }
         /* Standard syntax */
         @keyframes fadein {
             from {
-                color: lightgray;
+                color: darkgray;
+                opacity: 0.85;
+            }
+        }
+
+        @keyframes fadeout {
+            0% {
+                opacity: 1;
+            }
+
+            40% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
             }
         }
 
@@ -188,7 +232,10 @@
                 <div ng-controller="affixCtrl"
                      style="position:absolute;width:370px;right:0px;">
                     <div style="width:355px;margin-left: 15px;" id="affixPanel">
-                        <table class="table table-bordered" style="margin-bottom:-1px;">
+                        <table class="table table-bordered fadeinStudent"
+                               style="margin-bottom:-1px;"
+                               ng-repeat="stu in studentList"
+                               ng-if="stu==currentStudent">
                             <thead>
                                 <tr>
                                     <th colspan="2">
@@ -228,22 +275,24 @@
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody ng-repeat="stu in studentList"
-                                   ng-if="stu==currentStudent">
+                            <tbody>
                                 <tr>
                                     <td class="col-xs-3" rowspan="2">学生</td>
-                                    <td class="col-xs-9 stuName">
+                                    <td class="col-xs-9">
                                         {{stu.ClassName}}, {{stu.SeatNo}}
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="stuName">
+                                    <td class="">
                                         {{stu.Name}}
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
-                        <table class="table table-bordered" style="margin:0;margin-bottom: -1px;" ng-if="currentConduct">
+                        <table class="table table-bordered fadeinStudent"
+                               style="margin:0;margin-bottom: -1px;"
+                               ng-repeat="stu in studentList"
+                               ng-if="currentConduct&&stu==currentStudent">
                             <thead>
                                 <tr>
                                     <th colspan="2">
@@ -344,8 +393,11 @@
 
                                             <span ng-if="!currentConduct.canInputGrade">{{currentConduct.tempGrade}}</span>
                                             <span ng-if="savingSeril!=0"
-                                                  style="z-index:1;position:absolute;right:0px;bottom:-20px;"
+                                                  style="z-index:1;position:absolute;right:0px;bottom:-30px;"
                                                   class="text-danger">储存中...</span>
+                                            <span ng-if="fadeoutMsg"
+                                                  style=" z-index:1;position:absolute;right:0px;bottom:-30px;white-space: nowrap;"
+                                                  class="text-danger fadeoutMsg">{{fadeoutMsg}}</span>
                                         </div>
                                     </td>
                                 </tr>
@@ -363,8 +415,11 @@
                                             <div ng-if="!currentConduct.canInputGrade"
                                                  style="white-space: pre-wrap;word-break: break-all;min-height: 50px;">{{currentConduct.tempGrade}}</div>
                                             <span ng-if="savingSeril!=0"
-                                                  style="z-index:1;position:absolute;right:0px;bottom:-20px;"
+                                                  style="z-index:1;position:absolute;right:0px;bottom:-30px;"
                                                   class="text-danger">储存中...</span>
+                                            <span ng-if="fadeoutMsg"
+                                                  style="z-index:1;position:absolute;right:0px;bottom:-30px;white-space: pre-wrap;"
+                                                  class="text-danger fadeoutMsg">{{fadeoutMsg}}</span>
                                         </div>
                                     </td>
                                 </tr>
@@ -401,7 +456,15 @@
                                     <div ng-if="!temp.Grade&&current.FinalOpeningC==='true'"
                                          style="border: solid red 2px;width: 1px;height: 1px;position: absolute;left: 5px;top: 5px;z-index: 1;border-radius: 3px;"></div>
                                 </td>
-                                <td>{{$index+1}}. {{temp.Title}}</td>
+                                <td ng-if="currentConduct.Period"
+                                    style="cursor:pointer;"
+                                    ng-click="selectConduct(temp,currentConduct.Period)">
+                                    {{$index+1}}. {{temp.Title}}
+                                </td>
+                                <td ng-if="!currentConduct||!currentConduct.Period"
+                                    ng-click="selectConduct(temp,currentConduct.Period)">
+                                    {{$index+1}}. {{temp.Title}}
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -612,16 +675,27 @@
                     <div>
                         <ul>
                             <li>
-                                设定预设值,然后点击"批次给值"。
+                                于下表中输入各评分项目的预设值，然后点击
+                                <div class="btn-group">
+                                    <a class="btn btn-xs btn-default">
+                                        <i class="glyphicon glyphicon-th-list"></i>
+                                        套用至所有学生
+                                    </a>
+                                </div>
+                                填入学生成绩。
                             </li>
                             <li>
                                 如果已经有对学生评分，已评分项目不会被覆盖。
                             </li>
                             <li>
-                                使用"<span>
-                                    <i class="glyphicon glyphicon-erase"></i>
-                                    清除
-                                </span>"可清除已评分项目的值。
+                                将预设值设为
+                                <div class="btn-group">
+                                    <a class="btn btn-xs btn-default">
+                                        <i class="glyphicon glyphicon-erase"></i>
+                                        清除
+                                    </a>
+                                </div>
+                                可清除学生已评分项目的值。清除后即可再选用新的预设值填入。
                             </li>
                         </ul>
                         <div class="clearfix">
@@ -632,7 +706,7 @@
                                     <a class="btn btn-default btn-sm"
                                        ng-click="useDefaultValueForAll()">
                                         <i class="glyphicon glyphicon-th-list"></i>
-                                        批次给值
+                                        套用至所有学生
                                     </a>
                                 </div>
                             </div>
@@ -653,7 +727,7 @@
                                 <tr>
                                     <th style="line-height: 22px;padding: 7px 8px;">
                                         <div class="pull-right">
-                                            <span style="vertical-align: middle;">Set to All: </span>
+                                            <span style="vertical-align: middle;">设为: </span>
                                             <div class="btn-group">
                                                 <a ng-repeat="code in item.Code"
                                                    ng-if="currentConduct.canInputGrade"

@@ -275,6 +275,7 @@ angular.module('enterconduct', [])
             //}
 
             if (!item) return;
+            delete $scope.fadeoutMsg;
 
             $scope.currentStudent = item;
             $scope.currentStudent.tempStudentID = $scope.currentStudent.StudentID;
@@ -439,7 +440,7 @@ angular.module('enterconduct', [])
             });
             if (item.type == 'Comment') {
                 if (period === 1) {
-                    $scope.currentConduct.tempGrade = $scope.currentStudent.MidtermComment;
+                    $scope.currentConduct.tempGrade = $scope.currentStudent.MidtermComment || '';
                     if ($scope.current.MiddleOpeningC === 'true') {
                         item.canInputGrade = true;
                         //item.canInputMComment = true;
@@ -450,7 +451,7 @@ angular.module('enterconduct', [])
                         //item.canInputFComment = false;
                     }
                 } else if (period === 2) {
-                    $scope.currentConduct.tempGrade = $scope.currentStudent.FinalComment;
+                    $scope.currentConduct.tempGrade = $scope.currentStudent.FinalComment || '';
                     if ($scope.current.FinalOpeningC === 'true') {
                         item.canInputGrade = true;
                         //item.canInputMComment = false;
@@ -461,7 +462,7 @@ angular.module('enterconduct', [])
                         //item.canInputFComment = false;
                     }
                 } else {
-                    $scope.currentConduct.tempGrade = $scope.currentStudent.Comment;
+                    $scope.currentConduct.tempGrade = $scope.currentStudent.Comment || '';
                     if ($scope.current.FinalOpeningC === 'true') {
                         item.canInputGrade = true;
                     } else {
@@ -580,6 +581,19 @@ angular.module('enterconduct', [])
                 isComment = true;
                 if ($scope.currentStudent.EditConduct.Conducts.Conduct.length == 0)
                     isFirstGroup = true;
+                if ($scope.currentStudent.Comment !== $scope.currentConduct.tempGrade.trim()) {
+                    //編輯comment時切換學生會先儲存
+                    $scope.currentConduct.tmpGrade = $scope.currentConduct.tempGrade.trim();
+
+                    if ($scope.currentConduct.Period === 1)
+                        $scope.currentStudent.MidtermComment = $scope.currentConduct.tempGrade;
+                    else if ($scope.currentConduct.Period === 2)
+                        $scope.currentStudent.FinalComment = $scope.currentConduct.tempGrade;
+                    else
+                        $scope.currentStudent.Comment = $scope.currentConduct.tempGrade;
+                    $scope.saveGrade($scope.currentStudent, $scope.currentConduct);
+                    $('#comment-textarea').blur();//不把focus踢掉會造成捲回TOP
+                }
             }
             else {
                 angular.forEach($scope.currentStudent.EditConduct.Conducts.Conduct, function (conduct, i) {
@@ -650,61 +664,12 @@ angular.module('enterconduct', [])
                 }
                 try {
                     //自動捲動
-
-                    //function scrollTo(to, duration) {
-                    //    if (document.body.scrollTop == to) return;
-                    //    if ($scope.scrollInterval) {
-                    //        clearInterval($scope.scrollInterval);
-                    //        delete $scope.scrollInterval;
-                    //    }
-                    //    var diff = to - document.body.scrollTop;
-                    //    var scrollStep = Math.PI / (duration / 10);
-                    //    var count = 0, currPos;
-                    //    var start = document.body.scrollTop;
-                    //    $scope.scrollInterval = setInterval(function () {
-                    //        if (document.body.scrollTop - to > 10 || document.body.scrollTop - to < -10) {
-                    //            count = count + 1;
-                    //            if (count * scrollStep > Math.PI) {
-                    //                clearInterval($scope.scrollInterval);
-                    //                delete $scope.scrollInterval;
-                    //            }
-                    //            else {
-                    //                currPos = start + diff * (0.5 - 0.5 * Math.cos(count * scrollStep));
-                    //                try {
-                    //                    window.scrollTo(0, currPos);
-                    //                    //document.body.scrollTop = currPos;
-                    //                }
-                    //                catch (exc) {
-                    //                    clearInterval($scope.scrollInterval);
-                    //                    delete $scope.scrollInterval;
-                    //                }
-                    //            }
-                    //        }
-                    //        else {
-                    //            clearInterval($scope.scrollInterval);
-                    //            delete $scope.scrollInterval;
-                    //        }
-                    //    }, 10);
+                    //if (nextConduct.type != 'Comment') {
+                    //    $('#scrollAnchor' + $scope.fixGroupName(nextConduct.Group))[0].scrollIntoView({ block: "end", behavior: "smooth" });
                     //}
-                    //function getPosition(element) {
-                    //    var xPosition = 0;
-                    //    var yPosition = 0;
-
-                    //    while (element) {
-                    //        xPosition += (element.offsetLeft - element.scrollLeft + element.clientLeft);
-                    //        yPosition += (element.offsetTop - element.scrollTop + element.clientTop);
-                    //        element = element.offsetParent;
-                    //    }
-                    //    return { x: xPosition, y: yPosition };
+                    //else {
+                    //    $('#scrollAnchorComment')[0].scrollIntoView({ block: "end", behavior: "smooth" });
                     //}
-                    if (nextConduct.type != 'Comment') {
-                        //scrollTo(getPosition($('#scrollAnchor' + $scope.fixGroupName(nextConduct.Group))[0]).y, 500);
-                        $('#scrollAnchor' + $scope.fixGroupName(nextConduct.Group))[0].scrollIntoView({ block: "end", behavior: "smooth" });
-                    }
-                    else {
-                        //scrollTo(getPosition($('#scrollAnchorComment')[0]).y, 500);
-                        $('#scrollAnchorComment')[0].scrollIntoView({ block: "end", behavior: "smooth" });
-                    }
                 }
                 catch (exc) {
 
@@ -741,6 +706,19 @@ angular.module('enterconduct', [])
                 groupIndex = $scope.currentStudent.EditConduct.Conducts.Conduct.length;
                 if ($scope.currentStudent.EditConduct.Conducts.Conduct.length == 0)
                     isFirstGroup = true;
+                if ($scope.currentStudent.Comment !== $scope.currentConduct.tempGrade.trim()) {
+                    //編輯comment時切換學生會先儲存
+                    $scope.currentConduct.tmpGrade = $scope.currentConduct.tempGrade.trim();
+
+                    if ($scope.currentConduct.Period === 1)
+                        $scope.currentStudent.MidtermComment = $scope.currentConduct.tempGrade;
+                    else if ($scope.currentConduct.Period === 2)
+                        $scope.currentStudent.FinalComment = $scope.currentConduct.tempGrade;
+                    else
+                        $scope.currentStudent.Comment = $scope.currentConduct.tempGrade;
+                    $scope.saveGrade($scope.currentStudent, $scope.currentConduct);
+                    $('#comment-textarea').blur();//不把focus踢掉會造成捲回TOP
+                }
             }
             else {
                 angular.forEach($scope.currentStudent.EditConduct.Conducts.Conduct, function (conduct, i) {
@@ -809,14 +787,12 @@ angular.module('enterconduct', [])
                     }
                 }
 
-                if (nextConduct.type != 'Comment') {
-                    //scrollTo(getPosition($('#scrollAnchor' + $scope.fixGroupName(nextConduct.Group))[0]).y, 500);
-                    $('#scrollAnchor' + $scope.fixGroupName(nextConduct.Group))[0].scrollIntoView({ block: "end", behavior: "smooth" });
-                }
-                else {
-                    //scrollTo(getPosition($('#scrollAnchorComment')[0]).y, 500);
-                    $('#scrollAnchorComment')[0].scrollIntoView({ block: "end", behavior: "smooth" });
-                }
+                //if (nextConduct.type != 'Comment') {
+                //    $('#scrollAnchor' + $scope.fixGroupName(nextConduct.Group))[0].scrollIntoView({ block: "end", behavior: "smooth" });
+                //}
+                //else {
+                //    $('#scrollAnchorComment')[0].scrollIntoView({ block: "end", behavior: "smooth" });
+                //}
             }
             else {
                 nextConduct = $scope.currentStudent.EditConduct.Conducts.Conduct[groupIndex].Item[itemIndex - 1];
@@ -1080,8 +1056,10 @@ angular.module('enterconduct', [])
                 else
                     $scope.currentStudent.Comment = $scope.currentConduct.tempGrade;
             }
-
-            $scope.saveGrade($scope.currentStudent, $scope.currentConduct);
+            delete $scope.fadeoutMsg;
+            $scope.saveGrade($scope.currentStudent, $scope.currentConduct, function () {
+                $scope.fadeoutMsg = "储存完成。";
+            });
         }
 
         $scope.clickGrade = function (val) {
@@ -1152,7 +1130,7 @@ angular.module('enterconduct', [])
 
             var _body = {
                 StudentID: currentStudent.ID,
-                ClubID:$scope.currentCourse.ID,
+                ClubID: $scope.currentCourse.ID,
                 Assessment: Assessment
             };
 
@@ -1179,6 +1157,10 @@ angular.module('enterconduct', [])
                             $scope.$apply(function () {
                                 if ($scope.savingSeril == savingSeril) {
                                     $scope.savingSeril = 0;
+                                    //if (currentStudent != $scope.currentStudent){
+                                        //$scope.fadeoutMsg = "" + currentStudent.Name + "评鉴成绩已储存，切換至學生：\n" + $scope.currentStudent.Name + "。";
+                                        ////$scope.fadeoutMsg = "" + currentStudent.ClassName + ", " + currentStudent.SeatNo + ", " + currentStudent.Name + " 成绩已储存，切換下一位學生：" + $scope.currentStudent.ClassName + ", " + $scope.currentStudent.SeatNo + ", " + $scope.currentStudent.Name + "。";
+                                    //}
                                     if (callBack) {
                                         callBack(response, error, http);
                                     }
