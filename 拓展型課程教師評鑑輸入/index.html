@@ -428,7 +428,7 @@
                         <div ng-if="currentConduct.type!='Comment'&&
                              currentConduct.canInputGrade" style="margin:10px;">
                             <p ng-repeat="item in currentConduct.Code">
-                                {{item.Key}} = <a ng-if="currentConduct.canInputGrade" class="btn btn-xs {{toUpperCase(currentConduct.tempGrade)==toUpperCase(item.Value)||toUpperCase(currentConduct.tempGrade)==toUpperCase(item.Key)?'btn-warning':'btn-default'}}" style="min-width:30px;" ng-click="clickGrade(item.Value)">{{item.Value}}</a><span ng-if="!currentConduct.canInputGrade">{{item.Value}}</span>
+                                键盘输入[ {{item.Key}} ] = <a ng-if="currentConduct.canInputGrade" class="btn btn-xs {{toUpperCase(currentConduct.tempGrade)==toUpperCase(item.Value)||toUpperCase(currentConduct.tempGrade)==toUpperCase(item.Key)?'btn-warning':'btn-default'}}" style="min-width:30px;" ng-click="clickGrade(item.Value)">{{item.Value}}</a><span ng-if="!currentConduct.canInputGrade">{{item.Value}}</span>
                             </p>
                         </div>
                     </div>
