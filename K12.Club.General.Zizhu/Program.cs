@@ -1,14 +1,22 @@
-﻿using Campus.DocumentValidator;
+﻿using Aspose.Words;
+using Aspose.Words.Tables;
+using Campus.DocumentValidator;
 using FISCA;
+using FISCA.Data;
 using FISCA.Permission;
 using FISCA.Presentation;
 using FISCA.Presentation.Controls;
+using FISCA.UDT;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace K12.Club.General.Zizhu
 {
@@ -44,6 +52,210 @@ namespace K12.Club.General.Zizhu
             };
 
             #endregion
+
+            #region 產生修課成績報表
+
+            K12.Presentation.NLDPanels.Student.RibbonBarItems["资料统计"]["报表"]["拓展性课程"]["打印成绩单"].Enable = false;
+            K12.Presentation.NLDPanels.Student.RibbonBarItems["资料统计"]["报表"]["拓展性课程"]["打印成绩单"].Click += delegate
+            {
+                #region 列印成績單
+                QueryHelper _Q = new QueryHelper();
+                List<string> _ids = new List<string>(K12.Presentation.NLDPanels.Student.SelectedSource);
+                bool fieldMode = false;
+                Dictionary<Document, string> documents = new Dictionary<Document, string>();
+
+                BackgroundWorker bkw = new BackgroundWorker();
+                bkw.WorkerReportsProgress = true;
+                bkw.RunWorkerCompleted += delegate
+                {
+                    FISCA.Presentation.MotherForm.SetStatusBarMessage("拓展性课程学生成绩单产生完成。", 100);
+                    List<string> files = new List<string>();
+                    foreach (var doc in documents.Keys)
+                    {
+
+                        SaveFileDialog save = new SaveFileDialog();
+                        save.Title = "另存新档";
+                        save.FileName = documents[doc];
+                        save.Filter = "Word档案 (*.docx)|*.docx|Word档案 (*.doc)|*.doc|所有档案 (*.*)|*.*";
+
+                        if (save.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                        {
+                            try
+                            {
+                                doc.Save(save.FileName);
+                                files.Add(save.FileName);
+                            }
+                            catch
+                            {
+                                MessageBox.Show("档案储存失败。");
+                            }
+                        }
+                    }
+                    foreach (var file in files)
+                    {
+                        System.Diagnostics.Process.Start(file);
+                    }
+                };
+                bkw.ProgressChanged += delegate(object sender, ProgressChangedEventArgs e)
+                {
+                    FISCA.Presentation.MotherForm.SetStatusBarMessage("拓展性课程学生成绩单产生中...", e.ProgressPercentage);
+                };
+
+                bkw.DoWork += delegate
+                {
+                    Dictionary<string, DataRow> dicStudentRow = new Dictionary<string, DataRow>();
+                    DataTable mergeDT = new DataTable();
+
+                    mergeDT.Columns.Add("学年度");
+                    mergeDT.Columns.Add("学期");
+                    mergeDT.Columns.Add("姓名");
+                    mergeDT.Columns.Add("学号");
+                    mergeDT.Columns.Add("年级");
+                    mergeDT.Columns.Add("班级");
+                    mergeDT.Columns.Add("座号");
+
+                    DataTable dt = _Q.Select(string.Format(@"
+SELECT 
+    $k12.clubrecord.universal.school_year,
+    $k12.clubrecord.universal.semester,
+    $k12.clubrecord.universal.club_category,
+    $k12.clubrecord.universal.club_name,
+    $k12.clubrecord.universal.club_number,
+    phase,
+    student.id,
+    student.name,
+    student.student_number, 
+    student.seat_no,
+    class.class_name as classname,
+    class.grade_year,
+    asmS.detial as detialS,
+    asmT.detial as detialT
+FROM
+    student
+    LEFT OUTER JOIN class on student.ref_class_id = class.id
+    LEFT OUTER JOIN $k12.scjoin.universal on student.id = $k12.scjoin.universal.ref_student_id::bigint
+    LEFT OUTER JOIN $k12.clubrecord.universal on $k12.clubrecord.universal.uid = $k12.scjoin.universal.ref_club_id::bigint
+    LEFT OUTER JOIN $ischool.club.assessment as asmS on asmS.ref_student_id = student.id and asmS.ref_club_id = $k12.clubrecord.universal.uid and asmS.assessment_type='student'
+    LEFT OUTER JOIN $ischool.club.assessment as asmT on asmT.ref_student_id = student.id and asmT.ref_club_id = $k12.clubrecord.universal.uid and asmT.assessment_type='teacher'
+WHERE
+    student.id in ({0}) and $k12.clubrecord.universal.school_year = {1} and $k12.clubrecord.universal.semester = {2}
+ORDER BY class.grade_year, class.display_order, student.seat_no, phase
+                        ", string.Join(",", _ids), K12.Data.School.DefaultSchoolYear, K12.Data.School.DefaultSemester));
+                    var count = 0;
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        count++;
+                        if (!dicStudentRow.ContainsKey("" + row["id"]))
+                        {
+                            var stuRow = mergeDT.Rows.Add();
+                            stuRow[mergeDT.Columns.IndexOf("学年度")] = "" + row["school_year"];
+                            stuRow[mergeDT.Columns.IndexOf("学期")] = "" + row["semester"];
+                            stuRow[mergeDT.Columns.IndexOf("姓名")] = "" + row["name"];
+                            stuRow[mergeDT.Columns.IndexOf("学号")] = "" + row["student_number"];
+                            stuRow[mergeDT.Columns.IndexOf("年级")] = "" + row["grade_year"];
+                            stuRow[mergeDT.Columns.IndexOf("班级")] = "" + row["classname"];
+                            stuRow[mergeDT.Columns.IndexOf("座号")] = "" + row["seat_no"];
+                            dicStudentRow.Add("" + row["id"], stuRow);
+                        }
+                        var studentRow = dicStudentRow["" + row["id"]];
+
+
+                        var level = "阶段" + row["phase"];
+                        {
+                            var key = level + "_课程类别";
+                            if (!mergeDT.Columns.Contains(key))
+                                mergeDT.Columns.Add(key);
+                            studentRow[mergeDT.Columns.IndexOf(key)] = "" + row["club_category"];
+                        }
+                        {
+                            var key = level + "_课程名称";
+                            if (!mergeDT.Columns.Contains(key))
+                                mergeDT.Columns.Add(key);
+                            studentRow[mergeDT.Columns.IndexOf(key)] = "" + row["club_name"];
+                        }
+                        {
+                            var key = level + "_课程代码";
+                            if (!mergeDT.Columns.Contains(key))
+                                mergeDT.Columns.Add(key);
+                            studentRow[mergeDT.Columns.IndexOf(key)] = "" + row["club_number"]; ;
+                        }
+
+                        var doc = new XmlDocument();
+                        if ("" + row["detialS"] != "")
+                        {
+                            doc.LoadXml("" + row["detialS"]);
+                            foreach (XmlNode node in doc.DocumentElement.ChildNodes)
+                            {
+                                var key = level + "_学生自评_" + node.Name;
+                                var value = "" + node.InnerText;
+                                if (!mergeDT.Columns.Contains(key))
+                                    mergeDT.Columns.Add(key);//Q1評語
+                                studentRow[mergeDT.Columns.IndexOf(key)] = value;
+                            }
+                        }
+                        if ("" + row["detialT"] != "")
+                        {
+                            doc.LoadXml("" + row["detialT"]);
+                            foreach (XmlNode node in doc.DocumentElement.ChildNodes)
+                            {
+                                var key = level + "_教师评鉴_" + node.Name;
+                                var value = "" + node.InnerText;
+                                if (!mergeDT.Columns.Contains(key))
+                                    mergeDT.Columns.Add(key);//Q1評語
+                                studentRow[mergeDT.Columns.IndexOf(key)] = value;
+                            }
+                        }
+                        bkw.ReportProgress(100 * count / dt.Rows.Count);
+                    }
+
+                    if (fieldMode)
+                    {
+                        Document doc = new Document();
+                        DocumentBuilder bu = new DocumentBuilder(doc);
+                        bu.MoveToDocumentStart();
+                        bu.CellFormat.Borders.LineStyle = LineStyle.Single;
+                        bu.CellFormat.VerticalAlignment = CellVerticalAlignment.Center;
+                        Table table = bu.StartTable();
+                        foreach (DataColumn col in mergeDT.Columns)
+                        {
+
+                            bu.InsertCell();
+                            bu.CellFormat.Width = 15;
+                            bu.InsertField("MERGEFIELD " + col.Caption + @" \* MERGEFORMAT", "«.»");
+                            bu.ParagraphFormat.Alignment = ParagraphAlignment.Center;
+
+                            bu.InsertCell();
+                            bu.CellFormat.Width = 125;
+                            bu.Write(col.Caption);
+                            bu.ParagraphFormat.Alignment = ParagraphAlignment.Left;
+
+                            bu.EndRow();
+                        }
+                        //table.AllowAutoFit = false;
+                        bu.EndTable();
+                        documents.Add(doc, "拓展性课程学生成绩单合并栏位表.doc");
+                    }
+                    else
+                    {
+                        var doc = new Document(new MemoryStream(Properties.Resources.華東師範大學附屬紫竹小學拓展性課程成績單));
+                        //        //合併，儲存
+                        doc.MailMerge.Execute(mergeDT);
+                        doc.MailMerge.DeleteFields();
+
+                        documents.Add(doc, "拓展性课程学生成绩单.doc");
+                    }
+                };
+                bkw.RunWorkerAsync();
+                FISCA.Presentation.MotherForm.SetStatusBarMessage("拓展性课程学生成绩单产生中...", 0);
+                #endregion
+            };
+            K12.Presentation.NLDPanels.Student.SelectedSourceChanged += delegate
+            {
+                K12.Presentation.NLDPanels.Student.RibbonBarItems["资料统计"]["报表"]["拓展性课程"]["打印成绩单"].Enable = K12.Presentation.NLDPanels.Student.SelectedSource.Count > 0;
+            };
+
+            #endregion
+
             #region 社團基本資料
 
             FeatureAce UserPermission = FISCA.Permission.UserAcl.Current[Permissions.社團基本資料];
@@ -139,7 +351,6 @@ namespace K12.Club.General.Zizhu
                 insert.ShowDialog();
             };
 
-
             RibbonBarItem oder = ClubAdmin.Instance.RibbonBarItems["其它"];
 
             oder["开放选课时间"].Size = RibbonBarButton.MenuButtonSize.Medium;
@@ -179,7 +390,6 @@ namespace K12.Club.General.Zizhu
 
                 bool h = (SourceCount && Permissions.社團點名單_套表列印權限);
                 totle["报表"]["课程点名单(套表列印)"].Enable = h;
-
 
                 FISCA.Presentation.MotherForm.SetStatusBarMessage("选择「" + ClubAdmin.Instance.SelectedSource.Count + "」个课程");
             };
