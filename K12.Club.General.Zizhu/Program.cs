@@ -373,6 +373,11 @@ ORDER BY class.grade_year, class.display_order, student.seat_no, phase
                 insert.ShowDialog();
             };
 
+            check["教师评鉴输入进度"].Click += delegate
+            {
+                new K12.Club.General.Zizhu.Ribbon.CheckClubAssessment().ShowDialog();
+            };
+
             #endregion
 
             ClubAdmin.Instance.SelectedSourceChanged += delegate
