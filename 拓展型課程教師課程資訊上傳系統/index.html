@@ -1,0 +1,268 @@
+﻿<!DOCTYPE html>
+<html xmlns:ng="http://angularjs.org" id="ng-app" ng-app="MyApp">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>华东师范大学附属紫竹小学 - 拓展型课程教师课程资讯上传系统</title>
+
+    <script>
+
+        function gogoLogin() {
+            var application = "zzxx.mhedu.sh.cn";
+            var clientID = "200b644d9a6360d9ac131aa5810e4408";
+            var dn = "zzxx.mhedu.sh.cn";
+            var redirect_uri = location.href.lastIndexOf('#') >= 0 ? location.href.substr(0, location.href.lastIndexOf('#')) : location.href;
+            window.location.assign("https://auth.ischoolcenter.com/logout.php?next=" + encodeURIComponent("oauth/authorize.php?application=" + application + (dn ? ("&dn=" + dn) : "") + "&client_id=" + clientID + "&response_type=token&redirect_uri=" + redirect_uri + "&scope=" + application + ":MOD_Club.Zizhu.teacher"));
+        }
+        if (location.href.lastIndexOf('#') >= 0) {
+            var bookmark = location.href.substr(location.href.lastIndexOf('#') + 1);
+
+            var vars = [], hashes = bookmark.split('&');
+            for (var i = 0; i < hashes.length; i++) {
+                hash = decodeURIComponent(hashes[i]);
+                var key = hash.substring(0, hash.indexOf("="));
+                vars.push(key);
+                vars[key] = hash.substring(hash.indexOf("=") + 1);
+            }
+            if (vars.access_token) {
+                window.accesstoken = vars.access_token;
+            }
+            else {
+                gogoLogin();
+            }
+        }
+        else {
+            gogoLogin();
+        }
+    </script>
+
+    <link href="css/bootstrap.css" rel="stylesheet" />
+    <link href="css/bootstrap-theme.css" rel="stylesheet" />
+    <link href="css/NewSkin.css" rel="stylesheet" type="text/css">
+    <link href="css/mycss.css" rel="stylesheet" type="text/css">
+    <!--[if lte IE 7]>
+      <script src="/path/to/json2.js"></script>
+    <![endif]-->
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.min.js"></script>
+      <script src="js/respond.min.js"></script>
+    <![endif]-->
+    <script src="js/jquery-1.11.3.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/angular.1.2.28.js"></script>
+    <script src="js/xmlWriter.js"></script>
+    <script src="js/parseXml.js"></script>
+    <script src="js/xml2json.js"></script>
+    <script src="js/dsutil.js"></script>
+
+    <script src="js/ng.module.js"></script>
+</head>
+<body ng-controller="MyController">
+    <div class="container box">
+        <nav class="navbar navbar-default">
+            <blockquote style="margin-bottom:0px;padding: 5px 20px;border-left: 0px;">
+                <img src="img/Logo.jpg" style="float:left;">
+                <h2><strong>拓展型课程教师课程资讯上传系统</strong></h2>
+                <div class="container-fluid" style="margin-top: -40px;">
+                    <div class="collapse navbar-collapse">
+                        <button type="button"
+                                class="btn btn-default navbar-btn navbar-right input-sm" style="border-radius: 10px; border: 2px solid rgb(8, 125, 11); border-image: none;"
+                                ng-click="logout()">
+                            登出
+                        </button>
+                    </div><!-- /.navbar-collapse -->
+                </div><!-- /.container-fluid -->
+            </blockquote>
+        </nav>
+
+        <div ng-if="current.schoolYear"
+             class="row">
+            <div class="col-xs-12 col-sm-6 col-lg-5">
+                <div class="panel panel-default">
+                    <div class="panel-body panel-body-title marginBottom">
+                        <div>
+                            <div style="margin-bottom: 10px;">
+                                <span class="lead styleType">{{current.schoolYear}}第{{current.semester}}学期教授课程</span>
+                            </div>
+                            <div class="linePadding">
+                                <span>老师您好，以下為您教授的拓展型課程。</span>
+                            </div>
+                        </div>
+                    </div>
+                    <table ng-repeat="classification in classificationList"
+                           class="table table-condensed table-striped table-hover lesson">
+                        <tr>
+                            <th ng-class="getClassificationStyle(classification)">
+                                {{classification}}
+                            </th>
+                            <td class="col-xs-3 text-center">
+                                <span ng-if="$first">课程年级</span>
+                            </td>
+                        </tr>
+                        <tr ng-repeat="course in courseWithClassification[classification]"
+                            ng-class="{'text-muted':(current.grade&&!course.limit[current.grade].all>0)}"
+                            class="{{rowClass(course)}}"
+                            ng-click="current.shown = course">
+                            <td name="border">
+                                <span class="col-xs-offset-1">{{course.name}}</span>
+                                <span ng-if="course.showFull"
+                                      class="pull-right text-danger">
+                                    {{fullMsg}}
+                                </span>
+                            </td>
+                            <td name="border"
+                                class="text-right"
+                                style="position:relative;">
+                                <span style="position:absolute;right:5px;z-index:1;margin-left:-20px;">
+                                    <span ng-repeat="grade in ['一','二','三','四','五']"><span ng-if="course.limit[grade+'年级'].all || course.limit[grade+'年级'].all == 0">&nbsp;{{grade}}</span><span ng-if="$last">年级</span></span>
+                                </span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class=" hidden-xs col-sm-6 col-lg-7">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <p class="lead panel-body-title styleTypeRight">{{current.shown.name}}&nbsp;<small>{{current.shown.classification}}</small></p>
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <div class="thumbnail" style="margin-bottom:0px;">
+                                            <img ng-src="{{current.shown.photo1 ? 'data:image/*;base64,'+ current.shown.photo1 : srcList[parseInt(current.shown.id) % srcList.length]}}" alt="" title="" />
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <div class="thumbnail" style="margin-bottom:0px;">
+                                            <img ng-src="{{current.shown.photo2 ? 'data:image/*;base64,'+ current.shown.photo2 : srcList[(parseInt(current.shown.id) % srcList.length + 3) % srcList.length]}}" alt="" title="" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-6" style="margin-bottom:20px;">
+                                        <a class="btn btn-danger btn-xs pull-right" ng-click="changPhoto(1)">更换照片</a>
+                                    </div>
+                                    <div class="col-xs-6" style="margin-bottom:20px;">
+                                        <a class="btn btn-danger btn-xs pull-right" ng-click="changPhoto(2)">更换照片</a>
+                                    </div>
+                                </div>
+
+                                <div ng-if="!editDes"
+                                     class="caption">
+                                    <p class="fontSize" style="white-space: pre-wrap;">{{current.shown.description}}</p>
+                                    <a class="btn btn-danger btn-xs pull-right" ng-click="editDescription()">编辑</a>
+                                </div>
+                                <div ng-if="editDes"
+                                     class="row">
+                                    <form class="col-xs-12">
+                                        <textarea style="width:100%;min-height:180px;" ng-model="editDes" class="fontSize"></textarea>
+                                        <a class="btn btn-danger btn-xs pull-right" ng-click="cancelDescription()">取消</a>
+                                        <a class="btn btn-danger btn-xs pull-right" ng-click="submitDescription(editDes)">送出</a>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-lg-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading panel-body-title">人数限制</div>
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <td class="col-xs-3 text-center"></td>
+                                        <td class="col-xs-3 text-center">总人数</td>
+                                        <td class="col-xs-3 text-center">男</td>
+                                        <td class="col-xs-3 text-center">女</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="grade in ['一年级','二年级','三年级','四年级','五年级']">
+                                        <td class="text-left">
+                                            {{grade}}
+                                        </td>
+                                        <td class="text-center">
+                                            {{current.shown.limit[grade].all || '--'}}
+                                        </td>
+                                        <td class="text-center">
+                                            {{current.shown.limit[grade].male || '--'}}
+                                        </td>
+                                        <td class="text-center">
+                                            {{current.shown.limit[grade].female || '--'}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-lg-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading panel-body-title">课程信息</div>
+                            <table class="table table-condensed">
+                                <tbody>
+                                    <tr>
+                                        <td class="col-xs-5 text-left">
+                                            课程领域
+                                        </td>
+                                        <td>
+                                            {{current.shown.classification}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left">
+                                            课程编号
+                                        </td>
+                                        <td>
+                                            {{current.shown.number}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left">
+                                            任课老师
+                                        </td>
+                                        <td>
+                                            {{current.shown.teacher}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left">
+                                            上课地点
+                                        </td>
+                                        <td>
+                                            {{current.shown.location}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left">
+                                            总课时数
+                                        </td>
+                                        <td>{{current.shown.hours}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left">
+                                            长短课程
+                                        </td>
+                                        <td>
+                                            {{current.shown.fullPhase=='true'?'长课程':'短课程'}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div ng-if="!current.schoolYear"
+             style="height:600px;position:relative;">
+            <h1 style="position:absolute;top:150px;right:10px;left:10px;text-align:center;">读取中...</h1>
+        </div>
+        <footer class="footer-default">华东师范大学附属紫竹小学&nbsp;&nbsp;&nbsp;&nbsp;版权所有</footer>
+        <div ng-if="!current.schoolYear" class="imgPosition"></div>
+    </div>
+</body>
+</html>
