@@ -426,7 +426,7 @@ angular.module('MyApp', []).controller('MyController', ['$scope', '$timeout', fu
             body: { Request: request },
             result: function (resp, errorInfo, XMLHttpRequest) {
                 if (errorInfo) {
-                    alert("上傳失敗，請重新操作。");
+                    alert("上传失败，请重新操作。");
                 }
             }
         });
@@ -444,7 +444,7 @@ angular.module('MyApp', []).controller('MyController', ['$scope', '$timeout', fu
             if (evt.target == undefined ||
                     evt.target.files == undefined ||
                     evt.target.files.length == 0) {
-                alert("您的瀏覽器並未支援讀取檔案功能，請更新您的瀏覽器，謝謝!\n\n建議瀏覽器：Chrome 10+, IE 10+, Firefox 10+");
+                alert("您的浏览器并未支援读取档案功能，请更新您的浏览器，或者改用更快速的浏览器，谢谢!\n\n建议浏览器：360安全浏览器8.0+, Chrome 10+, IE 10+, Firefox 10+");
                 return;
             }
             var file = evt.target.files[0];
@@ -494,7 +494,7 @@ angular.module('MyApp', []).controller('MyController', ['$scope', '$timeout', fu
                             body: { Request: request },
                             result: function (resp, errorInfo, XMLHttpRequest) {
                                 if (errorInfo) {
-                                    alert("上傳失敗，請重新操作。");
+                                    alert("上传失败，请重新操作。");
                                 }
                             }
                         });
