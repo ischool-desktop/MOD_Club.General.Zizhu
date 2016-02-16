@@ -435,10 +435,10 @@ angular.module('MyApp', []).controller('MyController', ['$scope', '$timeout', fu
         delete $scope.editDes;
     }
 
-    var files = $('<input type="file" class="hide">');
-    $('body').append(files);
     $scope.changPhoto = function (index) {
 
+        var files = $('<input type="file" class="hide">');
+        $('body').append(files);
         files.val('').trigger('click');
         files.change(function (evt) {
             if (evt.target == undefined ||
