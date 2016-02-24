@@ -106,7 +106,7 @@ angular.module('MyApp', []).controller('MyController', ['$scope', '$timeout', fu
                                     service: 'GetStatus',
                                     autoRetry: true,
                                     result: function (resp, errorInfo, XMLHttpRequest) {
-                                        $scope.reflashTick = 8;
+                                        $scope.reflashTick = 90;//countTime一次(1000ms)減1，到0做reload
                                         $scope.$apply(function () {
                                             var gradeString = ['一年级', '二年级', '三年级', '四年级', '五年级'];
                                             if (parseInt(resp.gradeYear, 10)) {
