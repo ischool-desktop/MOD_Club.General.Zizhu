@@ -8,7 +8,7 @@ using System.Xml;
 namespace K12.Club.General.Zizhu
 {
     [TableName("K12.CLUBRecord.Universal")]
-    class CLUBRecord : ActiveRecord
+    class CLUBRecordWithPhoto : ActiveRecord
     {
         /// <summary>
         /// 淺層複製CLUBRecord
@@ -219,14 +219,14 @@ namespace K12.Club.General.Zizhu
         /// <summary>
         /// 照片1
         /// </summary>
-        //[Field(Field = "photo1", Indexed = false)]
-        //public string Photo1 { get; set; }
+        [Field(Field = "photo1", Indexed = false)]
+        public string Photo1 { get; set; }
 
         /// <summary>
         /// 照片2
         /// </summary>
-        //[Field(Field = "photo2", Indexed = false)]
-        //public string Photo2 { get; set; }
+        [Field(Field = "photo2", Indexed = false)]
+        public string Photo2 { get; set; }
 
 
         //total number of hours

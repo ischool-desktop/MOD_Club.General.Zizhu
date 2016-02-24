@@ -9,7 +9,7 @@ namespace K12.Club.General.Zizhu
     {
 
         //社團
-        public CLUBRecord _Club { get; set; }
+        public CLUBRecordWithPhoto _Club { get; set; }
 
         //社團學生參與清單
         public List<SCJoin> _scj { get; set; }
@@ -18,7 +18,7 @@ namespace K12.Club.General.Zizhu
         public List<CadresRecord> _Cadres { get; set; }
 
         //新社團
-        public CLUBRecord _new_Club { get; set; }
+        public CLUBRecordWithPhoto _new_Club { get; set; }
 
         //新社團學生參與清單
         public List<SCJoin> _new_scj { get; set; }
@@ -26,7 +26,7 @@ namespace K12.Club.General.Zizhu
         //新社團學生幹部
         public List<CadresRecord> _new_Cadres { get; set; }
 
-        public CopyClubRecord(CLUBRecord club)
+        public CopyClubRecord(CLUBRecordWithPhoto club)
         {
             _Club = club;
             //建立一個社團 / 社團學生的物件

@@ -377,7 +377,36 @@ ORDER BY class.grade_year, class.display_order, student.seat_no, phase
             {
                 new K12.Club.General.Zizhu.Ribbon.CheckClubAssessment().ShowDialog();
             };
+            #endregion
+            #region 轉出照片
 
+            //ClubAdmin.Instance.RibbonBarItems["照片"]["轉出"].Click += delegate
+            //{
+            //    foreach (var clubRec in new AccessHelper().Select<CLUBRecord>("uid in (" + string.Join(",", ClubAdmin.Instance.SelectedSource) + ")"))
+            //    {
+            //        if (clubRec.Photo1 != "")
+            //        {
+            //            var bytes = Convert.FromBase64String(clubRec.Photo1);
+            //            using (var imageFile = new FileStream(@"C:\Users\lelala\Desktop\ischool desktop\zzxx.mhedu.sh.cn\ClubPhotos\Club" + clubRec.UID + "Photo1.png", FileMode.Create))
+            //            {
+            //                imageFile.Write(bytes, 0, bytes.Length);
+            //                imageFile.Flush();
+            //                imageFile.Close();
+            //            }
+            //        }
+            //        if (clubRec.Photo2 != "")
+            //        {
+            //            var bytes = Convert.FromBase64String(clubRec.Photo2);
+            //            using (var imageFile = new FileStream(@"C:\Users\lelala\Desktop\ischool desktop\zzxx.mhedu.sh.cn\ClubPhotos\Club" + clubRec.UID + "Photo2.png", FileMode.Create))
+            //            {
+            //                imageFile.Write(bytes, 0, bytes.Length);
+            //                imageFile.Flush();
+            //                imageFile.Close();
+            //            }
+            //        }
+            //    }
+
+            //};
             #endregion
 
             ClubAdmin.Instance.SelectedSourceChanged += delegate

@@ -24,7 +24,7 @@ namespace K12.Club.General.Zizhu
         private BackgroundWorker BGW = new BackgroundWorker();
         private AccessHelper _AccessHelper = new AccessHelper();
 
-        CLUBRecord ClubPrimary;
+        CLUBRecordWithPhoto ClubPrimary;
 
         //權限
         internal static FeatureAce UserPermission;
@@ -87,7 +87,7 @@ namespace K12.Club.General.Zizhu
         void BGW_DoWork(object sender, DoWorkEventArgs e)
         {
             //取得社團資料
-            List<CLUBRecord> ClubPrimaryList = _AccessHelper.Select<CLUBRecord>(string.Format("UID = '{0}'", this.PrimaryKey));
+            List<CLUBRecordWithPhoto> ClubPrimaryList = _AccessHelper.Select<CLUBRecordWithPhoto>(string.Format("UID = '{0}'", this.PrimaryKey));
             if (ClubPrimaryList.Count != 1)
             {
                 //如果取得2門以上 或 沒取得社團時
@@ -226,7 +226,7 @@ namespace K12.Club.General.Zizhu
         {
             try
             {
-                _AccessHelper.UpdateValues(new List<CLUBRecord>() { ClubPrimary });
+                _AccessHelper.UpdateValues(new List<CLUBRecordWithPhoto>() { ClubPrimary });
             }
             catch
             {

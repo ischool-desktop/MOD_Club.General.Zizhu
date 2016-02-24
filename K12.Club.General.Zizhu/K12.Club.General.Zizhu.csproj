@@ -294,6 +294,7 @@
     <Compile Include="tools\tool.cs" />
     <Compile Include="tools\UDT_S.cs" />
     <Compile Include="UDT\CadresRecord.cs" />
+    <Compile Include="UDT\CLUBRecordWithPhoto.cs" />
     <Compile Include="UDT\CLUBRecord.cs" />
     <Compile Include="UDT\DTClub.cs" />
     <Compile Include="UDT\DTScore.cs" />

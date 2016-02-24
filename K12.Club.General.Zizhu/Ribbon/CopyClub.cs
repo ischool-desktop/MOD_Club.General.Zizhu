@@ -31,7 +31,7 @@ namespace K12.Club.General.Zizhu
         /// <summary>
         /// 所要拷貝的社團
         /// </summary>
-        List<CLUBRecord> Copylist = new List<CLUBRecord>();
+        List<CLUBRecordWithPhoto> Copylist = new List<CLUBRecordWithPhoto>();
         /// <summary>
         /// 重覆需要移除的社團
         /// </summary>
@@ -40,7 +40,7 @@ namespace K12.Club.General.Zizhu
         /// <summary>
         /// 所要複製的社團
         /// </summary>
-        List<CLUBRecord> newInsertList = new List<CLUBRecord>();
+        List<CLUBRecordWithPhoto> newInsertList = new List<CLUBRecordWithPhoto>();
 
         /// <summary>
         /// 所要複製的社團幹部
@@ -100,13 +100,13 @@ namespace K12.Club.General.Zizhu
         {
             bool IsTrue = true;
             string stringUDT = string.Join("','", ClubAdmin.Instance.SelectedSource);
-            Copylist = _AccessHelper.Select<CLUBRecord>("uid in ('" + stringUDT + "')");
+            Copylist = _AccessHelper.Select<CLUBRecordWithPhoto>("uid in ('" + stringUDT + "')");
             if (Copylist.Count > 0)
             {
                 _SchoolYear = Copylist[0].SchoolYear;
                 _Semester = Copylist[0].Semester;
 
-                foreach (CLUBRecord each in Copylist)
+                foreach (CLUBRecordWithPhoto each in Copylist)
                 {
                     if (_SchoolYear == each.SchoolYear && _Semester == each.Semester)
                         continue;
@@ -198,7 +198,7 @@ namespace K12.Club.General.Zizhu
             sb.AppendLine("");
             sb.AppendLine("新學期社團清單如下：");
 
-            foreach (CLUBRecord each in Copylist)
+            foreach (CLUBRecordWithPhoto each in Copylist)
             {
                 #region 複製社團基本資料
 
@@ -216,7 +216,7 @@ namespace K12.Club.General.Zizhu
                     }
                 }
 
-                CLUBRecord cr = new CLUBRecord();
+                CLUBRecordWithPhoto cr = new CLUBRecordWithPhoto();
                 cr.About = each.About;
                 cr.ClubNumber = each.ClubNumber;
                 cr.ClubCategory = each.ClubCategory;
@@ -288,7 +288,7 @@ namespace K12.Club.General.Zizhu
             FISCA.LogAgent.ApplicationLog.Log("社團", "複製社團", sb.ToString());
 
             //取得社團
-            List<CLUBRecord> ListInsertRecord = _AccessHelper.Select<CLUBRecord>(string.Format("UID in('{0}')", string.Join("','", IDList)));
+            List<CLUBRecordWithPhoto> ListInsertRecord = _AccessHelper.Select<CLUBRecordWithPhoto>(string.Format("UID in('{0}')", string.Join("','", IDList)));
             //如果有勾選複製社團
             //要把複製的社團取得ID,並且比隊其對應的原社團
             if (StudentCopy)
@@ -301,7 +301,7 @@ namespace K12.Club.General.Zizhu
                     //建立學生的社團記錄Record
                     //所要複製的社團
                     List<CopyClubRecord> new_list = new List<CopyClubRecord>();
-                    foreach (CLUBRecord each1 in Copylist)
+                    foreach (CLUBRecordWithPhoto each1 in Copylist)
                     {
                         CopyClubRecord new_ccr = new CopyClubRecord(each1);
                         if (studentSCJDic.ContainsKey(each1.UID))
@@ -311,7 +311,7 @@ namespace K12.Club.General.Zizhu
                         }
                     }
 
-                    foreach (CLUBRecord each in ListInsertRecord)
+                    foreach (CLUBRecordWithPhoto each in ListInsertRecord)
                     {
                         foreach (CopyClubRecord each2 in new_list)
                         {
@@ -352,7 +352,7 @@ namespace K12.Club.General.Zizhu
                 if (IDList.Count != 0)
                 {
                     List<CopyClubRecord> new_list = new List<CopyClubRecord>();
-                    foreach (CLUBRecord each1 in Copylist)
+                    foreach (CLUBRecordWithPhoto each1 in Copylist)
                     {
                         CopyClubRecord new_ccr = new CopyClubRecord(each1);
                         if (studentCadreDic.ContainsKey(each1.UID))
@@ -362,7 +362,7 @@ namespace K12.Club.General.Zizhu
                         }
                     }
 
-                    foreach (CLUBRecord each in ListInsertRecord)
+                    foreach (CLUBRecordWithPhoto each in ListInsertRecord)
                     {
                         foreach (CopyClubRecord each2 in new_list)
                         {
@@ -400,11 +400,11 @@ namespace K12.Club.General.Zizhu
         private List<string> CheckOldReMoveClub()
         {
             List<string> list_2 = new List<string>();
-            List<CLUBRecord> list = _AccessHelper.Select<CLUBRecord>(string.Format("school_year={0} and semester={1}", _SchoolYear, _Semester));
+            List<CLUBRecordWithPhoto> list = _AccessHelper.Select<CLUBRecordWithPhoto>(string.Format("school_year={0} and semester={1}", _SchoolYear, _Semester));
 
-            foreach (CLUBRecord each1 in Copylist)
+            foreach (CLUBRecordWithPhoto each1 in Copylist)
             {
-                foreach (CLUBRecord each2 in list)
+                foreach (CLUBRecordWithPhoto each2 in list)
                 {
                     if (each1.ClubName == each2.ClubName)
                     {
