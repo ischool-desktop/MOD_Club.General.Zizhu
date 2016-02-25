@@ -206,6 +206,19 @@ namespace K12.Club.General.Zizhu
             };
             this.AddListPaneField(Field1_2);
             #endregion
+            #region 領域
+            {
+                var field = new ListPaneField("课程领域");
+                field.GetVariable += delegate(object sender, GetVariableEventArgs e)
+                {
+                    if (AllClubDic.ContainsKey(e.Key))
+                    {
+                        e.Value = AllClubDic[e.Key].Domain;
+                    }
+                };
+                this.AddListPaneField(field);
+            }
+            #endregion
             #region 名稱
             Field1 = new ListPaneField("名称");
             Field1.GetVariable += delegate(object sender, GetVariableEventArgs e)
@@ -216,17 +229,6 @@ namespace K12.Club.General.Zizhu
                 }
             };
             this.AddListPaneField(Field1);
-            #endregion
-            #region 類型
-            Field12 = new ListPaneField("类型");
-            Field12.GetVariable += delegate(object sender, GetVariableEventArgs e)
-            {
-                if (AllClubDic.ContainsKey(e.Key))
-                {
-                    e.Value = AllClubDic[e.Key].ClubCategory;
-                }
-            };
-            this.AddListPaneField(Field12);
             #endregion
             #region 老師
             Field2 = new ListPaneField("老师1");
@@ -295,6 +297,30 @@ namespace K12.Club.General.Zizhu
             };
             this.AddListPaneField(Field2_3);
             #endregion
+            #region 類型
+            Field12 = new ListPaneField("类型");
+            Field12.GetVariable += delegate(object sender, GetVariableEventArgs e)
+            {
+                if (AllClubDic.ContainsKey(e.Key))
+                {
+                    e.Value = AllClubDic[e.Key].ClubCategory;
+                }
+            };
+            this.AddListPaneField(Field12);
+            #endregion
+            #region 长短课程
+            {
+                var field = new ListPaneField("长短课程");
+                field.GetVariable += delegate(object sender, GetVariableEventArgs e)
+                {
+                    if (AllClubDic.ContainsKey(e.Key))
+                    {
+                        e.Value = AllClubDic[e.Key].FullPhase == true ? "长课程" : "";
+                    }
+                };
+                this.AddListPaneField(field);
+            }
+            #endregion
             #region 場地
             Field3 = new ListPaneField("场地");
             Field3.GetVariable += delegate(object sender, GetVariableEventArgs e)
@@ -338,28 +364,71 @@ namespace K12.Club.General.Zizhu
             };
             this.AddListPaneField(Field5);
             #endregion
+            #region 第一階段
+            {
+                var field = new ListPaneField("第一阶段");
+                field.GetVariable += delegate(object sender, GetVariableEventArgs e)
+                {
+                    if (AllClubDic.ContainsKey(e.Key))
+                    {
+                        //count出本社團的SCJoin數量
+                        //就是人數
+                        int count1 = 0;
 
+                        if (ClubCountSCJoin.ContainsKey(e.Key + "_1"))
+                        {
+                            count1 = ClubCountSCJoin[e.Key + "_1"].社團人數;
+                        }
+
+                        e.Value = count1;
+                    }
+                };
+                this.AddListPaneField(field);
+            }
+            #endregion
+            #region 第二階段
+            {
+                var field = new ListPaneField("第二阶段");
+                field.GetVariable += delegate(object sender, GetVariableEventArgs e)
+                {
+                    if (AllClubDic.ContainsKey(e.Key))
+                    {
+                        //count出本社團的SCJoin數量
+                        //就是人數
+                        int count1 = 0;
+
+                        if (ClubCountSCJoin.ContainsKey(e.Key + "_2"))
+                        {
+                            count1 = ClubCountSCJoin[e.Key + "_2"].社團人數;
+                        }
+
+                        e.Value = count1;
+                    }
+                };
+                this.AddListPaneField(field);
+            }
+            #endregion
 
             #region 目前人數
-            Field11 = new ListPaneField("目前人数");
-            Field11.GetVariable += delegate(object sender, GetVariableEventArgs e)
-            {
-                if (AllClubDic.ContainsKey(e.Key))
-                {
-                    //count出本社團的SCJoin數量
-                    //就是人數
-                    int count1 = 0;
+            //Field11 = new ListPaneField("目前人数");
+            //Field11.GetVariable += delegate(object sender, GetVariableEventArgs e)
+            //{
+            //    if (AllClubDic.ContainsKey(e.Key))
+            //    {
+            //        //count出本社團的SCJoin數量
+            //        //就是人數
+            //        int count1 = 0;
 
-                    if (ClubCountSCJoin.ContainsKey(e.Key))
-                    {
-                        count1 = ClubCountSCJoin[e.Key].社團人數;
-                    }
+            //        if (ClubCountSCJoin.ContainsKey(e.Key))
+            //        {
+            //            count1 = ClubCountSCJoin[e.Key].社團人數;
+            //        }
 
-                    e.Value = count1;
-                }
+            //        e.Value = count1;
+            //    }
 
-            };
-            this.AddListPaneField(Field11);
+            //};
+            //this.AddListPaneField(Field11);
             #endregion
 
 
@@ -533,12 +602,13 @@ namespace K12.Club.General.Zizhu
 
             //DataTable dt_scjoin = _QueryHelper.Select("select * from " + Tn._SCJoinUDT.ToLower() + " where ref_student_id='103802'");
 
-            DataTable dt_scjoin = _QueryHelper.Select("select ref_club_id,ref_student_id from " + Tn._SCJoinUDT.ToLower());
+            DataTable dt_scjoin = _QueryHelper.Select("select ref_club_id,ref_student_id,phase from " + Tn._SCJoinUDT.ToLower());
 
             foreach (DataRow row in dt_scjoin.Rows)
             {
-                string ref_club_id = "" + row[0];
+                string ref_club_id = "" + row[0] + "_" + row[2];
                 string ref_student_id = "" + row[1];
+                string phase = "" + row[2];
 
                 if (!ClubCountSCJoin.ContainsKey(ref_club_id))
                 {

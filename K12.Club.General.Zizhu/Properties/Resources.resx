@@ -157,4 +157,7 @@
   <data name="華東師範大學附屬紫竹小學拓展性課程成績單" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\華東師範大學附屬紫竹小學拓展性課程成績單.docx;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="拓展性课程点名单_套表列印范本_" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\拓展性课程点名单(套表列印范本).doc;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

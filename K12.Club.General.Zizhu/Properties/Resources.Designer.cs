@@ -175,6 +175,16 @@ namespace K12.Club.General.Zizhu.Properties {
         /// <summary>
         ///   查詢類型 System.Byte[] 的當地語系化資源。
         /// </summary>
+        internal static byte[] 拓展性课程点名单_套表列印范本_ {
+            get {
+                object obj = ResourceManager.GetObject("拓展性课程点名单_套表列印范本_", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類型 System.Byte[] 的當地語系化資源。
+        /// </summary>
         internal static byte[] 社團點名單_套表列印 {
             get {
                 object obj = ResourceManager.GetObject("社團點名單_套表列印", resourceCulture);

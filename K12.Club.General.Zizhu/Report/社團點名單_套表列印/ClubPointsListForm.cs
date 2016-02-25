@@ -43,9 +43,9 @@ namespace K12.Club.General.Zizhu
             BGW.RunWorkerCompleted += new RunWorkerCompletedEventHandler(BGW_RunWorkerCompleted);
 
             dateTimeInput1.Value = DateTime.Today;
-            dateTimeInput2.Value = DateTime.Today.AddDays(6);
+            dateTimeInput2.Value = DateTime.Today.AddMonths(3);
 
-            GetDateTime_Click(null, null);
+            //GetDateTime_Click(null, null);
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -133,6 +133,7 @@ namespace K12.Club.General.Zizhu
             table.Columns.Add("课程名称");
             table.Columns.Add("学年度");
             table.Columns.Add("学期");
+            table.Columns.Add("阶段");
 
             table.Columns.Add("上课地点");
             table.Columns.Add("课程类型");
@@ -185,6 +186,7 @@ namespace K12.Club.General.Zizhu
                 row["课程名称"] = cr.ClubName;
                 row["学年度"] = cr.SchoolYear;
                 row["学期"] = cr.Semester;
+                row["阶段"] = Phase;
 
                 row["上课地点"] = cr.Location;
                 row["课程类型"] = cr.ClubCategory;
@@ -230,7 +232,12 @@ namespace K12.Club.General.Zizhu
                 table.Rows.Add(row);
             }
 
-            Document PageOne = (Document)Template.Clone(true);
+            //MemoryStream ms = new MemoryStream();
+            //Template.Save(ms, SaveFormat.Docx);
+            //ms.Seek(0, SeekOrigin.Begin);
+            //Document PageOne = new Document(ms);
+            //Document PageOne = (Document)Template.Clone(true);
+            Document PageOne = new Document(new MemoryStream(Properties.Resources.拓展性课程点名单_套表列印范本_));
             PageOne.MailMerge.Execute(table);
             e.Result = PageOne;
         }
@@ -328,7 +335,7 @@ namespace K12.Club.General.Zizhu
             {
                 DataGridViewRow row = new DataGridViewRow();
                 row.CreateCells(dataGridViewX1);
-                row.Cells[0].Value = dt.ToShortDateString();
+                row.Cells[0].Value = dt.ToString("MM/dd");
                 row.Cells[1].Value = CheckWeek(dt.DayOfWeek.ToString());
                 dataGridViewX1.Rows.Add(row);
             }

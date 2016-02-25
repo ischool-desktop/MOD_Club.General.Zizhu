@@ -77,6 +77,9 @@ namespace K12.Club.General.Zizhu
             DataListener = new ChangeListener();
             DataListener.Add(new TextBoxSource(txtClubName));
             DataListener.Add(new TextBoxSource(txtAbout));
+            DataListener.Add(new TextBoxSource(txtDomain));
+            DataListener.Add(new TextBoxSource(txtFormal));
+            DataListener.Add(new TextBoxSource(txtType));
             //DataListener.Add(new TextBoxSource(tbCategory));
             DataListener.Add(new TextBoxSource(tbCLUBNumber));
             DataListener.Add(new TextBoxSource(tbTotalNumberHours)); //總課時數
@@ -86,6 +89,7 @@ namespace K12.Club.General.Zizhu
             DataListener.Add(new ComboBoxSource(cbCategory, ComboBoxSource.ListenAttribute.Text));
             //DataListener.Add(new ComboBoxSource(cbPresident, ComboBoxSource.ListenAttribute.Text));
             DataListener.Add(new ComboBoxSource(cbLocation, ComboBoxSource.ListenAttribute.Text));
+            DataListener.Add(new ComboBoxSource(cbFullPhase, ComboBoxSource.ListenAttribute.SelectedIndex));
             //DataListener.Add(new ComboBoxSource(cbVicePresident, ComboBoxSource.ListenAttribute.Text));
             DataListener.StatusChanged += new EventHandler<ChangeEventArgs>(DataListener_StatusChanged);
 
@@ -225,7 +229,10 @@ namespace K12.Club.General.Zizhu
             tbCLUBNumber.Text = ClubPrimary.ClubNumber;
             txtClubName.Text = ClubPrimary.ClubName;
             lbSchoolYear.Text = ClubPrimary.SchoolYear + "学年度　第" + ClubPrimary.Semester + "学期";
-            txtAbout.Text = ClubPrimary.About.Replace("<br>", "\r\n");
+            txtAbout.Text = ClubPrimary.About;
+            txtDomain.Text = ClubPrimary.Domain;
+            txtFormal.Text = ClubPrimary.Formal;
+            txtType.Text = ClubPrimary.Type;
             //tbCategory.Text = ClubPrimary.ClubCategory;
 
             #region 社團老師
@@ -292,6 +299,7 @@ namespace K12.Club.General.Zizhu
 
             #endregion
 
+            cbFullPhase.SelectedIndex = ClubPrimary.FullPhase == true ? 1 : 0;
 
             BkWBool = false;
             SaveButtonVisible = false;
@@ -393,6 +401,22 @@ namespace K12.Club.General.Zizhu
                 sb.AppendLine(chenge);
 
             chenge = GetString("类型", Log_ClubPrimary.ClubCategory, ClubPrimary.ClubCategory);
+            if (!string.IsNullOrEmpty(chenge))
+                sb.AppendLine(chenge);
+
+            chenge = GetString("课程领域", Log_ClubPrimary.Domain, ClubPrimary.Domain);
+            if (!string.IsNullOrEmpty(chenge))
+                sb.AppendLine(chenge);
+
+            chenge = GetString("课程属性", Log_ClubPrimary.Type, ClubPrimary.Type);
+            if (!string.IsNullOrEmpty(chenge))
+                sb.AppendLine(chenge);
+
+            chenge = GetString("长短课程", (Log_ClubPrimary.FullPhase == true ? "长课程" : "短课程"), (ClubPrimary.FullPhase == true ? "长课程" : "短课程"));
+            if (!string.IsNullOrEmpty(chenge))
+                sb.AppendLine(chenge);
+
+            chenge = GetString("上课形式", Log_ClubPrimary.Formal, ClubPrimary.Formal);
             if (!string.IsNullOrEmpty(chenge))
                 sb.AppendLine(chenge);
 
@@ -511,8 +535,7 @@ namespace K12.Club.General.Zizhu
             //場地
             ClubPrimary.Location = cbLocation.Text.Trim();
             //關於
-            string refText = txtAbout.Text.Replace("\r\n", "<br>");
-            ClubPrimary.About = refText;
+            ClubPrimary.About = txtAbout.Text;
             //類型
             ClubPrimary.ClubCategory = cbCategory.Text;
 
@@ -525,6 +548,14 @@ namespace K12.Club.General.Zizhu
                 ClubPrimary.TotalNumberHours = x;
             else
                 ClubPrimary.TotalNumberHours = null;
+            //長短課程
+            ClubPrimary.FullPhase = cbFullPhase.SelectedIndex == 1 ? true : false;
+            //領域
+            ClubPrimary.Domain = txtDomain.Text;
+            //領域
+            ClubPrimary.Formal = txtFormal.Text;
+            //領域
+            ClubPrimary.Type = txtType.Text;
         }
 
         private bool CheckData()
@@ -584,7 +615,7 @@ namespace K12.Club.General.Zizhu
                 a = false;
 
             int e;
-            if (!string.IsNullOrEmpty(tbTotalNumberHours.Text) && !int.TryParse(tbTotalNumberHours.Text, out e) )
+            if (!string.IsNullOrEmpty(tbTotalNumberHours.Text) && !int.TryParse(tbTotalNumberHours.Text, out e))
             {
                 ep_Number.SetError(tbTotalNumberHours, "总课时数必须是数字!!");
                 a = false;

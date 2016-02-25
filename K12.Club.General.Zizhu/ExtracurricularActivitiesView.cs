@@ -81,7 +81,7 @@ namespace K12.Club.General.Zizhu
                     Node2.Tag = each;
                     Node1.Nodes.Add(Node2);
                 }
-
+                advTree1.ExpandAll();
                 if (string.IsNullOrEmpty(CurrNode) || CurrNode == "All")
                 {
                     advTree1.SelectedNode = Node1;

@@ -28,15 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.btnSave = new DevComponents.DotNetBar.ButtonX();
             this.btnExit = new DevComponents.DotNetBar.ButtonX();
             this.linkLabel2 = new System.Windows.Forms.LinkLabel();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.linkLabel3 = new System.Windows.Forms.LinkLabel();
             this.groupPanel1 = new DevComponents.DotNetBar.Controls.GroupPanel();
+            this.integerInput1 = new DevComponents.Editors.IntegerInput();
+            this.labelX6 = new DevComponents.DotNetBar.LabelX();
             this.cbDay3 = new DevComponents.DotNetBar.Controls.CheckBoxX();
             this.cbDay5 = new DevComponents.DotNetBar.Controls.CheckBoxX();
             this.cbDay4 = new DevComponents.DotNetBar.Controls.CheckBoxX();
@@ -53,13 +55,11 @@
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.labelX3 = new DevComponents.DotNetBar.LabelX();
-            this.labelX6 = new DevComponents.DotNetBar.LabelX();
-            this.integerInput1 = new DevComponents.Editors.IntegerInput();
             this.groupPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.integerInput1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateTimeInput1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateTimeInput2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewX1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.integerInput1)).BeginInit();
             this.SuspendLayout();
             // 
             // btnSave
@@ -100,6 +100,7 @@
             this.linkLabel2.TabIndex = 6;
             this.linkLabel2.TabStop = true;
             this.linkLabel2.Text = "下载栏位总位表";
+            this.linkLabel2.Visible = false;
             this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel2_LinkClicked);
             // 
             // linkLabel1
@@ -112,6 +113,7 @@
             this.linkLabel1.TabIndex = 5;
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "设定样版";
+            this.linkLabel1.Visible = false;
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
             // linkLabel3
@@ -181,6 +183,37 @@
             this.groupPanel1.TabIndex = 11;
             this.groupPanel1.Text = "设定";
             // 
+            // integerInput1
+            // 
+            // 
+            // 
+            // 
+            this.integerInput1.BackgroundStyle.Class = "DateTimeInputBackground";
+            this.integerInput1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.integerInput1.ButtonFreeText.Shortcut = DevComponents.DotNetBar.eShortcut.F2;
+            this.integerInput1.Location = new System.Drawing.Point(45, 118);
+            this.integerInput1.MaxValue = 2;
+            this.integerInput1.MinValue = 1;
+            this.integerInput1.Name = "integerInput1";
+            this.integerInput1.ShowUpDown = true;
+            this.integerInput1.Size = new System.Drawing.Size(71, 25);
+            this.integerInput1.TabIndex = 14;
+            this.integerInput1.Value = 1;
+            // 
+            // labelX6
+            // 
+            this.labelX6.AutoSize = true;
+            // 
+            // 
+            // 
+            this.labelX6.BackgroundStyle.Class = "";
+            this.labelX6.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX6.Location = new System.Drawing.Point(4, 120);
+            this.labelX6.Name = "labelX6";
+            this.labelX6.Size = new System.Drawing.Size(34, 21);
+            this.labelX6.TabIndex = 13;
+            this.labelX6.Text = "阶段";
+            // 
             // cbDay3
             // 
             this.cbDay3.AutoSize = true;
@@ -189,9 +222,6 @@
             // 
             this.cbDay3.BackgroundStyle.Class = "";
             this.cbDay3.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.cbDay3.Checked = true;
-            this.cbDay3.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbDay3.CheckValue = "Y";
             this.cbDay3.Location = new System.Drawing.Point(194, 13);
             this.cbDay3.Name = "cbDay3";
             this.cbDay3.Size = new System.Drawing.Size(40, 21);
@@ -207,9 +237,6 @@
             // 
             this.cbDay5.BackgroundStyle.Class = "";
             this.cbDay5.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.cbDay5.Checked = true;
-            this.cbDay5.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbDay5.CheckValue = "Y";
             this.cbDay5.Location = new System.Drawing.Point(298, 13);
             this.cbDay5.Name = "cbDay5";
             this.cbDay5.Size = new System.Drawing.Size(40, 21);
@@ -225,9 +252,6 @@
             // 
             this.cbDay4.BackgroundStyle.Class = "";
             this.cbDay4.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.cbDay4.Checked = true;
-            this.cbDay4.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbDay4.CheckValue = "Y";
             this.cbDay4.Location = new System.Drawing.Point(246, 13);
             this.cbDay4.Name = "cbDay4";
             this.cbDay4.Size = new System.Drawing.Size(40, 21);
@@ -243,9 +267,6 @@
             // 
             this.cbDay2.BackgroundStyle.Class = "";
             this.cbDay2.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.cbDay2.Checked = true;
-            this.cbDay2.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbDay2.CheckValue = "Y";
             this.cbDay2.Location = new System.Drawing.Point(142, 13);
             this.cbDay2.Name = "cbDay2";
             this.cbDay2.Size = new System.Drawing.Size(40, 21);
@@ -275,9 +296,6 @@
             // 
             this.cbDay1.BackgroundStyle.Class = "";
             this.cbDay1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.cbDay1.Checked = true;
-            this.cbDay1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbDay1.CheckValue = "Y";
             this.cbDay1.Location = new System.Drawing.Point(90, 13);
             this.cbDay1.Name = "cbDay1";
             this.cbDay1.Size = new System.Drawing.Size(40, 21);
@@ -472,14 +490,14 @@
             this.dataGridViewX1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1,
             this.Column2});
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("微軟正黑體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewX1.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("微軟正黑體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewX1.DefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridViewX1.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(215)))), ((int)(((byte)(229)))));
             this.dataGridViewX1.Location = new System.Drawing.Point(12, 226);
             this.dataGridViewX1.Name = "dataGridViewX1";
@@ -489,8 +507,8 @@
             // 
             // Column1
             // 
-            dataGridViewCellStyle4.BackColor = System.Drawing.Color.LightCyan;
-            this.Column1.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.LightCyan;
+            this.Column1.DefaultCellStyle = dataGridViewCellStyle1;
             this.Column1.HeaderText = "日期";
             this.Column1.Name = "Column1";
             this.Column1.ReadOnly = true;
@@ -498,8 +516,8 @@
             // 
             // Column2
             // 
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.LightCyan;
-            this.Column2.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.LightCyan;
+            this.Column2.DefaultCellStyle = dataGridViewCellStyle2;
             this.Column2.HeaderText = "星期";
             this.Column2.Name = "Column2";
             this.Column2.ReadOnly = true;
@@ -517,37 +535,6 @@
             this.labelX3.Size = new System.Drawing.Size(75, 23);
             this.labelX3.TabIndex = 8;
             this.labelX3.Text = "日期清单：";
-            // 
-            // labelX6
-            // 
-            this.labelX6.AutoSize = true;
-            // 
-            // 
-            // 
-            this.labelX6.BackgroundStyle.Class = "";
-            this.labelX6.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX6.Location = new System.Drawing.Point(4, 120);
-            this.labelX6.Name = "labelX6";
-            this.labelX6.Size = new System.Drawing.Size(34, 21);
-            this.labelX6.TabIndex = 13;
-            this.labelX6.Text = "阶段";
-            // 
-            // integerInput1
-            // 
-            // 
-            // 
-            // 
-            this.integerInput1.BackgroundStyle.Class = "DateTimeInputBackground";
-            this.integerInput1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.integerInput1.ButtonFreeText.Shortcut = DevComponents.DotNetBar.eShortcut.F2;
-            this.integerInput1.Location = new System.Drawing.Point(45, 118);
-            this.integerInput1.MaxValue = 3;
-            this.integerInput1.MinValue = 1;
-            this.integerInput1.Name = "integerInput1";
-            this.integerInput1.ShowUpDown = true;
-            this.integerInput1.Size = new System.Drawing.Size(71, 25);
-            this.integerInput1.TabIndex = 14;
-            this.integerInput1.Value = 1;
             // 
             // ClubPointsListForm
             // 
@@ -568,10 +555,10 @@
             this.Load += new System.EventHandler(this.ClubPointsListForm_Load);
             this.groupPanel1.ResumeLayout(false);
             this.groupPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.integerInput1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateTimeInput1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateTimeInput2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewX1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.integerInput1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

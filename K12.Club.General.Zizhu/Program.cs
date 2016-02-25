@@ -415,7 +415,7 @@ ORDER BY class.grade_year, class.display_order, student.seat_no, phase
                 bool SourceCount = (ClubAdmin.Instance.SelectedSource.Count > 0);
                 //刪除社團
                 bool a = (SourceCount && Permissions.刪除社團權限);
-                ClubAdmin.Instance.ListPaneContexMenu["删除课程"].Enable = a;
+                //ClubAdmin.Instance.ListPaneContexMenu["删除课程"].Enable = a;
                 edit["删除课程"].Enable = a;
 
                 //複製社團
