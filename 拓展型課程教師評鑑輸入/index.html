@@ -182,12 +182,18 @@
                 <a href=""
                    ng-class="{disabled:savingSeril!=0}"
                    class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
-                    {{currentStudent.ClassName}}, {{currentStudent.SeatNo}}, {{currentStudent.Name}}
+                    <span ng-if="currentCourse.fullPhase=='false'&&currentStudent.Phase=='1'">阶段一：</span>
+                    <span ng-if="currentCourse.fullPhase=='false'&&currentStudent.Phase=='2'">阶段二：</span>
+                    <span>{{currentStudent.ClassName}}, {{currentStudent.SeatNo}}, {{currentStudent.Name}}</span>
                     <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">
                     <li ng-repeat="item in studentList" ng-class="{active:item.selected}">
-                        <a href="javascript:;" ng-click="selectStudent(item)">{{item.ClassName}}, {{item.SeatNo}}, {{item.Name}}</a>
+                        <a href="javascript:;" ng-click="selectStudent(item)">
+                            <span ng-if="currentCourse.fullPhase=='false'&&item.Phase=='1'">阶段一：</span>
+                            <span ng-if="currentCourse.fullPhase=='false'&&item.Phase=='2'">阶段二：</span>
+                            <span>{{item.ClassName}}, {{item.SeatNo}}, {{item.Name}}</span>
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -199,7 +205,7 @@
                 <a class="btn btn-default btn-sm dropdown-toggle"
                    data-toggle="dropdown">
                     <i class="glyphicon glyphicon-th-list"></i>
-                    各项微调
+                    成绩调整
                     <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">
@@ -224,14 +230,14 @@
                    ng-click="configDefaultValue(3)"
                    ng-if="currentConduct">
                     <i class="glyphicon glyphicon-tasks"></i>
-                    批次给值
+                    设置基准分
                 </a>
             </div>
 
             <div style="margin-top:10px;position:relative;">
                 <div ng-controller="affixCtrl"
-                     style="position:absolute;width:370px;right:0px;">
-                    <div style="width:355px;margin-left: 15px;" id="affixPanel">
+                     style="position:absolute;width:420px;right:0px;">
+                    <div style="width:405px;margin-left: 15px;" id="affixPanel">
                         <table class="table table-bordered fadeinStudent"
                                style="margin-bottom:-1px;"
                                ng-repeat="stu in studentList"
@@ -251,7 +257,11 @@
                                                 </a>
                                                 <ul class="dropdown-menu dropdown-menu-right" style="overflow: auto;max-height: 400px;">
                                                     <li ng-repeat="item in studentList" ng-class="{active:item.selected}">
-                                                        <a href="javascript:;" ng-click="selectStudent(item)">{{item.ClassName}}, {{item.SeatNo}}, {{item.Name}}</a>
+                                                        <a href="javascript:;" ng-click="selectStudent(item)">
+                                                            <span ng-if="currentCourse.fullPhase=='false'&&item.Phase=='1'">阶段一：</span>
+                                                            <span ng-if="currentCourse.fullPhase=='false'&&item.Phase=='2'">阶段二：</span>
+                                                            <span>{{item.ClassName}}, {{item.SeatNo}}, {{item.Name}}</span>
+                                                        </a>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -298,7 +308,7 @@
                                     <th colspan="2">
                                         <div class="pull-right"
                                              ng-if="teacherType == 'homeroom'">
-                                            <div class="btn-group">
+                                            <div class="btn-group hidden">
                                                 <a href=""
                                                    class="btn btn-xs btn-default dropdown-toggle"
                                                    data-toggle="dropdown">
@@ -325,7 +335,6 @@
                                                     </li>
                                                 </ul>
                                             </div>
-
                                             <div ng-if="currentConduct.canInputGrade"
                                                  class="btn-group"
                                                  style="">
@@ -336,6 +345,10 @@
                                                 </a>
                                             </div>
                                         </div>
+                                        <span ng-if="currentStudent.calcGrade>=27">总体评价：{{currentStudent.calcGrade}} (优秀)</span>
+                                        <span ng-if="currentStudent.calcGrade>=24&&currentStudent.calcGrade<27">总体评价：{{currentStudent.calcGrade}} (良好)</span>
+                                        <span ng-if="currentStudent.calcGrade>=18&&currentStudent.calcGrade<24">总体评价：{{currentStudent.calcGrade}} (合格)</span>
+                                        <span ng-if="currentStudent.calcGrade<18">总体评价：{{currentStudent.calcGrade}} (需努力)</span>
                                     </th>
                                 </tr>
                             </thead>
@@ -356,7 +369,7 @@
                                 </tr>
                                 <tr>
                                     <td colspan="2">
-                                        <b ng-if="currentConduct.type!='Comment'">{{currentConduct.Group}}:</b>
+                                        <b ng-if="currentConduct.type!='Comment'">{{currentConduct.Group}}:{{currentConduct.Title}}</b>
                                         <b ng-if="currentConduct.type=='Comment'">教师的话:</b>
                                         <div class="pull-right">
                                             <div class="btn-group">
@@ -378,7 +391,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                                <tr ng-if="currentConduct.type!='Comment'">
+                                <!--<tr ng-if="currentConduct.type!='Comment'">
                                     <td class="col-xs-9">
                                         <div style="min-height:90px;">{{currentConduct.index}} . {{currentConduct.Title}}</div>
                                     </td>
@@ -397,6 +410,25 @@
                                                   class="text-danger">储存中...</span>
                                             <span ng-if="fadeoutMsg"
                                                   style=" z-index:1;position:absolute;right:0px;bottom:-30px;white-space: nowrap;"
+                                                  class="text-danger fadeoutMsg">{{fadeoutMsg}}</span>
+                                        </div>
+                                    </td>
+                                </tr>-->
+                                <tr ng-if="currentConduct.type!='Comment'">
+                                    <td colspan="2">
+                                        <div style="height: 100%;width:100%;display: inline-block;vertical-align: top;position:relative">
+                                            <input id="grade-textbox"
+                                                   type="text"
+                                                   class="form-control"
+                                                   ng-if="currentConduct.canInputGrade"
+                                                   ng-model="currentConduct.tempGrade"
+                                                   ng-keydown="enterGrade($event)">
+                                            <span ng-if="!currentConduct.canInputGrade">{{currentConduct.tempGrade}}</span>
+                                            <span ng-if="savingSeril!=0"
+                                                  style="z-index:1;position:absolute;right:0px;bottom:-30px;"
+                                                  class="text-danger">储存中...</span>
+                                            <span ng-if="fadeoutMsg"
+                                                  style="z-index:1;position:absolute;right:0px;bottom:-30px;white-space: nowrap;"
                                                   class="text-danger fadeoutMsg">{{fadeoutMsg}}</span>
                                         </div>
                                     </td>
@@ -434,14 +466,13 @@
                     </div>
                 </div>
 
-                <div id="printlist" style="margin-right:370px;">
+                <div id="printlist" style="margin-right:420px;">
                     <table class="table table-bordered table-striped table-hover"
                            ng-repeat="item in currentStudent.EditConduct.Conducts.Conduct"
                            style="margin-bottom:-1px;">
                         <thead>
                             <tr>
-                                <th class="col-xs-2"></th>
-                                <th class="col-xs-10"
+                                <th colspan="2"
                                     style=" position:relative;">
                                     <span>{{item.Group}}</span>
                                     <div style="position:absolute;top:-25px;"
@@ -451,19 +482,23 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="temp in item.Item" ng-class="{'warning':temp.selected}">
-                                <td ng-click="selectConduct(temp,3)" style="cursor:pointer;position: relative;">
+                                <td ng-if="currentConduct.Period"
+                                    class="text-right"
+                                    style="cursor:pointer;"
+                                    ng-click="selectConduct(temp,currentConduct.Period)">
+                                    {{temp.Title}}
+                                </td>
+                                <td class="text-right"
+                                    ng-if="!currentConduct||!currentConduct.Period"
+                                    ng-click="selectConduct(temp,currentConduct.Period)">
+                                    {{temp.Title}}
+                                </td>
+                                <td ng-click="selectConduct(temp,3)"
+                                    style="cursor:pointer;position: relative;"
+                                    class="col-xs-10">
                                     {{temp.Grade}}
                                     <div ng-if="!temp.Grade&&current.FinalOpeningC==='true'"
                                          style="border: solid red 2px;width: 1px;height: 1px;position: absolute;left: 5px;top: 5px;z-index: 1;border-radius: 3px;"></div>
-                                </td>
-                                <td ng-if="currentConduct.Period"
-                                    style="cursor:pointer;"
-                                    ng-click="selectConduct(temp,currentConduct.Period)">
-                                    {{$index+1}}. {{temp.Title}}
-                                </td>
-                                <td ng-if="!currentConduct||!currentConduct.Period"
-                                    ng-click="selectConduct(temp,currentConduct.Period)">
-                                    {{$index+1}}. {{temp.Title}}
                                 </td>
                             </tr>
                         </tbody>
@@ -507,60 +542,53 @@
                         <span class="sr-only">Close</span>
                     </button>
                     <h4 class="modal-title">
-                        {{currentCourse.Title}} [{{modal.conductGroup.Group}}] 各项微调
+                        {{currentCourse.Title}} [{{modal.conductGroup.Group}}] 成绩调整
                     </h4>
                 </div>
                 <div class="modal-body">
-                    <ol>
+                    <!--<ol>
                         <li ng-repeat="item in modal.conductGroup.Item">
                             {{item.Title}}
                         </li>
-                    </ol>
+                    </ol>-->
                     <div class="pull-right"
                          ng-if="(modal.period==1&&current.MiddleOpeningC=='true')||(modal.period>1&&current.FinalOpeningC=='true')"
                          style="margin-bottom: 5px;">
-                        <span>
-                            快速编辑:
-                        </span>
-                        <div class="btn-group">
-                            <a ng-repeat="code in modal.conductGroup.Code"
-                               class="btn btn-xs {{getOverrideVal()==code.Value?'btn-warning':'btn-default'}}"
-                               style="min-width:30px;"
-                               ng-click="setOverrideVal(code.Value)">{{code.Value}}</a>
+                        <div ng-repeat="target in modal.conductGroup.Item">
+                            <span style="width: 80px;display: inline-block;text-align: right;">{{target.Title}}：</span>
+                            <div class="btn-group" style="width:650px;">
+                                <a ng-repeat="code in target.Code"
+                                   class="btn btn-sm {{getOverrideVal(target.Title)==code.Value?'btn-warning':'btn-default'}}"
+                                   ng-click="setOverrideVal(target.Title, code.Value)">{{code.Value}}</a>
+                            </div>
                         </div>
                     </div>
                     <table class="table table-bordered table-striped table-hover">
                         <thead>
                             <tr>
-                                <th>
+                                <th class="col-xs--4">
                                     学生
                                     <span ng-if="savingSeril!=0"
                                           class="text-danger pull-right">储存中...</span>
                                 </th>
-                                <th class="text-center"
-                                    style="width:75px;cursor:pointer;position:relative;"
+                                <th class="text-center col-xs--4"
+                                    style="cursor:pointer;position:relative;"
                                     ng-repeat="item in modal.conductGroup.Item">
-                                    {{$index+1}}
-
-                                    <h4 class="ovHint"
-                                        style="top:-45px;"
-                                        ng-style="{right:(modal.conductGroup.Item.length-$index-1)*-75}">
-                                        <b class="label label-default">
-                                            {{$index+1}}. {{item.Title}}
-                                        </b>
-                                    </h4>
+                                    {{item.Title}}
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr ng-repeat="student in studentList">
                                 <td>
-                                    {{student.ClassName}}, {{student.SeatNo}}, {{student.Name}}
+                                    <span ng-if="currentCourse.fullPhase=='false'&&student.Phase=='1'">阶段一：</span>
+                                    <span ng-if="currentCourse.fullPhase=='false'&&student.Phase=='2'">阶段二：</span>
+                                    <span>{{student.ClassName}}, {{student.SeatNo}}, {{student.Name}}</span>
                                 </td>
                                 <td ng-repeat="item in modal.conductGroup.Item"
                                     class="text-center"
                                     style="cursor:pointer;position:relative;"
-                                    ng-click="setVal(student, item, modal.period, getOverrideVal())">
+                                    ng-click="setVal(student, item, modal.period, getOverrideVal(item.Title))">
                                     <div ng-if="!getVal(student, modal.conductGroup.Group, item.Title, modal.period)"
                                          style="border: solid red 2px;width: 1px;height: 1px;position: absolute;left: 5px;top: 5px;z-index: 1;border-radius: 3px;"></div>
                                     <strong ng-style="getColor(student, modal.conductGroup.Group, item.Title, modal.period)">
@@ -569,19 +597,14 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td></td>
+                                <td>
+                                    <span ng-if="savingSeril!=0"
+                                          class="text-danger pull-right">储存中...</span>
+                                </td>
                                 <th class="text-center"
-                                    style="width:75px;cursor:pointer;position:relative;"
+                                    style="cursor:pointer;position:relative;"
                                     ng-repeat="item in modal.conductGroup.Item">
-                                    {{$index+1}}
-
-                                    <h4 class="ovHint"
-                                        style="bottom:-45px;"
-                                        ng-style="{right:(modal.conductGroup.Item.length-$index-1)*-75}">
-                                        <b class="label label-default">
-                                            {{$index+1}}. {{item.Title}}
-                                        </b>
-                                    </h4>
+                                    {{item.Title}}
                                 </th>
                             </tr>
                         </tbody>
@@ -590,14 +613,13 @@
                         <div class="pull-right"
                              ng-if="(modal.period==1&&current.MiddleOpeningC=='true')||(modal.period>1&&current.FinalOpeningC=='true')"
                              style="margin-bottom: 5px;">
-                            <span>
-                                快速编辑:
-                            </span>
-                            <div class="btn-group">
-                                <a ng-repeat="code in modal.conductGroup.Code"
-                                   class="btn btn-xs {{getOverrideVal()==code.Value?'btn-warning':'btn-default'}}"
-                                   style="min-width:30px;"
-                                   ng-click="setOverrideVal(code.Value)">{{code.Value}}</a>
+                            <div ng-repeat="target in modal.conductGroup.Item">
+                                <span style="width: 80px;display: inline-block;text-align: right;">{{target.Title}}：</span>
+                                <div class="btn-group" style="width:650px;">
+                                    <a ng-repeat="code in target.Code"
+                                       class="btn btn-sm {{getOverrideVal(target.Title)==code.Value?'btn-warning':'btn-default'}}"
+                                       ng-click="setOverrideVal(target.Title, code.Value)">{{code.Value}}</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -621,14 +643,16 @@
                     <table class="table table-bordered table-striped table-hover">
                         <thead>
                             <tr>
-                                <th class="col-xs-5">学生</th>
-                                <th class="col-xs-7">教师的话</th>
+                                <th class="col-xs-4">学生</th>
+                                <th class="col-xs-8">教师的话</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr ng-repeat="student in studentList">
                                 <td>
-                                    {{student.ClassName}}, {{student.SeatNo}}, {{student.Name}}
+                                    <span ng-if="currentCourse.fullPhase=='false'&&student.Phase=='1'">阶段一：</span>
+                                    <span ng-if="currentCourse.fullPhase=='false'&&student.Phase=='2'">阶段二：</span>
+                                    <span>{{student.ClassName}}, {{student.SeatNo}}, {{student.Name}}</span>
                                 </td>
                                 <td ng-if="modal.period==1"
                                     style="cursor:pointer;position:relative;"
@@ -669,13 +693,13 @@
                         <span aria-hidden="true">&times;</span>
                         <span class="sr-only">Close</span>
                     </button>
-                    <h4 class="modal-title">{{currentCourse.Title}} 批次给值</h4>
+                    <h4 class="modal-title">{{currentCourse.Title}} 设置基准分</h4>
                 </div>
                 <div class="modal-body ">
                     <div>
                         <ul>
                             <li>
-                                于下表中输入各评分项目的预设值，然后点击
+                                于下表中输入各评分项目的基准分，然后点击
                                 <div class="btn-group">
                                     <a class="btn btn-xs btn-default">
                                         <i class="glyphicon glyphicon-th-list"></i>
@@ -688,14 +712,14 @@
                                 如果已经有对学生评分，已评分项目不会被覆盖。
                             </li>
                             <li>
-                                将预设值设为
+                                将基准分设为
                                 <div class="btn-group">
                                     <a class="btn btn-xs btn-default">
                                         <i class="glyphicon glyphicon-erase"></i>
                                         清除
                                     </a>
                                 </div>
-                                可清除学生已评分项目的值。清除后即可再选用新的预设值填入。
+                                可清除学生已评分项目的值。清除后即可再选用新的基准分填入。
                             </li>
                         </ul>
                         <div class="clearfix">
@@ -725,8 +749,8 @@
                         <table class="table table-bordered table-striped table-hover" style="margin-bottom:-1px;">
                             <thead>
                                 <tr>
-                                    <th style="line-height: 22px;padding: 7px 8px;">
-                                        <div class="pull-right">
+                                    <th colspan="2" style="line-height: 22px;padding: 7px 8px;">
+                                        <!--<div class="pull-right">
                                             <span style="vertical-align: middle;">设为: </span>
                                             <div class="btn-group">
                                                 <a ng-repeat="code in item.Code"
@@ -735,35 +759,72 @@
                                                    style="min-width:30px;"
                                                    ng-click="setGroupDefault(currentCourse.GradeYear,currentCourse.SubjectChineseName,item,code.Value)">{{code.Value}}</a>
                                             </div>
-                                        </div>
+                                        </div>-->
                                         <span style="vertical-align: middle;">{{item.Group}}</span>
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr ng-repeat="temp in item.Item">
-                                    <td>
-                                        <div class="pull-right">
-                                            <div class="btn-group">
-                                                <a ng-if="currentConduct.canInputGrade"
-                                                   class="btn btn-xs {{getDefault(currentCourse.GradeYear,currentCourse.SubjectChineseName,item.Group,temp.Title)=='erase'?'btn-warning':'btn-default'}}"
-                                                   ng-click="setDefault(currentCourse.GradeYear,currentCourse.SubjectChineseName,item.Group,temp.Title,'erase')">
-                                                    <i class="glyphicon glyphicon-erase"></i>
-                                                    清除
-                                                </a>
-                                            </div>
-                                            <div class="btn-group">
-                                                <a ng-repeat="code in temp.Code"
-                                                   ng-if="currentConduct.canInputGrade"
-                                                   class="btn btn-xs {{getDefault(currentCourse.GradeYear,currentCourse.SubjectChineseName,item.Group,temp.Title)==code.Value?'btn-warning':'btn-default'}}"
-                                                   style="min-width:30px;"
-                                                   ng-click="setDefault(currentCourse.GradeYear,currentCourse.SubjectChineseName,item.Group,temp.Title,code.Value)">{{code.Value}}</a>
-                                            </div>
+                            <tbody ng-repeat="temp in item.Item">
+                                <tr>
+                                    <td rowspan="{{temp.Code.length + 2}}"
+                                        class="col-xs-3">{{temp.Title}}</td>
+                                </tr>
+
+                                <tr ng-repeat="code in temp.Code">
+                                    <td style="padding:4px;">
+                                        <div class="btn-group">
+                                            <a ng-if="currentConduct.canInputGrade"
+                                               class="btn btn-xs {{getDefault(currentCourse.GradeYear,currentCourse.SubjectChineseName,item.Group,temp.Title)==code.Value?'btn-warning':'btn-default'}}"
+                                               style="min-width:30px;"
+                                               ng-click="setDefault(currentCourse.GradeYear,currentCourse.SubjectChineseName,item.Group,temp.Title,code.Value)">
+                                                {{code.Value}}
+                                            </a>
                                         </div>
-                                        <span>{{$index+1}}. {{temp.Title}}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:4px;">
+                                        <div class="btn-group">
+                                            <a ng-if="currentConduct.canInputGrade"
+                                               class="btn btn-xs {{getDefault(currentCourse.GradeYear,currentCourse.SubjectChineseName,item.Group,temp.Title)=='erase'?'btn-warning':'btn-default'}}"
+                                               ng-click="setDefault(currentCourse.GradeYear,currentCourse.SubjectChineseName,item.Group,temp.Title,'erase')">
+                                                <i class="glyphicon glyphicon-erase"></i>
+                                                清除
+                                            </a>
+                                        </div>
                                     </td>
                                 </tr>
                             </tbody>
+
+                            <!--<tbody>
+                                <tr ng-repeat="temp in item.Item">
+                                    <td>
+                                        <div class="pull-right text-right">
+                                            <div ng-repeat="code in temp.Code">
+                                                <div class="btn-group">
+                                                    <a ng-if="currentConduct.canInputGrade"
+                                                       class="btn btn-xs {{getDefault(currentCourse.GradeYear,currentCourse.SubjectChineseName,item.Group,temp.Title)==code.Value?'btn-warning':'btn-default'}}"
+                                                       style="min-width:30px;"
+                                                       ng-click="setDefault(currentCourse.GradeYear,currentCourse.SubjectChineseName,item.Group,temp.Title,code.Value)">
+                                                        {{code.Value}}
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div class="btn-group">
+                                                    <a ng-if="currentConduct.canInputGrade"
+                                                       class="btn btn-xs {{getDefault(currentCourse.GradeYear,currentCourse.SubjectChineseName,item.Group,temp.Title)=='erase'?'btn-warning':'btn-default'}}"
+                                                       ng-click="setDefault(currentCourse.GradeYear,currentCourse.SubjectChineseName,item.Group,temp.Title,'erase')">
+                                                        <i class="glyphicon glyphicon-erase"></i>
+                                                        清除
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <span>{{temp.Title}}</span>
+                                    </td>
+                                </tr>
+                            </tbody>-->
                         </table>
                     </div>
                 </div>

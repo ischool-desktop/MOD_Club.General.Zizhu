@@ -123,17 +123,17 @@ angular.module('enterconduct', [])
                 $scope.selectCourse($scope.courseList[flag]);
         };
 
-        $scope.selectCourse = function (item) {
+        $scope.selectCourse = function (course) {
             //if ($scope.savingSeril != 0) {
             //    //alert("saveing");
             //    return;
             //}
-            $scope.currentCourse = item;
+            $scope.currentCourse = course;
 
             angular.forEach($scope.courseList, function (item) {
                 item.selected = false;
             });
-            item.selected = true;
+            course.selected = true;
 
             delete $scope.currentStudent;
             delete $scope.currentConduct;
@@ -143,22 +143,348 @@ angular.module('enterconduct', [])
             //         temp.selected = false;
             //     });
             // });
-            if ($scope.teacherType == 'homeroom') {
-                $scope.jumpMode = "Group";
-            }
-            else {
-                $scope.jumpMode = "All";
-            }
+            //if ($scope.teacherType == 'homeroom') {
+            //    $scope.jumpMode = "Group";
+            //}
+            //else {
+            //    $scope.jumpMode = "All";
+            //}
+
+            $scope.jumpMode = "All";
+
             $scope.getStudentList();
 
             angular.forEach([].concat($scope.config.Config || []), function (item) {
-                $scope.current.FinalOpeningC = item.FinalOpeningC;
+                $scope.current.FinalOpeningC = "true";//item.FinalOpeningC;
                 $scope.current.FinalBeginC = new Date(Number(item.FinalBeginC));
-                $scope.current.FinalEndC = new Date(Number(item.FinalEndC));
-                $scope.current.ConductList = [].concat(item.Conduct.Conducts.Conduct || []);
-                angular.forEach($scope.current.ConductList, function (conduct) {
-                    conduct.Item = [].concat(conduct.Item || []);
-                });
+                $scope.current.FinalEndC = new Date(1472435640047);//new Date(Number(item.FinalEndC));
+
+
+
+                $scope.current.ConductList = [
+                    {
+                        "Group": "参与度",
+                        "Item": [
+                            {
+                                "Title": "出勤率",
+                                "Code": [{
+                                    Key: '3',
+                                    Value: 'A.出勤率100%',
+                                    Hint: '',
+                                    Color: 'DarkGreen'
+                                }, {
+                                    Key: '2',
+                                    Value: 'B.出勤率80%',
+                                    Hint: '',
+                                    Color: 'MediumBlue'
+                                }, {
+                                    Key: '1',
+                                    Value: 'C.出勤率低于80%',
+                                    Hint: '',
+                                    Color: 'SaddleBrown'
+                                }]
+                            },
+                            {
+                                "Title": "交流表达",
+                                "Code": [{
+                                    Key: '3',
+                                    Value: 'A.每堂课主动交流，清晰表达',
+                                    Hint: '',
+                                    Color: 'DarkGreen'
+                                }, {
+                                    Key: '2',
+                                    Value: 'B.乐意交流，表达欠清晰',
+                                    Hint: '',
+                                    Color: 'MediumBlue'
+                                }, {
+                                    Key: '1',
+                                    Value: 'C.在老师、同伴帮助下能交流表达',
+                                    Hint: '',
+                                    Color: 'SaddleBrown'
+                                }]
+                            }
+                        ]
+                    },
+                    {
+                        "Group": "实效性",
+                        "Item": [
+                            {
+                                "Title": "作业完成",
+                                "Code": [{
+                                    Key: '3',
+                                    Value: 'A.认真完成每项作业或任务',
+                                    Hint: '',
+                                    Color: 'DarkGreen'
+                                }, {
+                                    Key: '2',
+                                    Value: 'B.能认真完成大部分作业或任务',
+                                    Hint: '',
+                                    Color: 'MediumBlue'
+                                }, {
+                                    Key: '1',
+                                    Value: 'C.在老师提醒、同学帮助下基本完成作业或任务',
+                                    Hint: '',
+                                    Color: 'SaddleBrown'
+                                }]
+                            },
+                            {
+                                "Title": "作品呈现",
+                                "Code": [{
+                                    Key: '3',
+                                    Value: 'A.独立呈现有质量有个性的作品',
+                                    Hint: '',
+                                    Color: 'DarkGreen'
+                                }, {
+                                    Key: '2',
+                                    Value: 'B.独立呈现有一定质量的作品',
+                                    Hint: '',
+                                    Color: 'MediumBlue'
+                                }, {
+                                    Key: '1',
+                                    Value: 'C.在老师、同伴帮助下呈现作品',
+                                    Hint: '',
+                                    Color: 'SaddleBrown'
+                                }]
+                            }
+                        ]
+                    },
+
+                ];
+
+                if (course.classification.indexOf("文学与艺术") !== -1) {
+                    $scope.current.ConductList.push({
+                        "Group": "学习力",
+                        "Item": [
+                            {
+                                "Title": "审美力",
+                                "Code": [{
+                                    Key: '3',
+                                    Value: 'A.主动选择优秀作品学习，并进行鉴赏',
+                                    Hint: '',
+                                    Color: 'DarkGreen'
+                                }, {
+                                    Key: '2',
+                                    Value: 'B.会选择优秀作品学习，能进行评价',
+                                    Hint: '',
+                                    Color: 'MediumBlue'
+                                }, {
+                                    Key: '1',
+                                    Value: 'C.能够初步了解优秀作品',
+                                    Hint: '',
+                                    Color: 'SaddleBrown'
+                                }]
+                            },
+                            {
+                                "Title": "表现力",
+                                "Code": [{
+                                    Key: '3',
+                                    Value: 'A.自信大胆地表现，有个性、有创意，合作能力强',
+                                    Hint: '',
+                                    Color: 'DarkGreen'
+                                }, {
+                                    Key: '2',
+                                    Value: 'B.能够大胆表现，乐于合作或分享',
+                                    Hint: '',
+                                    Color: 'MediumBlue'
+                                }, {
+                                    Key: '1',
+                                    Value: 'C.在鼓励下能够表现',
+                                    Hint: '',
+                                    Color: 'SaddleBrown'
+                                }]
+                            }
+                        ]
+                    });
+                }
+
+                if (course.classification.indexOf("社会与生活") !== -1) {
+                    $scope.current.ConductList.push({
+                        "Group": "学习力",
+                        "Item": [
+                            {
+                                "Title": "情趣性",
+                                "Code": [{
+                                    Key: '3',
+                                    Value: 'A.爱自然爱生活，有健康向上的情趣',
+                                    Hint: '',
+                                    Color: 'DarkGreen'
+                                }, {
+                                    Key: '2',
+                                    Value: 'B.能够感受到课程带给生活的乐趣',
+                                    Hint: '',
+                                    Color: 'MediumBlue'
+                                }, {
+                                    Key: '1',
+                                    Value: 'C.对生活课程有一定的兴趣',
+                                    Hint: '',
+                                    Color: 'SaddleBrown'
+                                }]
+                            },
+                            {
+                                "Title": "实践力",
+                                "Code": [{
+                                    Key: '3',
+                                    Value: 'A.有较强的动手动脑能力，乐于合作分享',
+                                    Hint: '',
+                                    Color: 'DarkGreen'
+                                }, {
+                                    Key: '2',
+                                    Value: 'B.有一定的动手动脑能力，能够合作分享',
+                                    Hint: '',
+                                    Color: 'MediumBlue'
+                                }, {
+                                    Key: '1',
+                                    Value: 'C.在指导帮助下动手动脑',
+                                    Hint: '',
+                                    Color: 'SaddleBrown'
+                                }]
+                            }
+                        ]
+                    });
+                }
+
+                if (course.classification.indexOf("运动与生命") !== -1) {
+                    $scope.current.ConductList.push({
+                        "Group": "学习力",
+                        "Item": [
+                            {
+                                "Title": "健康度",
+                                "Code": [{
+                                    Key: '3',
+                                    Value: 'A.掌握健康技能，增强体质，保持精力充沛',
+                                    Hint: '',
+                                    Color: 'DarkGreen'
+                                }, {
+                                    Key: '2',
+                                    Value: 'B.基本掌握健康技能，体质略有增强',
+                                    Hint: '',
+                                    Color: 'MediumBlue'
+                                }, {
+                                    Key: '1',
+                                    Value: 'C.能掌握一些健康技能，体能得到提升',
+                                    Hint: '',
+                                    Color: 'SaddleBrown'
+                                }]
+                            },
+                            {
+                                "Title": "调适力",
+                                "Code": [{
+                                    Key: '3',
+                                    Value: 'A.面对困难，能自我调适，保持乐观，承受压力',
+                                    Hint: '',
+                                    Color: 'DarkGreen'
+                                }, {
+                                    Key: '2',
+                                    Value: 'B.面对困难，主动寻求帮助，能承受一定压力',
+                                    Hint: '',
+                                    Color: 'MediumBlue'
+                                }, {
+                                    Key: '1',
+                                    Value: 'C.面对困难，愿意接受帮助，提高耐挫力',
+                                    Hint: '',
+                                    Color: 'SaddleBrown'
+                                }]
+                            }
+                        ]
+                    });
+                }
+
+                if (course.classification.indexOf("科技与创新") !== -1) {
+                    $scope.current.ConductList.push({
+                        "Group": "学习力",
+                        "Item": [
+                            {
+                                "Title": "思维度",
+                                "Code": [{
+                                    Key: '3',
+                                    Value: 'A.多角度地独立思考问题，寻求规律，举一反三，解决问题',
+                                    Hint: '',
+                                    Color: 'DarkGreen'
+                                }, {
+                                    Key: '2',
+                                    Value: 'B.独立思考问题，学会迁移，解决问题',
+                                    Hint: '',
+                                    Color: 'MediumBlue'
+                                }, {
+                                    Key: '1',
+                                    Value: 'C.在合作中思考问题，思维灵活度有所提高',
+                                    Hint: '',
+                                    Color: 'SaddleBrown'
+                                }]
+                            },
+                            {
+                                "Title": "创造力",
+                                "Code": [{
+                                    Key: '3',
+                                    Value: 'A.想象力丰富，有与众不同的见解，主动尝试探究创新',
+                                    Hint: '',
+                                    Color: 'DarkGreen'
+                                }, {
+                                    Key: '2',
+                                    Value: 'B.有一定的想象力，能与他人合作动手探究创新',
+                                    Hint: '',
+                                    Color: 'MediumBlue'
+                                }, {
+                                    Key: '1',
+                                    Value: 'C.有好奇心，愿意尝试探究创新',
+                                    Hint: '',
+                                    Color: 'SaddleBrown'
+                                }]
+                            }
+                        ]
+                    });
+                }
+
+                if (course.classification.indexOf("世界与未来") !== -1) {
+                    $scope.current.ConductList.push({
+                        "Group": "学习力",
+                        "Item": [
+                            {
+                                "Title": "责任心",
+                                "Code": [{
+                                    Key: '3',
+                                    Value: 'A.负责任地学习与生活，主动关注未来与发展，基本具有世界小公民的素养',
+                                    Hint: '',
+                                    Color: 'DarkGreen'
+                                }, {
+                                    Key: '2',
+                                    Value: 'B.在学习与生活中具有一定责任心，尝试了解未来与发展，具备做世界公民的意识',
+                                    Hint: '',
+                                    Color: 'MediumBlue'
+                                }, {
+                                    Key: '1',
+                                    Value: 'C.在合作中培养学习与生活的责任心，对未来与发展有一定兴趣，立志做世界公民',
+                                    Hint: '',
+                                    Color: 'SaddleBrown'
+                                }]
+                            },
+                            {
+                                "Title": "自信力",
+                                "Code": [{
+                                    Key: '3',
+                                    Value: 'A.敢于展现自我，尝试超越，尊重他人，善于交往',
+                                    Hint: '',
+                                    Color: 'DarkGreen'
+                                }, {
+                                    Key: '2',
+                                    Value: 'B.能够认识自我，充满自信，欣赏他人，乐于交往',
+                                    Hint: '',
+                                    Color: 'MediumBlue'
+                                }, {
+                                    Key: '1',
+                                    Value: 'C.愿意完善自我，树立信心，接纳他人，学习交往',
+                                    Hint: '',
+                                    Color: 'SaddleBrown'
+                                }]
+                            }
+                        ]
+                    });
+                }
+
+                //$scope.current.ConductList = [].concat(item.Conduct.Conducts.Conduct || []);
+                //angular.forEach($scope.current.ConductList, function (conduct) {
+                //    conduct.Item = [].concat(conduct.Item || []);
+                //});
             });
         };
 
@@ -205,38 +531,14 @@ angular.module('enterconduct', [])
                                                 var _conduct = {
                                                     Group: conduct.Group,
                                                     Item: [],
-                                                    ScoringScale: '',
                                                     Code: []
                                                 };
-                                                var code = [{
-                                                    Key: '3',
-                                                    Value: '优秀',
-                                                    Hint: '',
-                                                    Color: 'DarkGreen'
-                                                }, {
-                                                    Key: '2',
-                                                    Value: '良好',
-                                                    Hint: '',
-                                                    Color: 'MediumBlue'
-                                                }, {
-                                                    Key: '1',
-                                                    Value: '及格',
-                                                    Hint: '',
-                                                    Color: 'SaddleBrown'
-                                                }, {
-                                                    Key: '0',
-                                                    Value: '需努力',
-                                                    Hint: '',
-                                                    Color: 'Gray'
-                                                }];
-                                                _conduct.ScoringScale = "2015";
-                                                _conduct.Code = code;
                                                 angular.forEach(conduct.Item, function (item) {
                                                     _conduct.Item.push({
                                                         Title: item.Title || '',
                                                         Grade: '',
                                                         Group: conduct.Group,
-                                                        Code: code
+                                                        Code: item.Code
                                                     });
                                                 });
 
@@ -244,14 +546,26 @@ angular.module('enterconduct', [])
                                             }
                                         }
                                     });
+                                    var calcGrade = 0;
                                     angular.forEach(stu.EditConduct.Conducts.Conduct, function (ec) {
                                         ec.Item = [].concat(ec.Item || []);
                                         angular.forEach(ec.Item, function (ei) {
                                             var key = ec.Group + "." + ei.Title;
                                             if (stu.Assessment && stu.Assessment.Assessment && stu.Assessment.Assessment[key])
                                                 ei.Grade = stu.Assessment.Assessment[key];
+
+
+                                            if (ei.Grade.startsWith('A.'))
+                                                calcGrade += 5;
+                                            if (ei.Grade.startsWith('B.'))
+                                                calcGrade += 3;
+                                            if (ei.Grade.startsWith('C.'))
+                                                calcGrade += 1;
+
                                         });
                                     });
+                                    stu.calcGrade = calcGrade;
+
                                     if (stu.Assessment && stu.Assessment.Assessment && stu.Assessment.Assessment['教师的话'])
                                         stu.Comment = stu.Assessment.Assessment['教师的话'];
                                 });
@@ -802,7 +1116,7 @@ angular.module('enterconduct', [])
         }
 
         $scope.overview = function (conductGroup, period) {
-            delete $scope.overrideVal;
+            $scope.overrideVal = {};
             if (!!!$scope.modal) {
                 $scope.modal = {};
                 $scope.modal.conductGroup = conductGroup;
@@ -818,12 +1132,12 @@ angular.module('enterconduct', [])
             }
         }
 
-        $scope.getOverrideVal = function () {
-            return $scope.overrideVal || '';
+        $scope.getOverrideVal = function (key) {
+            return $scope.overrideVal[key] || '';
         }
 
-        $scope.setOverrideVal = function (val) {
-            $scope.overrideVal = val;
+        $scope.setOverrideVal = function (key, val) {
+            $scope.overrideVal[key] = val;
         }
 
         $scope.setVal = function (student, conduct, period, val) {
@@ -1116,6 +1430,7 @@ angular.module('enterconduct', [])
         $scope.saveGrade = function (currentStudent, currentConduct, callBack) {
             var savingSeril = new Date().getTime();
             var currentPeriod = currentConduct.Period;
+            var calcGrade = 0;
 
             var Assessment = {};
             angular.forEach(currentStudent.EditConduct.Conducts.Conduct, function (ec) {
@@ -1123,15 +1438,24 @@ angular.module('enterconduct', [])
                 angular.forEach(ec.Item, function (ei) {
                     var key = ec.Group + "." + ei.Title;
                     Assessment[key] = ei.Grade;
+
+                    if (ei.Grade.startsWith('A.'))
+                        calcGrade += 5;
+                    if (ei.Grade.startsWith('B.'))
+                        calcGrade += 3;
+                    if (ei.Grade.startsWith('C.'))
+                        calcGrade += 1;
                 });
             });
+            currentStudent.calcGrade = calcGrade;
 
             Assessment['教师的话'] = currentStudent.Comment || '';
 
             var _body = {
                 StudentID: currentStudent.ID,
                 ClubID: $scope.currentCourse.ID,
-                Assessment: Assessment
+                Assessment: Assessment,
+                Grade: currentStudent.calcGrade
             };
 
             if ($scope.savingSeril == 0) {
@@ -1158,8 +1482,8 @@ angular.module('enterconduct', [])
                                 if ($scope.savingSeril == savingSeril) {
                                     $scope.savingSeril = 0;
                                     //if (currentStudent != $scope.currentStudent){
-                                        //$scope.fadeoutMsg = "" + currentStudent.Name + "评鉴成绩已储存，切換至學生：\n" + $scope.currentStudent.Name + "。";
-                                        ////$scope.fadeoutMsg = "" + currentStudent.ClassName + ", " + currentStudent.SeatNo + ", " + currentStudent.Name + " 成绩已储存，切換下一位學生：" + $scope.currentStudent.ClassName + ", " + $scope.currentStudent.SeatNo + ", " + $scope.currentStudent.Name + "。";
+                                    //$scope.fadeoutMsg = "" + currentStudent.Name + "评鉴成绩已储存，切換至學生：\n" + $scope.currentStudent.Name + "。";
+                                    ////$scope.fadeoutMsg = "" + currentStudent.ClassName + ", " + currentStudent.SeatNo + ", " + currentStudent.Name + " 成绩已储存，切換下一位學生：" + $scope.currentStudent.ClassName + ", " + $scope.currentStudent.SeatNo + ", " + $scope.currentStudent.Name + "。";
                                     //}
                                     if (callBack) {
                                         callBack(response, error, http);
