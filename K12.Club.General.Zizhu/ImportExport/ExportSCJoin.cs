@@ -87,7 +87,7 @@ namespace K12.Club.General.Zizhu.ImportExport
 
             wizard.ExportableFields.AddRange(new string[]{
                 "班级",
-                "座号",
+                "学号",
                 "姓名",
                 "学籍号",
                 "性别",
@@ -139,9 +139,9 @@ namespace K12.Club.General.Zizhu.ImportExport
                             switch (field)
                             {
                                 case "班级":
-                                    row.Add(field, "" + stuRec.Class == null ? "" : stuRec.Class.Name);
+                                    row.Add(field, stuRec.Class == null ? "" : stuRec.Class.Name);
                                     break;
-                                case "座号":
+                                case "学号":
                                     row.Add(field, "" + stuRec.SeatNo);
                                     break;
                                 case "姓名":

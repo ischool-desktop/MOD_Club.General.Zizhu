@@ -164,7 +164,7 @@ namespace K12.Club.General.Zizhu
 
             if (scMAG.SCJoin_Lock.Contains(STUD.ID))
             {
-                //座號
+                //学号
                 ListViewItem item = new ListViewItem(Gen);
                 item.SubItems.Add(ClassName);
                 item.SubItems.Add(STUD.SeatNo.HasValue ? STUD.SeatNo.Value.ToString() : "");
@@ -201,7 +201,7 @@ namespace K12.Club.General.Zizhu
             }
             else
             {
-                //座號
+                //学号
                 ListViewItem item = new ListViewItem(Gen);
                 item.SubItems.Add(ClassName);
                 item.SubItems.Add(STUD.SeatNo.HasValue ? STUD.SeatNo.Value.ToString() : "");
@@ -324,7 +324,7 @@ namespace K12.Club.General.Zizhu
                 }
 
                 sbstud.Append("班级「" + classname + "」");
-                sbstud.Append("座号「" + seatno + "」");
+                sbstud.Append("学号「" + seatno + "」");
                 sbstud.Append("姓名「" + each.Name + "」");
                 ButtonItem item = new ButtonItem(each.ID, sbstud.ToString());
                 item.Tag = each;
@@ -385,7 +385,7 @@ namespace K12.Club.General.Zizhu
                 cso.CheckTempStudentInCourse(IsSaft, scMAG.SCJoin_Dic, _CLUBRecord, phase);
 
                 StringBuilder sb_Log = new StringBuilder();
-                sb_Log.AppendLine(string.Format("加入「{0}」名课程参与学生：(学年度「{1}」学期「{2}」课程「{3}」)", cso.InsertList.Count.ToString(), _CLUBRecord.SchoolYear.ToString(), _CLUBRecord.Semester.ToString(), _CLUBRecord.ClubName));
+                sb_Log.AppendLine(string.Format("加入「{0}」名课程参与学生：(学年度「{1}」学期「{2}」课程「{3}」阶段「{4}」)", cso.InsertList.Count.ToString(), _CLUBRecord.SchoolYear.ToString(), _CLUBRecord.Semester.ToString(), _CLUBRecord.ClubName, phase));
 
                 if (cso.ReMoveTemp.Count != 0)
                 {
@@ -398,7 +398,7 @@ namespace K12.Club.General.Zizhu
                     {
                         string class_981 = string.IsNullOrEmpty(stud.RefClassID) ? "" : stud.Class.Name;
                         string SeatNo_981 = stud.SeatNo.HasValue ? stud.SeatNo.Value.ToString() : "";
-                        sb_Message.AppendLine("班级「" + class_981 + "」座号「" + SeatNo_981 + "」姓名「" + stud.Name + "」");
+                        sb_Message.AppendLine("班级「" + class_981 + "」学号「" + SeatNo_981 + "」姓名「" + stud.Name + "」");
                     }
 
                     #endregion
@@ -439,12 +439,12 @@ namespace K12.Club.General.Zizhu
 
                         string class_981 = string.IsNullOrEmpty(stud.RefClassID) ? "" : stud.Class.Name;
                         string SeatNo_981 = stud.SeatNo.HasValue ? stud.SeatNo.Value.ToString() : "";
-                        sb_Message.AppendLine("班级「" + class_981 + "」座号「" + SeatNo_981 + "」姓名「" + stud.Name + "」课程「" + cr.ClubName + "」阶段「" + SCJ.Phase + "」");
+                        sb_Message.AppendLine("班级「" + class_981 + "」学号「" + SeatNo_981 + "」姓名「" + stud.Name + "」课程「" + cr.ClubName + "」阶段「" + SCJ.Phase + "」");
                     }
 
                     #endregion
 
-                    DialogResult dr = MsgBox.Show(sb_Message.ToString() + "\n您是否要继续进行此作业?", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Error);
+                    DialogResult dr = MsgBox.Show(sb_Message.ToString() + "\n您是否要继续进行此作业?", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                     if (dr != DialogResult.Yes)
                     {
                         MsgBox.Show("作业已中止!!");
@@ -708,7 +708,7 @@ namespace K12.Club.General.Zizhu
             {
                 className = ClassDic[sr.RefClassID].Name;
             }
-            return string.Format("班级「{0}」座号「{1}」学生「{2}」", className, seatno, sr.Name);
+            return string.Format("班级「{0}」学号「{1}」学生「{2}」", className, seatno, sr.Name);
         }
 
         /// <summary>

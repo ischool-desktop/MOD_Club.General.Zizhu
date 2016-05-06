@@ -146,7 +146,7 @@ namespace K12.Club.General.Zizhu
                 }
                 listViewEx1.Items.Clear();
 
-                //List<string> newFields = new List<string>(new string[] { "學生系統編號", "學號", "班級", "座號", "姓名" });
+                //List<string> newFields = new List<string>(new string[] { "學生系統編號", "学籍号", "班級", "学号", "姓名" });
                 List<string> newFields = new List<string>();
                 //newFields.AddRange(_Process.ExportableFields);
                 foreach (string field in _ExportableFields)
@@ -614,11 +614,11 @@ namespace K12.Club.General.Zizhu
                 {
                     if (each.Class != null)
                     {
-                        SB.AppendLine("姓名「" + each.Name + "」班級「" + each.Class.Name + "」座號「" + each.SeatNo + "」學號「" + each.StudentNumber + "」。");
+                        SB.AppendLine("姓名「" + each.Name + "」班級「" + each.Class.Name + "」学号「" + each.SeatNo + "」学籍号「" + each.StudentNumber + "」。");
                     }
                     else
                     {
-                        SB.AppendLine("姓名「" + each.Name + "」學號「" + each.StudentNumber + "」。");
+                        SB.AppendLine("姓名「" + each.Name + "」学籍号「" + each.StudentNumber + "」。");
                     }
                 }
                 ApplicationLog.Log("社團", _Title, "已進行「" + _Title + "」操作。\n" + SB.ToString());

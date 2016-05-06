@@ -5,7 +5,7 @@ using System.Text;
 
 namespace K12.Club.General.Zizhu
 {
-    //排序依班級序號/班級名稱/學生座號/學生姓名
+    //排序依班級序號/班級名稱/學生学号/學生姓名
 
     class StudentSortObj_K12Data
     {
@@ -18,7 +18,7 @@ namespace K12.Club.General.Zizhu
             string ClassYear = ""; //年級
             string ClassIndex = ""; //班級序號
             string ClassName = ""; //班級名稱
-            string StudentSeatNo = ""; //學生座號
+            string StudentSeatNo = ""; //學生学号
             string StudentName = ""; //學生姓名
 
             _StudentRecord = student;

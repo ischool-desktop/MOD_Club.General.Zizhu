@@ -25,7 +25,7 @@ namespace K12.Club.General.Zizhu
             string ClassYear = ""; //年級
             string ClassIndex = ""; //班級序號
             string ClassName = ""; //班級名稱
-            string StudentSeatNo = ""; //學生座號
+            string StudentSeatNo = ""; //學生学号
             string StudentName = ""; //學生姓名
 
             K12.Data.StudentRecord _StudentRecord = sr1;

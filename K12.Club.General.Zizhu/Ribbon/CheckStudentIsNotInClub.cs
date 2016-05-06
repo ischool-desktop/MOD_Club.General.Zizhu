@@ -123,7 +123,7 @@ namespace K12.Club.General.Zizhu
             }
 
             //取得學校內所有一般生記錄
-            //班級/座號/學號/姓名
+            //班級/学号/学籍号/姓名
             //(沒有班級之學生,不列入記錄
             DataTable studentDT = _QueryHelper.Select("select student.id,class.class_name,student.seat_no,student.gender,student.student_number,student.name,class.grade_year from student left outer join class on student.ref_class_id=class.id where student.status=1 or student.status=2 ORDER BY class.grade_year,class.class_name,student.seat_no");
 

@@ -71,7 +71,7 @@
             // 
             // chSeatNo_
             // 
-            this.chSeatNo_.Text = "座号";
+            this.chSeatNo_.Text = "学号";
             // 
             // chName_
             // 
@@ -84,7 +84,7 @@
             // 
             // chSNum_
             // 
-            this.chSNum_.Text = "学号";
+            this.chSNum_.Text = "学籍号";
             this.chSNum_.Width = 75;
             // 
             // btnInserStudent

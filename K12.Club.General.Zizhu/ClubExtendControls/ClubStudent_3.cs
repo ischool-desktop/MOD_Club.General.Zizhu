@@ -164,7 +164,7 @@ namespace K12.Club.General.Zizhu
 
             if (scMAG.SCJoin_Lock.Contains(STUD.ID))
             {
-                //座號
+                //学号
                 ListViewItem item = new ListViewItem(Gen);
                 item.SubItems.Add(ClassName);
                 item.SubItems.Add(STUD.SeatNo.HasValue ? STUD.SeatNo.Value.ToString() : "");
@@ -201,7 +201,7 @@ namespace K12.Club.General.Zizhu
             }
             else
             {
-                //座號
+                //学号
                 ListViewItem item = new ListViewItem(Gen);
                 item.SubItems.Add(ClassName);
                 item.SubItems.Add(STUD.SeatNo.HasValue ? STUD.SeatNo.Value.ToString() : "");
@@ -324,7 +324,7 @@ namespace K12.Club.General.Zizhu
                 }
 
                 sbstud.Append("班级「" + classname + "」");
-                sbstud.Append("座号「" + seatno + "」");
+                sbstud.Append("学号「" + seatno + "」");
                 sbstud.Append("姓名「" + each.Name + "」");
                 ButtonItem item = new ButtonItem(each.ID, sbstud.ToString());
                 item.Tag = each;
@@ -398,7 +398,7 @@ namespace K12.Club.General.Zizhu
                     {
                         string class_981 = string.IsNullOrEmpty(stud.RefClassID) ? "" : stud.Class.Name;
                         string SeatNo_981 = stud.SeatNo.HasValue ? stud.SeatNo.Value.ToString() : "";
-                        sb_Message.AppendLine("班级「" + class_981 + "」座号「" + SeatNo_981 + "」姓名「" + stud.Name + "」");
+                        sb_Message.AppendLine("班级「" + class_981 + "」学号「" + SeatNo_981 + "」姓名「" + stud.Name + "」");
                     }
 
                     #endregion
@@ -439,7 +439,7 @@ namespace K12.Club.General.Zizhu
 
                         string class_981 = string.IsNullOrEmpty(stud.RefClassID) ? "" : stud.Class.Name;
                         string SeatNo_981 = stud.SeatNo.HasValue ? stud.SeatNo.Value.ToString() : "";
-                        sb_Message.AppendLine("班级「" + class_981 + "」座号「" + SeatNo_981 + "」姓名「" + stud.Name + "」课程「" + cr.ClubName + "」阶段「" + SCJ.Phase + "」");
+                        sb_Message.AppendLine("班级「" + class_981 + "」学号「" + SeatNo_981 + "」姓名「" + stud.Name + "」课程「" + cr.ClubName + "」阶段「" + SCJ.Phase + "」");
                     }
 
                     #endregion
@@ -708,7 +708,7 @@ namespace K12.Club.General.Zizhu
             {
                 className = ClassDic[sr.RefClassID].Name;
             }
-            return string.Format("班级「{0}」座号「{1}」学生「{2}」", className, seatno, sr.Name);
+            return string.Format("班级「{0}」学号「{1}」学生「{2}」", className, seatno, sr.Name);
         }
 
         /// <summary>

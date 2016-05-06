@@ -109,10 +109,10 @@ namespace K12.Club.General.Zizhu
                     mergeDT.Columns.Add("学年度");
                     mergeDT.Columns.Add("学期");
                     mergeDT.Columns.Add("姓名");
-                    mergeDT.Columns.Add("学号");
+                    mergeDT.Columns.Add("学籍号");
                     mergeDT.Columns.Add("年级");
                     mergeDT.Columns.Add("班级");
-                    mergeDT.Columns.Add("座号");
+                    mergeDT.Columns.Add("学号");
 
                     DataTable dt = _Q.Select(string.Format(@"
 SELECT 
@@ -151,10 +151,10 @@ ORDER BY class.grade_year, class.display_order, student.seat_no, phase
                             stuRow[mergeDT.Columns.IndexOf("学年度")] = "" + row["school_year"];
                             stuRow[mergeDT.Columns.IndexOf("学期")] = "" + row["semester"];
                             stuRow[mergeDT.Columns.IndexOf("姓名")] = "" + row["name"];
-                            stuRow[mergeDT.Columns.IndexOf("学号")] = "" + row["student_number"];
+                            stuRow[mergeDT.Columns.IndexOf("学籍号")] = "" + row["student_number"];
                             stuRow[mergeDT.Columns.IndexOf("年级")] = "" + row["grade_year"];
                             stuRow[mergeDT.Columns.IndexOf("班级")] = "" + row["classname"];
-                            stuRow[mergeDT.Columns.IndexOf("座号")] = "" + row["seat_no"];
+                            stuRow[mergeDT.Columns.IndexOf("学号")] = "" + row["seat_no"];
                             dicStudentRow.Add("" + row["id"], stuRow);
                         }
                         var studentRow = dicStudentRow["" + row["id"]];

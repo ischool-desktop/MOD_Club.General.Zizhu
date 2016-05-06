@@ -64,11 +64,11 @@ namespace K12.Club.General.Zizhu
 
             #region 日期設定
 
-            if (dataGridViewX1.Rows.Count <= 0)
-            {
-                MsgBox.Show("列印点名单必须有日期!!");
-                return;
-            }
+            //if (dataGridViewX1.Rows.Count <= 0)
+            //{
+            //    MsgBox.Show("列印点名单必须有日期!!");
+            //    return;
+            //}
 
             DSXmlHelper dxXml = new DSXmlHelper("XmlData");
 
@@ -87,22 +87,22 @@ namespace K12.Club.General.Zizhu
 
         void BGW_DoWork(object sender, DoWorkEventArgs e)
         {
-            Campus.Report.ReportConfiguration ConfigurationInCadre = new Campus.Report.ReportConfiguration(ClassPrint_Config_1);
-            Aspose.Words.Document Template;
+            //Campus.Report.ReportConfiguration ConfigurationInCadre = new Campus.Report.ReportConfiguration(ClassPrint_Config_1);
+            //Aspose.Words.Document Template;
 
-            if (ConfigurationInCadre.Template == null)
-            {
-                //如果範本為空,則建立一個預設範本
-                Campus.Report.ReportConfiguration ConfigurationInCadre_1 = new Campus.Report.ReportConfiguration(ClassPrint_Config_1);
-                ConfigurationInCadre_1.Template = new Campus.Report.ReportTemplate(Properties.Resources.社團點名單_套表列印, Campus.Report.TemplateType.Word);
-                //ConfigurationInCadre_1.Template = new Campus.Report.ReportTemplate(Properties.Resources.社團點名表_合併欄位總表, Campus.Report.TemplateType.Word);
-                Template = ConfigurationInCadre_1.Template.ToDocument();
-            }
-            else
-            {
-                //如果已有範本,則取得樣板
-                Template = ConfigurationInCadre.Template.ToDocument();
-            }
+            //if (ConfigurationInCadre.Template == null)
+            //{
+            //    //如果範本為空,則建立一個預設範本
+            //    Campus.Report.ReportConfiguration ConfigurationInCadre_1 = new Campus.Report.ReportConfiguration(ClassPrint_Config_1);
+            //    ConfigurationInCadre_1.Template = new Campus.Report.ReportTemplate(Properties.Resources.社團點名單_套表列印, Campus.Report.TemplateType.Word);
+            //    //ConfigurationInCadre_1.Template = new Campus.Report.ReportTemplate(Properties.Resources.社團點名表_合併欄位總表, Campus.Report.TemplateType.Word);
+            //    Template = ConfigurationInCadre_1.Template.ToDocument();
+            //}
+            //else
+            //{
+            //    //如果已有範本,則取得樣板
+            //    Template = ConfigurationInCadre.Template.ToDocument();
+            //}
 
             SCJoinDataLoad crM = new SCJoinDataLoad(Phase);
 
@@ -158,7 +158,7 @@ namespace K12.Club.General.Zizhu
 
             for (int x = 1; x <= 學生多少個; x++)
             {
-                table.Columns.Add(string.Format("座号_{0}", x));
+                table.Columns.Add(string.Format("学号_{0}", x));
             }
 
             for (int x = 1; x <= 學生多少個; x++)
@@ -168,7 +168,7 @@ namespace K12.Club.General.Zizhu
 
             for (int x = 1; x <= 學生多少個; x++)
             {
-                table.Columns.Add(string.Format("学号_{0}", x));
+                table.Columns.Add(string.Format("学籍号_{0}", x));
             }
 
             for (int x = 1; x <= 學生多少個; x++)
@@ -206,8 +206,8 @@ namespace K12.Club.General.Zizhu
                 //row["外聘老師"] = "";
 
                 row["打印日期"] = DateTime.Today.ToShortDateString();
-                row["上课开始"] = config[0];
-                row["上课结束"] = config[config.Count - 1];
+                row["上课开始"] = config.Count > 0 ? config[0] : "";
+                row["上课结束"] = config.Count > 0 ? config[config.Count - 1] : "";
                 row["人数"] = crM.ClubByStudentList[each].Count;
 
                 for (int x = 1; x <= config.Count; x++)
@@ -221,9 +221,9 @@ namespace K12.Club.General.Zizhu
                     if (y <= 學生多少個) //限制畫面到100名學生
                     {
                         row[string.Format("班级_{0}", y)] = obj.Class != null ? obj.Class.Name : "";
-                        row[string.Format("座号_{0}", y)] = obj.SeatNo.HasValue ? obj.SeatNo.Value.ToString() : "";
+                        row[string.Format("学号_{0}", y)] = obj.SeatNo.HasValue ? obj.SeatNo.Value.ToString() : "";
                         row[string.Format("姓名_{0}", y)] = obj.Name;
-                        row[string.Format("学号_{0}", y)] = obj.StudentNumber;
+                        row[string.Format("学籍号_{0}", y)] = obj.StudentNumber;
                         row[string.Format("性别_{0}", y)] = obj.Gender;
                         y++;
                     }
@@ -284,7 +284,7 @@ namespace K12.Club.General.Zizhu
                 }
                 else
                 {
-                    MsgBox.Show("列印资料发生错误\n" + e.Error.Message);
+                    MsgBox.Show("打印资料发生错误\n" + e.Error.Message);
                 }
             }
         }
@@ -331,66 +331,76 @@ namespace K12.Club.General.Zizhu
             TList.Sort();
             //資料填入
             dataGridViewX1.Rows.Clear();
+            int count = 0;
             foreach (DateTime dt in TList)
             {
+                count++;
+                if (count == 16)
+                {
+                    break;
+                }
                 DataGridViewRow row = new DataGridViewRow();
                 row.CreateCells(dataGridViewX1);
                 row.Cells[0].Value = dt.ToString("MM/dd");
                 row.Cells[1].Value = CheckWeek(dt.DayOfWeek.ToString());
                 dataGridViewX1.Rows.Add(row);
             }
+            if (count == 16)
+            {
+                MsgBox.Show("课程日期仅能打印15堂，超过的日期将自动忽略。");
+            }
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            //取得設定檔
-            Campus.Report.ReportConfiguration ConfigurationInCadre = new Campus.Report.ReportConfiguration(ClassPrint_Config_1);
-            Campus.Report.TemplateSettingForm TemplateForm;
-            //畫面內容(範本內容,預設樣式
-            if (ConfigurationInCadre.Template != null)
-            {
-                TemplateForm = new Campus.Report.TemplateSettingForm(ConfigurationInCadre.Template, new Campus.Report.ReportTemplate(Properties.Resources.社團點名單_套表列印, Campus.Report.TemplateType.Word));
-            }
-            else
-            {
-                ConfigurationInCadre.Template = new Campus.Report.ReportTemplate(Properties.Resources.社團點名單_套表列印, Campus.Report.TemplateType.Word);
-                TemplateForm = new Campus.Report.TemplateSettingForm(ConfigurationInCadre.Template, new Campus.Report.ReportTemplate(Properties.Resources.社團點名單_套表列印, Campus.Report.TemplateType.Word));
-            }
+            ////取得設定檔
+            //Campus.Report.ReportConfiguration ConfigurationInCadre = new Campus.Report.ReportConfiguration(ClassPrint_Config_1);
+            //Campus.Report.TemplateSettingForm TemplateForm;
+            ////畫面內容(範本內容,預設樣式
+            //if (ConfigurationInCadre.Template != null)
+            //{
+            //    TemplateForm = new Campus.Report.TemplateSettingForm(ConfigurationInCadre.Template, new Campus.Report.ReportTemplate(Properties.Resources.社團點名單_套表列印, Campus.Report.TemplateType.Word));
+            //}
+            //else
+            //{
+            //    ConfigurationInCadre.Template = new Campus.Report.ReportTemplate(Properties.Resources.社團點名單_套表列印, Campus.Report.TemplateType.Word);
+            //    TemplateForm = new Campus.Report.TemplateSettingForm(ConfigurationInCadre.Template, new Campus.Report.ReportTemplate(Properties.Resources.社團點名單_套表列印, Campus.Report.TemplateType.Word));
+            //}
 
-            //預設名稱
-            TemplateForm.DefaultFileName = "拓展性课程点名单(套表列印范本)";
+            ////預設名稱
+            //TemplateForm.DefaultFileName = "拓展性课程点名单(套表列印范本)";
 
-            //如果回傳為OK
-            if (TemplateForm.ShowDialog() == DialogResult.OK)
-            {
-                //設定後樣試,回傳
-                ConfigurationInCadre.Template = TemplateForm.Template;
-                //儲存
-                ConfigurationInCadre.Save();
-            }
+            ////如果回傳為OK
+            //if (TemplateForm.ShowDialog() == DialogResult.OK)
+            //{
+            //    //設定後樣試,回傳
+            //    ConfigurationInCadre.Template = TemplateForm.Template;
+            //    //儲存
+            //    ConfigurationInCadre.Save();
+            //}
         }
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            SaveFileDialog sfd = new SaveFileDialog();
-            sfd.Title = "另存新档";
-            sfd.FileName = "拓展性课程点名单_合并栏位总表.doc";
-            sfd.Filter = "Word档案 (*.doc)|*.doc|所有档案 (*.*)|*.*";
-            if (sfd.ShowDialog() == DialogResult.OK)
-            {
-                try
-                {
-                    FileStream fs = new FileStream(sfd.FileName, FileMode.Create);
-                    fs.Write(Properties.Resources.社團點名表_合併欄位總表, 0, Properties.Resources.社團點名表_合併欄位總表.Length);
-                    fs.Close();
-                    System.Diagnostics.Process.Start(sfd.FileName);
-                }
-                catch
-                {
-                    FISCA.Presentation.Controls.MsgBox.Show("指定路径无法存取。", "另存档案失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-            }
+            //SaveFileDialog sfd = new SaveFileDialog();
+            //sfd.Title = "另存新档";
+            //sfd.FileName = "拓展性课程点名单_合并栏位总表.doc";
+            //sfd.Filter = "Word档案 (*.doc)|*.doc|所有档案 (*.*)|*.*";
+            //if (sfd.ShowDialog() == DialogResult.OK)
+            //{
+            //    try
+            //    {
+            //        FileStream fs = new FileStream(sfd.FileName, FileMode.Create);
+            //        fs.Write(Properties.Resources.社團點名表_合併欄位總表, 0, Properties.Resources.社團點名表_合併欄位總表.Length);
+            //        fs.Close();
+            //        System.Diagnostics.Process.Start(sfd.FileName);
+            //    }
+            //    catch
+            //    {
+            //        FISCA.Presentation.Controls.MsgBox.Show("指定路径无法存取。", "另存档案失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //        return;
+            //    }
+            //}
         }
 
         /// <summary>

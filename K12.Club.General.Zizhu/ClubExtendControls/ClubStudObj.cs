@@ -71,34 +71,7 @@ namespace K12.Club.General.Zizhu
         /// </summary>
         public void CheckTempStudentInCourse(List<string> IsSaft, Dictionary<string, List<SCJoin>> SCJoin_Dic, CLUBRecord _CLUBRecord, int phase)
         {
-            //取得學生的社團參與記錄(所有學期)
-            List<SCJoin> scjList = tool._A.Select<SCJoin>("ref_student_id in ('" + string.Join("','", IsSaft) + "')");
-
-            if (scjList.Count != 0)
-            {
-                Dictionary<string, CLUBRecord> clubDic = GetDistinctClub(scjList);
-
-                foreach (SCJoin each in scjList)
-                {    //增加判斷已不存在的社團
-                    if (clubDic.ContainsKey(each.RefClubID))
-                    {
-                        //不同社團,學年度學期卻相同
-                        if (each.RefClubID != _CLUBRecord.UID && clubDic[each.RefClubID].SchoolYear == _CLUBRecord.SchoolYear && clubDic[each.RefClubID].Semester == _CLUBRecord.Semester)
-                        {
-                            //加入社團參與記錄
-                            ReDoubleTemp.Add(each);
-
-                            ////判斷待處理學生,是否已經有社團參與記錄(SCJoin)
-                            //if (IsSaft.Contains(each.RefStudentID))
-                            //{
-                            //    //有記錄則先剔除
-                            //    IsSaft.Remove(each.RefStudentID);
-                            //}
-                        }
-                    }
-                }
-            }
-
+            //檢查已經加入本階段修課的學生
             foreach (string each in IsSaft)
             {
                 if (!SCJoin_Dic.ContainsKey(each))
@@ -125,6 +98,38 @@ namespace K12.Club.General.Zizhu
                         }
                     }
 
+                }
+            }
+            //取得可加入學生的社團參與記錄(所有學期)
+            List<SCJoin> scjList = tool._A.Select<SCJoin>("ref_student_id in ('" + string.Join("','", InsertList) + "')");
+
+            if (scjList.Count != 0)
+            {
+                Dictionary<string, CLUBRecord> clubDic = GetDistinctClub(scjList);
+
+                foreach (SCJoin each in scjList)
+                {    //增加判斷已不存在的社團
+                    if (clubDic.ContainsKey(each.RefClubID))
+                    {
+                        //學年度學期相同
+                        if (clubDic[each.RefClubID].SchoolYear == _CLUBRecord.SchoolYear && clubDic[each.RefClubID].Semester == _CLUBRecord.Semester)
+                        {
+                            //同階段已加入
+                            if (each.Phase == phase)
+                                ReDoubleTemp.Add(each);
+                            //已加入長課程，或者已加入其他課程但是要加入長課程
+                            else if (clubDic[each.RefClubID].FullPhase == true || _CLUBRecord.FullPhase == true)
+
+                                ReDoubleTemp.Add(each);
+
+                            ////判斷待處理學生,是否已經有社團參與記錄(SCJoin)
+                            //if (IsSaft.Contains(each.RefStudentID))
+                            //{
+                            //    //有記錄則先剔除
+                            //    IsSaft.Remove(each.RefStudentID);
+                            //}
+                        }
+                    }
                 }
             }
         }

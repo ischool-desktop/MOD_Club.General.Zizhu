@@ -292,7 +292,7 @@
             // 
             dataGridViewCellStyle8.BackColor = System.Drawing.Color.LightCyan;
             this.dataGridViewTextBoxColumn2.DefaultCellStyle = dataGridViewCellStyle8;
-            this.dataGridViewTextBoxColumn2.HeaderText = "座號";
+            this.dataGridViewTextBoxColumn2.HeaderText = "学号";
             this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
             this.dataGridViewTextBoxColumn2.ReadOnly = true;
             this.dataGridViewTextBoxColumn2.Width = 60;
@@ -310,7 +310,7 @@
             // 
             dataGridViewCellStyle10.BackColor = System.Drawing.Color.LightCyan;
             this.dataGridViewTextBoxColumn4.DefaultCellStyle = dataGridViewCellStyle10;
-            this.dataGridViewTextBoxColumn4.HeaderText = "學號";
+            this.dataGridViewTextBoxColumn4.HeaderText = "学籍号";
             this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
             this.dataGridViewTextBoxColumn4.ReadOnly = true;
             this.dataGridViewTextBoxColumn4.Width = 80;
@@ -344,7 +344,7 @@
             // 
             dataGridViewCellStyle2.BackColor = System.Drawing.Color.LightCyan;
             this.colSeat_no.DefaultCellStyle = dataGridViewCellStyle2;
-            this.colSeat_no.HeaderText = "座号";
+            this.colSeat_no.HeaderText = "学号";
             this.colSeat_no.Name = "colSeat_no";
             this.colSeat_no.ReadOnly = true;
             this.colSeat_no.Width = 60;
