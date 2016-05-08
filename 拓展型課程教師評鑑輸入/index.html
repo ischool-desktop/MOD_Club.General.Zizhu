@@ -136,15 +136,37 @@
             display: inherit;
         }
     </style>
+
+    <style>
+        body.文学与艺术 .my-page h1:first-child {
+            border-left-color: orange;
+        }
+
+        body.社会与生活 .my-page h1:first-child {
+            border-left-color: yellow;
+        }
+
+        body.运动与生命 .my-page h1:first-child {
+            border-left-color: green;
+        }
+
+        body.科技与创新 .my-page h1:first-child {
+            border-left-color: darkcyan;
+        }
+
+        body.世界与未来 .my-page h1:first-child {
+            border-left-color: blue;
+        }
+    </style>
 </head>
 
-<body ng-controller="MainCtrl">
+<body ng-controller="MainCtrl" class="{{currentCourse.ClubDomain}}">
     <div id="gadget" class="my-page">
         <h1>{{current.SchoolYear}} {{current.Semester == '1' ? '上学期' : (current.Semester == '2' ? '下学期' :'')}} 拓展型课程评鉴输入</h1>
         <div class="alert alert-info"
              ng-if="current.MiddleOpeningC == 'true' || current.FinalOpeningC == 'true'"
              style="padding: 8px;margin-bottom: 10px;">
-            <p ng-if="current.FinalOpeningC == 'true'">开放时间: {{current.FinalBeginC | date:'yyyy-MM-dd HH:mm:ss'}} ~ {{current.FinalEndC | date:'yyyy-MM-dd HH:mm:ss'}}</p>
+            <p ng-if="current.FinalOpeningC == 'true'">开放时间: {{current.FinalBeginC | date:'yyyy-MM-dd HH:mm:ss'}} 至 {{current.FinalEndC | date:'yyyy-MM-dd HH:mm:ss'}}</p>
         </div>
         <div ng-if="courseList">
             <!--<div class="btn-group">
@@ -184,7 +206,8 @@
                    class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
                     <span ng-if="currentCourse.fullPhase=='false'&&currentStudent.Phase=='1'">阶段一：</span>
                     <span ng-if="currentCourse.fullPhase=='false'&&currentStudent.Phase=='2'">阶段二：</span>
-                    <span>{{currentStudent.ClassName}}, {{currentStudent.SeatNo}}, {{currentStudent.Name}}</span>
+                    <span>{{currentStudent.ClassName}}, {{currentStudent.Name}}</span>
+                    <!--<span>{{currentStudent.ClassName}}, {{currentStudent.SeatNo}}, {{currentStudent.Name}}</span>-->
                     <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">
@@ -192,7 +215,8 @@
                         <a href="javascript:;" ng-click="selectStudent(item)">
                             <span ng-if="currentCourse.fullPhase=='false'&&item.Phase=='1'">阶段一：</span>
                             <span ng-if="currentCourse.fullPhase=='false'&&item.Phase=='2'">阶段二：</span>
-                            <span>{{item.ClassName}}, {{item.SeatNo}}, {{item.Name}}</span>
+                            <span>{{item.ClassName}}, {{item.Name}}</span>
+                            <!--<span>{{item.ClassName}}, {{item.SeatNo}}, {{item.Name}}</span>-->
                         </a>
                     </li>
                 </ul>
@@ -260,7 +284,8 @@
                                                         <a href="javascript:;" ng-click="selectStudent(item)">
                                                             <span ng-if="currentCourse.fullPhase=='false'&&item.Phase=='1'">阶段一：</span>
                                                             <span ng-if="currentCourse.fullPhase=='false'&&item.Phase=='2'">阶段二：</span>
-                                                            <span>{{item.ClassName}}, {{item.SeatNo}}, {{item.Name}}</span>
+                                                            <span>{{item.ClassName}}, {{item.Name}}</span>
+                                                            <!--<span>{{item.ClassName}}, {{item.SeatNo}}, {{item.Name}}</span>-->
                                                         </a>
                                                     </li>
                                                 </ul>
@@ -287,14 +312,17 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td class="col-xs-3" rowspan="2">学生</td>
+                                    <td class="col-xs-3 text-center" rowspan="2">学生</td>
                                     <td class="col-xs-9">
-                                        {{stu.ClassName}}, {{stu.SeatNo}}
+                                        {{stu.ClassName}}
                                     </td>
+                                    <!--<td class="col-xs-9">
+                                        {{stu.ClassName}}, {{stu.SeatNo}}
+                                    </td>-->
                                 </tr>
                                 <tr>
                                     <td class="">
-                                        {{stu.Name}}
+                                        <span class="lead">{{stu.Name}}</span>
                                     </td>
                                 </tr>
                             </tbody>
@@ -554,13 +582,25 @@
                     <div class="pull-right"
                          ng-if="(modal.period==1&&current.MiddleOpeningC=='true')||(modal.period>1&&current.FinalOpeningC=='true')"
                          style="margin-bottom: 5px;">
-                        <div ng-repeat="target in modal.conductGroup.Item">
-                            <span style="width: 80px;display: inline-block;text-align: right;">{{target.Title}}：</span>
-                            <div class="btn-group" style="width:650px;">
-                                <a ng-repeat="code in target.Code"
-                                   class="btn btn-sm {{getOverrideVal(target.Title)==code.Value?'btn-warning':'btn-default'}}"
-                                   ng-click="setOverrideVal(target.Title, code.Value)">{{code.Value}}</a>
-                            </div>
+                        <div style="display:inline-block;"
+                             ng-repeat="target in modal.conductGroup.Item">
+                            <table style="margin-bottom:0px;"
+                                   class="table table-bordered">
+                                <tr>
+                                    <td style="width:25px;">
+                                        {{target.Title}}
+                                    </td>
+                                    <td style="padding:4px;min-width:200px;">
+                                        <div ng-repeat="code in target.Code">
+                                            <div style="margin:2px;"
+                                                 class="btn-group">
+                                                <a class="btn btn-sm {{getOverrideVal(target.Title)==code.Value?'btn-warning':'btn-default'}}"
+                                                   ng-click="setOverrideVal(target.Title, code.Value)">{{code.Value}}</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
                     </div>
                     <table class="table table-bordered table-striped table-hover">
@@ -583,8 +623,10 @@
                                 <td>
                                     <span ng-if="currentCourse.fullPhase=='false'&&student.Phase=='1'">阶段一：</span>
                                     <span ng-if="currentCourse.fullPhase=='false'&&student.Phase=='2'">阶段二：</span>
-                                    <span>{{student.ClassName}}, {{student.SeatNo}}, {{student.Name}}</span>
+                                    <span>{{student.ClassName}}, {{student.Name}}</span>
+                                    <!--<span>{{student.ClassName}}, {{student.SeatNo}}, {{student.Name}}</span>-->
                                 </td>
+                                <td ng-rep
                                 <td ng-repeat="item in modal.conductGroup.Item"
                                     class="text-center"
                                     style="cursor:pointer;position:relative;"
@@ -596,7 +638,7 @@
                                     </strong>
                                 </td>
                             </tr>
-                            <tr>
+                            <tr ng-if="studentList.length>=20">
                                 <td>
                                     <span ng-if="savingSeril!=0"
                                           class="text-danger pull-right">储存中...</span>
@@ -609,17 +651,30 @@
                             </tr>
                         </tbody>
                     </table>
-                    <div class="clearfix" style="margin-top:-15px;margin-bottom:20px;">
+                    <div ng-if="studentList.length>=20"
+                         class="clearfix" style="margin-top:-15px;margin-bottom:20px;">
                         <div class="pull-right"
                              ng-if="(modal.period==1&&current.MiddleOpeningC=='true')||(modal.period>1&&current.FinalOpeningC=='true')"
                              style="margin-bottom: 5px;">
-                            <div ng-repeat="target in modal.conductGroup.Item">
-                                <span style="width: 80px;display: inline-block;text-align: right;">{{target.Title}}：</span>
-                                <div class="btn-group" style="width:650px;">
-                                    <a ng-repeat="code in target.Code"
-                                       class="btn btn-sm {{getOverrideVal(target.Title)==code.Value?'btn-warning':'btn-default'}}"
-                                       ng-click="setOverrideVal(target.Title, code.Value)">{{code.Value}}</a>
-                                </div>
+                            <div style="display:inline-block;"
+                                 ng-repeat="target in modal.conductGroup.Item">
+                                <table style="margin-bottom:0px;"
+                                       class="table table-bordered">
+                                    <tr>
+                                        <td style="width:25px;">
+                                            {{target.Title}}
+                                        </td>
+                                        <td style="padding:4px;min-width:200px;">
+                                            <div ng-repeat="code in target.Code">
+                                                <div style="margin:2px;"
+                                                     class="btn-group">
+                                                    <a class="btn btn-sm {{getOverrideVal(target.Title)==code.Value?'btn-warning':'btn-default'}}"
+                                                       ng-click="setOverrideVal(target.Title, code.Value)">{{code.Value}}</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -652,8 +707,15 @@
                                 <td>
                                     <span ng-if="currentCourse.fullPhase=='false'&&student.Phase=='1'">阶段一：</span>
                                     <span ng-if="currentCourse.fullPhase=='false'&&student.Phase=='2'">阶段二：</span>
-                                    <span>{{student.ClassName}}, {{student.SeatNo}}, {{student.Name}}</span>
+                                    <span>{{student.ClassName}}, {{student.Name}}</span>
+                                    <!--<span>{{student.ClassName}}, {{student.SeatNo}}, {{student.Name}}</span>-->
                                 </td>
+         </td>
+                                <t
+                                <td ng-if=
+
+
+                                <td ng-if=
                                 <td ng-if="modal.period==1"
                                     style="cursor:pointer;position:relative;"
                                     ng-click="selectStudentConduct(student,{type:'Comment'}, 1)">
@@ -767,14 +829,16 @@
                             <tbody ng-repeat="temp in item.Item">
                                 <tr>
                                     <td rowspan="{{temp.Code.length + 2}}"
-                                        class="col-xs-3">{{temp.Title}}</td>
+                                        class="col-xs-3">
+                                        {{temp.Title}}
+                                    </td>
                                 </tr>
 
                                 <tr ng-repeat="code in temp.Code">
                                     <td style="padding:4px;">
                                         <div class="btn-group">
                                             <a ng-if="currentConduct.canInputGrade"
-                                               class="btn btn-xs {{getDefault(currentCourse.GradeYear,currentCourse.SubjectChineseName,item.Group,temp.Title)==code.Value?'btn-warning':'btn-default'}}"
+                                               class="btn btn-sm {{getDefault(currentCourse.GradeYear,currentCourse.SubjectChineseName,item.Group,temp.Title)==code.Value?'btn-warning':'btn-default'}}"
                                                style="min-width:30px;"
                                                ng-click="setDefault(currentCourse.GradeYear,currentCourse.SubjectChineseName,item.Group,temp.Title,code.Value)">
                                                 {{code.Value}}
@@ -786,7 +850,7 @@
                                     <td style="padding:4px;">
                                         <div class="btn-group">
                                             <a ng-if="currentConduct.canInputGrade"
-                                               class="btn btn-xs {{getDefault(currentCourse.GradeYear,currentCourse.SubjectChineseName,item.Group,temp.Title)=='erase'?'btn-warning':'btn-default'}}"
+                                               class="btn btn-sm {{getDefault(currentCourse.GradeYear,currentCourse.SubjectChineseName,item.Group,temp.Title)=='erase'?'btn-warning':'btn-default'}}"
                                                ng-click="setDefault(currentCourse.GradeYear,currentCourse.SubjectChineseName,item.Group,temp.Title,'erase')">
                                                 <i class="glyphicon glyphicon-erase"></i>
                                                 清除

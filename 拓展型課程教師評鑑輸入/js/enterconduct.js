@@ -94,6 +94,10 @@ angular.module('enterconduct', [])
                                     item.Title = item.name;
                                     item.Type = 'homeroom';
                                     item.Show = true;
+                                    ["文学与艺术", "社会与生活", "运动与生命", "科技与创新", "世界与未来"].forEach(function (domain) {
+                                        if (item.classification.indexOf(domain) !== -1)
+                                            item.ClubDomain = domain;
+                                    });
                                 });
 
                                 $scope.courseList = [].concat(_ClassList || []);
@@ -150,7 +154,6 @@ angular.module('enterconduct', [])
             //    $scope.jumpMode = "All";
             //}
 
-            $scope.jumpMode = "All";
 
             $scope.getStudentList();
 
@@ -251,7 +254,7 @@ angular.module('enterconduct', [])
 
                 ];
 
-                if (course.classification.indexOf("文学与艺术") !== -1) {
+                if (course.ClubDomain == "文学与艺术") {
                     $scope.current.ConductList.push({
                         "Group": "学习力",
                         "Item": [
@@ -297,7 +300,7 @@ angular.module('enterconduct', [])
                     });
                 }
 
-                if (course.classification.indexOf("社会与生活") !== -1) {
+                if (course.ClubDomain == "社会与生活") {
                     $scope.current.ConductList.push({
                         "Group": "学习力",
                         "Item": [
@@ -343,7 +346,7 @@ angular.module('enterconduct', [])
                     });
                 }
 
-                if (course.classification.indexOf("运动与生命") !== -1) {
+                if (course.ClubDomain == "运动与生命") {
                     $scope.current.ConductList.push({
                         "Group": "学习力",
                         "Item": [
@@ -389,7 +392,7 @@ angular.module('enterconduct', [])
                     });
                 }
 
-                if (course.classification.indexOf("科技与创新") !== -1) {
+                if (course.ClubDomain == "科技与创新") {
                     $scope.current.ConductList.push({
                         "Group": "学习力",
                         "Item": [
@@ -435,7 +438,7 @@ angular.module('enterconduct', [])
                     });
                 }
 
-                if (course.classification.indexOf("世界与未来") !== -1) {
+                if (course.ClubDomain == "世界与未来") {
                     $scope.current.ConductList.push({
                         "Group": "学习力",
                         "Item": [
@@ -487,6 +490,7 @@ angular.module('enterconduct', [])
                 //});
             });
         };
+
 
         $scope.getStudentList = function () {
             delete $scope.studentList;
@@ -933,49 +937,77 @@ angular.module('enterconduct', [])
             }
 
             if (isLastItem) {
-                if ($scope.jumpMode == 'All') {
-                    if (isLastGroup) {
-                        if ($scope.currentStudent.order != $scope.studentList.length - 1) {
-                            $scope.selectStudent($scope.studentList[$scope.currentStudent.order + 1], true);
-                        }
-                        else {
-                            $scope.selectStudent($scope.studentList[0], true);
-                        }
+                if (isComment) {
+                    if ($scope.currentStudent.order != $scope.studentList.length - 1) {
+                        //下一個學生
+                        $scope.selectStudent($scope.studentList[$scope.currentStudent.order + 1], true);
+                        nextConduct = { type: 'Comment' };
+                    }
+                    else {
+                        //從頭開始
+                        $scope.selectStudent($scope.studentList[0], true);
                         nextConduct = $scope.currentStudent.EditConduct.Conducts.Conduct[0].Item[0];
                     }
-                    else {
-                        //明明是最後一個卻不是LastGroup表示還有Comment
-                        if ($scope.currentStudent.EditConduct.Conducts.Conduct.length - 1 != groupIndex)
-                            nextConduct = $scope.currentStudent.EditConduct.Conducts.Conduct[groupIndex + 1].Item[0];
-                        else {
-                            nextConduct = { type: 'Comment' };
-                        }
-                    }
                 }
-                if ($scope.jumpMode == 'Group') {
-                    if ($scope.currentStudent.order != $scope.studentList.length - 1) {
-                        $scope.selectStudent($scope.studentList[$scope.currentStudent.order + 1], true);
-                        if (!isComment)
-                            nextConduct = $scope.currentStudent.EditConduct.Conducts.Conduct[groupIndex].Item[0];
-                        else
-                            nextConduct = { type: 'Comment' };
-
-                    }
+                else {
+                    if ($scope.currentStudent.EditConduct.Conducts.Conduct.length - 1 != groupIndex)
+                        //下一個群組
+                        nextConduct = $scope.currentStudent.EditConduct.Conducts.Conduct[groupIndex + 1].Item[0];
                     else {
-                        $scope.selectStudent($scope.studentList[0], true);
-                        if (isLastGroup) {
+                        if ($scope.currentStudent.order != $scope.studentList.length - 1) {
+                            //下一個學生
+                            $scope.selectStudent($scope.studentList[$scope.currentStudent.order + 1], true);
                             nextConduct = $scope.currentStudent.EditConduct.Conducts.Conduct[0].Item[0];
                         }
                         else {
-                            //明明是最後一個卻不是LastGroup表示還有Comment
-                            if ($scope.currentStudent.EditConduct.Conducts.Conduct.length - 1 != groupIndex)
-                                nextConduct = $scope.currentStudent.EditConduct.Conducts.Conduct[groupIndex + 1].Item[0];
-                            else {
-                                nextConduct = { type: 'Comment' };
-                            }
+                            //從Comment開始
+                            $scope.selectStudent($scope.studentList[0], true);
+                            nextConduct = { type: 'Comment' };
                         }
                     }
                 }
+                //if ($scope.jumpMode == 'All') {
+                //    if (isLastGroup) {
+                //        if ($scope.currentStudent.order != $scope.studentList.length - 1) {
+                //            $scope.selectStudent($scope.studentList[$scope.currentStudent.order + 1], true);
+                //        }
+                //        else {
+                //            $scope.selectStudent($scope.studentList[0], true);
+                //        }
+                //        nextConduct = $scope.currentStudent.EditConduct.Conducts.Conduct[0].Item[0];
+                //    }
+                //    else {
+                //        //明明是最後一個卻不是LastGroup表示還有Comment
+                //        if ($scope.currentStudent.EditConduct.Conducts.Conduct.length - 1 != groupIndex)
+                //            nextConduct = $scope.currentStudent.EditConduct.Conducts.Conduct[groupIndex + 1].Item[0];
+                //        else {
+                //            nextConduct = { type: 'Comment' };
+                //        }
+                //    }
+                //}
+                //if ($scope.jumpMode == 'Group') {
+                //    if ($scope.currentStudent.order != $scope.studentList.length - 1) {
+                //        $scope.selectStudent($scope.studentList[$scope.currentStudent.order + 1], true);
+                //        if (!isComment)
+                //            nextConduct = $scope.currentStudent.EditConduct.Conducts.Conduct[groupIndex].Item[0];
+                //        else
+                //            nextConduct = { type: 'Comment' };
+                //    }
+                //    else {
+                //        $scope.selectStudent($scope.studentList[0], true);
+                //        if (isLastGroup) {
+                //            nextConduct = $scope.currentStudent.EditConduct.Conducts.Conduct[0].Item[0];
+                //        }
+                //        else {
+                //            //明明是最後一個卻不是LastGroup表示還有Comment
+                //            if ($scope.currentStudent.EditConduct.Conducts.Conduct.length - 1 != groupIndex)
+                //                nextConduct = $scope.currentStudent.EditConduct.Conducts.Conduct[groupIndex + 1].Item[0];
+                //            else {
+                //                nextConduct = { type: 'Comment' };
+                //            }
+                //        }
+                //    }
+                //}
                 try {
                     //自動捲動
                     //if (nextConduct.type != 'Comment') {
@@ -1058,48 +1090,80 @@ angular.module('enterconduct', [])
             }
 
             if (isFirstItem) {
-                if ($scope.jumpMode == 'All') {
-                    if (isFirstGroup) {
+
+
+                if (isComment) {
+                    if ($scope.currentStudent.order != 0) {
+                        //不是第一個學生
+                        $scope.selectStudent($scope.studentList[$scope.currentStudent.order - 1], true);
+                        nextConduct = { type: 'Comment' };
+                    }
+                    else {
+                        //最後一個學生的最後一個項目
+                        $scope.selectStudent($scope.studentList[$scope.studentList.length - 1], true);
+                        nextConduct = $scope.currentStudent.EditConduct.Conducts.Conduct[$scope.currentStudent.EditConduct.Conducts.Conduct.length - 1].Item[$scope.currentStudent.EditConduct.Conducts.Conduct[$scope.currentStudent.EditConduct.Conducts.Conduct.length - 1].Item.length - 1];
+                    }
+                }
+                else {
+                    if (groupIndex > 0)
+                        //還有前一個群組
+                        nextConduct = $scope.currentStudent.EditConduct.Conducts.Conduct[groupIndex - 1].Item[$scope.currentStudent.EditConduct.Conducts.Conduct[groupIndex - 1].Item.length - 1];
+                    else {
                         if ($scope.currentStudent.order != 0) {
+                            //前一個學生最後一個項目
                             $scope.selectStudent($scope.studentList[$scope.currentStudent.order - 1], true);
-                        }
-                        else {
-                            $scope.selectStudent($scope.studentList[$scope.studentList.length - 1], true);
-                        }
-                        if ($scope.teacherType != 'homeroom') {
                             nextConduct = $scope.currentStudent.EditConduct.Conducts.Conduct[$scope.currentStudent.EditConduct.Conducts.Conduct.length - 1].Item[$scope.currentStudent.EditConduct.Conducts.Conduct[$scope.currentStudent.EditConduct.Conducts.Conduct.length - 1].Item.length - 1];
                         }
                         else {
+                            //從尾開始
+                            $scope.selectStudent($scope.studentList[$scope.studentList.length - 1], true);
                             nextConduct = { type: 'Comment' };
                         }
                     }
-                    else {
-                        nextConduct = $scope.currentStudent.EditConduct.Conducts.Conduct[groupIndex - 1].Item[$scope.currentStudent.EditConduct.Conducts.Conduct[groupIndex - 1].Item.length - 1];
-                    }
                 }
-                if ($scope.jumpMode == 'Group') {
-                    if ($scope.currentStudent.order != 0) {
-                        $scope.selectStudent($scope.studentList[$scope.currentStudent.order - 1], true);
-                        if (!isComment)
-                            nextConduct = $scope.currentStudent.EditConduct.Conducts.Conduct[groupIndex].Item[$scope.currentStudent.EditConduct.Conducts.Conduct[groupIndex].Item.length - 1];
-                        else
-                            nextConduct = { type: 'Comment' };
-                    }
-                    else {
-                        $scope.selectStudent($scope.studentList[$scope.studentList.length - 1], true);
-                        if (isFirstGroup) {
-                            if ($scope.teacherType != 'homeroom') {
-                                nextConduct = $scope.currentStudent.EditConduct.Conducts.Conduct[$scope.currentStudent.EditConduct.Conducts.Conduct.length - 1].Item[$scope.currentStudent.EditConduct.Conducts.Conduct[$scope.currentStudent.EditConduct.Conducts.Conduct.length - 1].Item.length - 1];
-                            }
-                            else {
-                                nextConduct = { type: 'Comment' };
-                            }
-                        }
-                        else {
-                            nextConduct = $scope.currentStudent.EditConduct.Conducts.Conduct[groupIndex - 1].Item[$scope.currentStudent.EditConduct.Conducts.Conduct[groupIndex - 1].Item.length - 1];
-                        }
-                    }
-                }
+
+                //if ($scope.jumpMode == 'All') {
+                //    if (isFirstGroup) {
+                //        if ($scope.currentStudent.order != 0) {
+                //            $scope.selectStudent($scope.studentList[$scope.currentStudent.order - 1], true);
+                //        }
+                //        else {
+                //            $scope.selectStudent($scope.studentList[$scope.studentList.length - 1], true);
+                //        }
+                //        if ($scope.teacherType != 'homeroom') {
+                //            nextConduct = $scope.currentStudent.EditConduct.Conducts.Conduct[$scope.currentStudent.EditConduct.Conducts.Conduct.length - 1].Item[$scope.currentStudent.EditConduct.Conducts.Conduct[$scope.currentStudent.EditConduct.Conducts.Conduct.length - 1].Item.length - 1];
+                //        }
+                //        else {
+                //            nextConduct = { type: 'Comment' };
+                //        }
+                //    }
+                //    else {
+                //        nextConduct = $scope.currentStudent.EditConduct.Conducts.Conduct[groupIndex - 1].Item[$scope.currentStudent.EditConduct.Conducts.Conduct[groupIndex - 1].Item.length - 1];
+                //    }
+                //}
+                //if ($scope.jumpMode == 'Group') {
+                //    if ($scope.currentStudent.order != 0) {
+                //        $scope.selectStudent($scope.studentList[$scope.currentStudent.order - 1], true);
+                //        if (!isComment)
+                //            nextConduct = $scope.currentStudent.EditConduct.Conducts.Conduct[groupIndex].Item[$scope.currentStudent.EditConduct.Conducts.Conduct[groupIndex].Item.length - 1];
+                //        else
+                //            nextConduct = { type: 'Comment' };
+                //    }
+                //    else {
+                //        $scope.selectStudent($scope.studentList[$scope.studentList.length - 1], true);
+                //        if (isFirstGroup) {
+                //            if ($scope.teacherType != 'homeroom') {
+                //                nextConduct = $scope.currentStudent.EditConduct.Conducts.Conduct[$scope.currentStudent.EditConduct.Conducts.Conduct.length - 1].Item[$scope.currentStudent.EditConduct.Conducts.Conduct[$scope.currentStudent.EditConduct.Conducts.Conduct.length - 1].Item.length - 1];
+                //            }
+                //            else {
+                //                nextConduct = { type: 'Comment' };
+                //            }
+                //        }
+                //        else {
+                //            nextConduct = $scope.currentStudent.EditConduct.Conducts.Conduct[groupIndex - 1].Item[$scope.currentStudent.EditConduct.Conducts.Conduct[groupIndex - 1].Item.length - 1];
+                //        }
+                //    }
+                //}
 
                 //if (nextConduct.type != 'Comment') {
                 //    $('#scrollAnchor' + $scope.fixGroupName(nextConduct.Group))[0].scrollIntoView({ block: "end", behavior: "smooth" });
