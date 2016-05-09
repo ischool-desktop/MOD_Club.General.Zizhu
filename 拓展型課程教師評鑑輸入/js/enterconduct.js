@@ -559,11 +559,11 @@ angular.module('enterconduct', [])
                                                 ei.Grade = stu.Assessment.Assessment[key];
 
 
-                                            if (ei.Grade.startsWith('A.'))
+                                            if (ei.Grade.match('^A.'))
                                                 calcGrade += 5;
-                                            if (ei.Grade.startsWith('B.'))
+                                            if (ei.Grade.match('^B.'))
                                                 calcGrade += 3;
-                                            if (ei.Grade.startsWith('C.'))
+                                            if (ei.Grade.match('^C.'))
                                                 calcGrade += 1;
 
                                         });
@@ -1503,11 +1503,11 @@ angular.module('enterconduct', [])
                     var key = ec.Group + "." + ei.Title;
                     Assessment[key] = ei.Grade;
 
-                    if (ei.Grade.startsWith('A.'))
+                    if (ei.Grade.match('^A.'))
                         calcGrade += 5;
-                    if (ei.Grade.startsWith('B.'))
+                    if (ei.Grade.match('^B.'))
                         calcGrade += 3;
-                    if (ei.Grade.startsWith('C.'))
+                    if (ei.Grade.match('^C.'))
                         calcGrade += 1;
                 });
             });
