@@ -1,0 +1,196 @@
+﻿<!DOCTYPE html>
+<html ng-app="MyApp">
+
+<head>
+    <script>
+        function gogoLogin() {
+            var application = "zzxx.mhedu.sh.cn";
+            var clientID = "200b644d9a6360d9ac131aa5810e4408";
+            var dn = "zzxx.mhedu.sh.cn";
+            var redirect_uri = location.href.lastIndexOf('#') >= 0 ? location.href.substr(0, location.href.lastIndexOf('#')) : location.href;
+            window.location.assign("https://auth.ischoolcenter.com/logout.php?next=" + encodeURIComponent("oauth/authorize.php?application=" + application + (dn ? ("&dn=" + dn) : "") + "&client_id=" + clientID + "&response_type=token&redirect_uri=" + redirect_uri + "&scope=" + application + ":MOD_Club.Zizhu.evl.teacher"));
+        }
+        if (location.href.lastIndexOf('#') >= 0) {
+            var bookmark = location.href.substr(location.href.lastIndexOf('#') + 1);
+
+            var vars = [],
+                hashes = bookmark.split('&');
+            for (var i = 0; i < hashes.length; i++) {
+                hash = decodeURIComponent(hashes[i]);
+                var key = hash.substring(0, hash.indexOf("="));
+                vars.push(key);
+                vars[key] = hash.substring(hash.indexOf("=") + 1);
+            }
+            if (vars.access_token) {
+                window.accesstoken = vars.access_token;
+            } else {
+                gogoLogin();
+            }
+        } else {
+            gogoLogin();
+        }
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/font-awesome.min.css" rel="stylesheet" />
+    <link href="css/base.css" rel="stylesheet" />
+    <link href="css/default.css" rel="stylesheet" />
+    <script src="js/jquery.min.js"></script>
+    <script src="js/angular.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/xmlWriter.js"></script>
+    <script src="js/parseXml.js"></script>
+    <script src="js/xml2json.js"></script>
+    <script src="js/dsutil.js"></script>
+    <script src="js/module.js"></script>
+    <title>华东师范大学附属紫竹小学 - 拓展型課程教師評学生分组</title>
+    <style>
+
+body.文学与艺术 .title {
+	background:url(img/icon_1.png) 20px center no-repeat #f4a425;
+	border-radius: 10px;
+	height:40px!important;
+	text-indent:60px;
+	color: rgb(255, 255, 255);
+	line-height: 40px!important;
+	font-weight:bold;
+	font-size:16px;
+	text-shadow: rgba(0, 0, 0, 0.5) 0 1px 1px;
+	padding:5px !important;
+}
+body.社会与生活 .title {
+	background:url(img/icon_2.png) 20px center no-repeat #dbd23d;
+	border-radius: 10px;
+	height:40px!important;
+	text-indent:60px;
+	color: rgb(255, 255, 255);
+	line-height:40px!important;
+	font-size:16px;
+	padding:5px !important;
+	font-weight:bold;
+	text-shadow: rgba(0, 0, 0, 0.5) 0 1px 1px;
+}
+body.运动与生命 .title {
+	background:url(img/icon_3.png) 20px center no-repeat #89c830;
+	border-radius: 10px;
+	height:40px!important;
+	padding:5px !important;
+	text-indent:60px;
+	color: rgb(255, 255, 255);
+	line-height:40px!important;
+	font-size:16px;
+	font-weight:bold;
+	text-shadow: rgba(0, 0, 0, 0.5) 0 1px 1px;
+}
+body.科技与创新 .title {
+	background:url(img/icon_4.png) 20px center no-repeat #56d0c6;
+	border-radius: 10px;
+	text-indent:60px;
+	color: rgb(255, 255, 255);
+	line-height:40px!important;
+	font-size:16px;
+	font-weight:bold;
+	padding:5px !important;
+	text-shadow: rgba(0, 0, 0, 0.5) 0 1px 1px;
+}
+body.世界与未来 .title {
+	background:url(img/icon_5.png) 20px center no-repeat #007ce5;
+	border-radius: 10px;
+	height:40px!important;
+	padding:5px !important;
+	text-indent:60px;
+	color: rgb(255, 255, 255);
+	line-height: 40px!important;
+	font-weight:bold;
+	font-size:16px;
+	text-shadow: rgba(0, 0, 0, 0.5) 0 1px 1px;
+}
+
+    </style>
+</head>
+
+<body ng-controller="MyController" class="{{selectedCourse.ClubDomain}}">
+    <div id="gadget" class="my-page">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="title" style="margin-bottom:10px;" ng-if="selectedCourse">{{selectedCourse.name}} 学生分组</div>
+                <div class="btn-group" ng-if="selectedCourse">
+                    <a href="javascript:;" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
+                        {{selectedCourse.name}}
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li ng-repeat="item in courses">
+                            <a href="javascript:;" ng-click="toggleCourse(item)">{{item.name}}</a>
+                        </li>
+                    </ul>
+                </div>
+                <a ng-if="selectedCourse"
+                   href="javascript:;" 
+                   class="btn btn-sm btn-default pull-right" 
+                   ng-click="submit()">提交</a>
+                <table class="table table-bordered table-hover my-check table-striped" style="margin-top:10px;">
+                    <thead>
+                        <tr>
+                            <th style="min-width:120px;"></th>
+                            <th ng-repeat="item in Groups">
+                                <span>{{item.title}}</span>
+                                <br />
+                                <span>{{item.memberCount}}</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in students">
+                            <td>
+                                <span ng-if="selectedCourse.fullPhase == 'false'">{{selectedCourse.fullPhase == 'false' ? (item.Phase == 1 ? '【阶段一】' : '【阶段二】') : ''}} </span><span>{{item.ClassName}} {{item.Name}}</span>
+                            </td>
+                            <td>
+                                <label>
+                                    <input type="radio" name="{{item.StudentNumber}}" value="0" ng-model="item.Group" ng-click="countGroup()">
+                                </label>
+                            </td>
+                            <td>
+                                <label>
+                                    <input type="radio" name="{{item.StudentNumber}}" value="1" ng-model="item.Group" ng-click="countGroup()">
+                                </label>
+                            </td>
+                            <td>
+                                <label>
+                                    <input type="radio" name="{{item.StudentNumber}}" value="2" ng-model="item.Group" ng-click="countGroup()">
+                                </label>
+                            </td>
+                            <td>
+                                <label>
+                                    <input type="radio" name="{{item.StudentNumber}}" value="3" ng-model="item.Group" ng-click="countGroup()">
+                                </label>
+                            </td>
+                            <td>
+                                <label>
+                                    <input type="radio" name="{{item.StudentNumber}}" value="4" ng-model="item.Group" ng-click="countGroup()">
+                                </label>
+                            </td>
+                            <td>
+                                <label>
+                                    <input type="radio" name="{{item.StudentNumber}}" value="5" ng-model="item.Group" ng-click="countGroup()">
+                                </label>
+                            </td>
+                            <td>
+                                <label>
+                                    <input type="radio" name="{{item.StudentNumber}}" value="6" ng-model="item.Group" ng-click="countGroup()">
+                                </label>
+                            </td>
+                            <td>
+                                <label>
+                                    <input type="radio" name="{{item.StudentNumber}}" value="7" ng-model="item.Group" ng-click="countGroup()">
+                                </label>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

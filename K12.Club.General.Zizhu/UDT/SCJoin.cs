@@ -49,6 +49,18 @@ namespace K12.Club.General.Zizhu
         [Field(Field = "score", Indexed = false)]
         public string Score { get; set; }
 
+        /// <summary>
+        /// 修課年級
+        /// </summary>
+        [Field(Field = "grade_year", Indexed = false)]
+        public int GradeYear { get; set; }
+
+        /// <summary>
+        /// 修課年級
+        /// </summary>
+        [Field(Field = "group", Indexed = false)]
+        public int Group { get; set; }
+
         ///// <summary>
         ///// 成績_平時活動
         ///// </summary>

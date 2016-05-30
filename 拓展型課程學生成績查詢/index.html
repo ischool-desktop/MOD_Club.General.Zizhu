@@ -1,0 +1,266 @@
+﻿<!DOCTYPE html>
+<html ng-app="MyApp">
+
+<head>
+    <script>
+        function gogoLogin() {
+            var application = "zzxx.mhedu.sh.cn";
+            var clientID = "200b644d9a6360d9ac131aa5810e4408";
+            var dn = "zzxx.mhedu.sh.cn";
+            var redirect_uri = location.href.lastIndexOf('#') >= 0 ? location.href.substr(0, location.href.lastIndexOf('#')) : location.href;
+            window.location.assign("https://auth.ischoolcenter.com/logout.php?next=" + encodeURIComponent("oauth/authorize.php?application=" + application + (dn ? ("&dn=" + dn) : "") + "&client_id=" + clientID + "&response_type=token&redirect_uri=" + redirect_uri + "&scope=" + application + ":MOD_Club.Zizhu.evl.student"));
+        }
+        if (location.href.lastIndexOf('#') >= 0) {
+            var bookmark = location.href.substr(location.href.lastIndexOf('#') + 1);
+
+            var vars = [],
+                hashes = bookmark.split('&');
+            for (var i = 0; i < hashes.length; i++) {
+                hash = decodeURIComponent(hashes[i]);
+                var key = hash.substring(0, hash.indexOf("="));
+                vars.push(key);
+                vars[key] = hash.substring(hash.indexOf("=") + 1);
+            }
+            if (vars.access_token) {
+                window.accesstoken = vars.access_token;
+            } else {
+                gogoLogin();
+            }
+        } else {
+            gogoLogin();
+        }
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/bootstrap.css" rel="stylesheet" />
+    <link href="css/bootstrap-theme.css" rel="stylesheet" />
+    <link href="css/NewSkin.css" rel="stylesheet" type="text/css">
+    <link href="css/mycss.css" rel="stylesheet" type="text/css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/angular.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/highcharts.js"></script>
+    <script src="js/highcharts-more.js"></script>
+    <script src="js/xmlWriter.js"></script>
+    <script src="js/parseXml.js"></script>
+    <script src="js/xml2json.js"></script>
+    <script src="js/dsutil.js"></script>
+    <script src="js/module.js"></script>
+    <title>华东师范大学附属紫竹小学 - 七彩课程学习过程记录表</title>
+</head>
+
+<body ng-controller="MyController">
+    <div class="container box">
+        <nav class="navbar navbar-default">
+            <blockquote style="margin-bottom:0px;padding: 5px 20px;border-left: 0px;">
+                <img src="img/Logo.jpg" style="float:left;">
+                <h2><strong>七彩课程学习过程记录表</strong></h2>
+            </blockquote>
+        </nav>
+        <div class="row" style="min-height:600px;">
+            <div class="col-xs-12">
+                <div class="panel panel-default">
+                    <div class="lead">学生：{{data['学生姓名']}} 同学</div>
+                    <table class="table lesson ng-scope center">
+                        <thead>
+                            <tr>
+                                <th class="col-xs-6 col-md-3 col-lg-3">五育目标</th>
+                                <th class="hidden-xs">一年級</th>
+                                <th class="hidden-xs">二年級</th>
+                                <th class="hidden-xs">三年級</th>
+                                <th class="hidden-xs">四年級</th>
+                                <th class="hidden-xs">五年級</th>
+                                <th class="col-xs-6 col-md-3 col-lg-4">累计积分</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="color: #f4a425;">
+                                <th class="text-center">文学与艺术</th>
+                                <td class="hidden-xs">{{data['五育目标']['文学与艺术'][1] || '&nbsp;'}}</td>
+                                <td class="hidden-xs">{{data['五育目标']['文学与艺术'][2] || '&nbsp;'}}</td>
+                                <td class="hidden-xs">{{data['五育目标']['文学与艺术'][3] || '&nbsp;'}}</td>
+                                <td class="hidden-xs">{{data['五育目标']['文学与艺术'][4] || '&nbsp;'}}</td>
+                                <td class="hidden-xs">{{data['五育目标']['文学与艺术'][5] || '&nbsp;'}}</td>
+                                <td>
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-orange progress-bar-striped" role="progressbar" style="width:{{data['五育目标']['文学与艺术'][0]>=12?'100':data['五育目标']['文学与艺术'][0]/12*100}}%">
+                                            {{data['五育目标']['文学与艺术'][0] || '&nbsp;'}}
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr style="color:#f4d700">
+                                <th class="text-center">社会与生活</th>
+                                <td class="hidden-xs">{{data['五育目标']['社会与生活'][1] || '&nbsp;'}}</td>
+                                <td class="hidden-xs">{{data['五育目标']['社会与生活'][2] || '&nbsp;'}}</td>
+                                <td class="hidden-xs">{{data['五育目标']['社会与生活'][3] || '&nbsp;'}}</td>
+                                <td class="hidden-xs">{{data['五育目标']['社会与生活'][4] || '&nbsp;'}}</td>
+                                <td class="hidden-xs">{{data['五育目标']['社会与生活'][5] || '&nbsp;'}}</td>
+                                <td>
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-yellow progress-bar-striped" role="progressbar" style="width:{{data['五育目标']['社会与生活'][0]>=12?'100':data['五育目标']['社会与生活'][0]/12*100}}%">
+                                            {{data['五育目标']['社会与生活'][0] || '&nbsp;'}}
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr style="color: #25ac45;">
+                                <th class="text-center">运动与生命</th>
+                                <td class="hidden-xs">{{data['五育目标']['运动与生命'][1] || '&nbsp;'}}</td>
+                                <td class="hidden-xs">{{data['五育目标']['运动与生命'][2] || '&nbsp;'}}</td>
+                                <td class="hidden-xs">{{data['五育目标']['运动与生命'][3] || '&nbsp;'}}</td>
+                                <td class="hidden-xs">{{data['五育目标']['运动与生命'][4] || '&nbsp;'}}</td>
+                                <td class="hidden-xs">{{data['五育目标']['运动与生命'][5] || '&nbsp;'}}</td>
+                                <td>
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-green progress-bar-striped" role="progressbar" style="width:{{data['五育目标']['运动与生命'][0]>=12?'100':data['五育目标']['运动与生命'][0]/12*100}}%">
+                                            {{data['五育目标']['运动与生命'][0] || '&nbsp;'}}
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr style="color: #01a7ad;">
+                                <th class="text-center">科技与创新</th>
+                                <td class="hidden-xs">{{data['五育目标']['科技与创新'][1] || '&nbsp;'}}</td>
+                                <td class="hidden-xs">{{data['五育目标']['科技与创新'][2] || '&nbsp;'}}</td>
+                                <td class="hidden-xs">{{data['五育目标']['科技与创新'][3] || '&nbsp;'}}</td>
+                                <td class="hidden-xs">{{data['五育目标']['科技与创新'][4] || '&nbsp;'}}</td>
+                                <td class="hidden-xs">{{data['五育目标']['科技与创新'][5] || '&nbsp;'}}</td>
+                                <td>
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-cyan progress-bar-striped" role="progressbar" style="width:{{data['五育目标']['科技与创新'][0]>=12?'100':data['五育目标']['科技与创新'][0]/12*100}}%">
+                                            {{data['五育目标']['科技与创新'][0] || '&nbsp;'}}
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr style="color: #0038cb;">
+                                <th class="text-center">世界与未来</th>
+                                <td class="hidden-xs">{{data['五育目标']['世界与未来'][1] || '&nbsp;'}}</td>
+                                <td class="hidden-xs">{{data['五育目标']['世界与未来'][2] || '&nbsp;'}}</td>
+                                <td class="hidden-xs">{{data['五育目标']['世界与未来'][3] || '&nbsp;'}}</td>
+                                <td class="hidden-xs">{{data['五育目标']['世界与未来'][4] || '&nbsp;'}}</td>
+                                <td class="hidden-xs">{{data['五育目标']['世界与未来'][5] || '&nbsp;'}}</td>
+                                <td>
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-blue progress-bar-striped" role="progressbar" style="width:{{data['五育目标']['世界与未来'][0]>=12?'100':data['五育目标']['世界与未来'][0]/12*100}}%">
+                                            {{data['五育目标']['世界与未来'][0] || '&nbsp;'}}
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <nav class="navbar navbar-default navbar-static-top " style="margin-bottom:0px;background-color:transparent;border:none;text-shadow:none;box-shadow:none;min-height:inherit">
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            <a class="navbar-brand" href="#" style="padding:9px 12px;height:inherit">各年级成绩明细</a>
+                        </div>
+                        <div class="collapse navbar-collapse" ng-show="data">
+                            <ul class="nav navbar-nav">
+                                <li class="{{grade==1?'active':''}}" ng-click="toggleGrade(1)"><a href="javascript:;" style="padding:9px 12px">一年級</a></li>
+                                <li class="{{grade==2?'active':''}}" ng-click="toggleGrade(2)"><a href="javascript:;" style="padding:9px 12px">二年級</a></li>
+                                <li class="{{grade==3?'active':''}}" ng-click="toggleGrade(3)"><a href="javascript:;" style="padding:9px 12px">三年級</a></li>
+                                <li class="{{grade==4?'active':''}}" ng-click="toggleGrade(4)"><a href="javascript:;" style="padding:9px 12px">四年級</a></li>
+                                <li class="{{grade==5?'active':''}}" ng-click="toggleGrade(5)"><a href="javascript:;" style="padding:9px 12px">五年級</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+                <div class="panel panel-default">
+                    <table class="table table-condensed table-striped table-list" ng-repeat="item in data['成绩明细']" ng-hide="item['年級']!=grade">
+                        <thead>
+                            <tr>
+                                <th class="{{['orange','yellow','cyan','blue','green'][['文学与艺术','社会与生活','运动与生命','科技与创新','世界与未来'].indexOf(item['五育'])]}}" colspan="5" style="border-bottom:0 none">{{item['五育']}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th colspan="4" class="lead" style="border-top:0 none;padding:5px">{{item['課程']}}</th>
+                                <td class="col-xs-3" rowspan="18" style="border-top:0 none">
+                                    <!-- <div class="text-center lead" style="margin:10px">总体评价：{{item['总体评价']['分數']}} ({{item['总体评价']['文字']}})</div> -->
+                                    <div style="width:340px;height:280px;margin:10px auto" id="{{item.id}}_1"></div>
+                                    <div style="width:340px;height:280px;margin:10px auto" id="{{item.id}}_2"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="" rowspan="7">教师评价</th>
+                                <th class="" rowspan="2">参与度</th>
+                                <th class="">出勤率</th>
+                                <td class="col-xs-3 col-sm-5">{{item['成绩']['出勤率']['文字']}}</td>
+                            </tr>
+                            <tr>
+                                <th>交流表达</th>
+                                <td>{{item['成绩']['交流表达']['文字']}}</td>
+                            </tr>
+                            <tr>
+                                <th rowspan="2">实效性</th>
+                                <th>作业完成</th>
+                                <td>{{item['成绩']['作业完成']['文字']}}</td>
+                            </tr>
+                            <tr>
+                                <th>作品呈现</th>
+                                <td>{{item['成绩']['作品呈现']['文字']}}</td>
+                            </tr>
+                            <tr>
+                                <th rowspan="2">学习力</th>
+                                <th>{{item['成绩']['学习力'][0].key}}</th>
+                                <td>{{item['成绩']['学习力'][0].value}}</td>
+                            </tr>
+                            <tr>
+                                <th>{{item['成绩']['学习力'][1].key}}</th>
+                                <td>{{item['成绩']['学习力'][1].value}}</td>
+                            </tr>
+                            <tr>
+                                <th colspan="2">教师的话</th>
+                                <td><div style="white-space: pre-wrap;word-break: break-all;">{{item['成绩']['教师的话']}}</div></td>
+                            </tr>
+                            <tr>
+                                <th colspan="2" rowspan="3">同伴评价</th>
+                                <th>参与度</th>
+                                <td>{{item['成绩']['参与度']['文字']}}</td>
+                            </tr>
+                            <tr>
+                                <th>合作力</th>
+                                <td>{{item['成绩']['合作力']['文字']}}</td>
+                            </tr>
+                            <tr>
+                                <th>实效性</th>
+                                <td>{{item['成绩']['实效性']['文字']}}</td>
+                            </tr>
+                            <tr>
+                                <th colspan="2" rowspan="5">学生自我评价</th>
+                                <th>学习态度</th>
+                                <td>{{item['成绩']['学习态度']}}</td>
+                            </tr>
+                            <tr>
+                                <th>探究兴趣</th>
+                                <td>{{item['成绩']['探究兴趣']}}</td>
+                            </tr>
+                            <tr>
+                                <th>合作分享</th>
+                                <td>{{item['成绩']['合作分享']}}</td>
+                            </tr>
+                            <tr>
+                                <th>学习成果</th>
+                                <td>{{item['成绩']['学习成果']}}</td>
+                            </tr>
+                            <tr>
+                                <th>学习动力</th>
+                                <td>{{item['成绩']['学习动力']}}</td>
+                            </tr>
+                            <tr>
+                                <th colspan="3">家长评价</th>
+                                <td><div style="white-space: pre-wrap;word-break: break-all;">{{item['成绩']['家长评价']}}</div></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <footer class="footer-default">华东师范大学附属紫竹小学&nbsp;&nbsp;&nbsp;&nbsp;版权所有</footer>
+        <div class="imgPosition"></div>
+    </div>
+</body>
+
+</html>

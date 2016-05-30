@@ -15,7 +15,6 @@ angular.module('enterconduct', [])
             window.gogoLogin();
         });
 
-
         $scope.getNow = function () {
             $scope.connection.send({
                 service: "GetConfig",
@@ -490,7 +489,6 @@ angular.module('enterconduct', [])
                 //});
             });
         };
-
 
         $scope.getStudentList = function () {
             delete $scope.studentList;
@@ -1519,7 +1517,8 @@ angular.module('enterconduct', [])
                 StudentID: currentStudent.ID,
                 ClubID: $scope.currentCourse.ID,
                 Assessment: Assessment,
-                Grade: currentStudent.calcGrade
+                GradeYear: currentStudent.GradeYear,
+                Score: currentStudent.calcGrade
             };
 
             if ($scope.savingSeril == 0) {

@@ -135,9 +135,59 @@
         th:hover .ovHint {
             display: inherit;
         }
+
+        body.文学与艺术 {
+            background: #f4a425;
+        }
+
+            body.文学与艺术 #affixPanel {
+                background: url(images/文学与艺术.png) no-repeat;
+                background-position: bottom;
+                padding-bottom: 300px;
+            }
+
+        body.社会与生活 {
+            background: #dbd23d;
+        }
+
+            body.社会与生活 #affixPanel {
+                background: url(images/社会与生活.png) no-repeat;
+                background-position: bottom;
+                padding-bottom: 300px;
+            }
+
+        body.运动与生命 {
+            background: #89c830;
+        }
+
+            body.运动与生命 #affixPanel {
+                background: url(images/运动与生命.png) no-repeat;
+                background-position: bottom;
+                padding-bottom: 300px;
+            }
+
+        body.科技与创新 {
+            background: #56d0c6;
+        }
+
+            body.科技与创新 #affixPanel {
+                background: url(images/科技与创新.png) no-repeat;
+                background-position: bottom;
+                padding-bottom: 300px;
+            }
+
+        body.世界与未来 {
+            background: #007ce5;
+        }
+
+            body.世界与未来 #affixPanel {
+                background: url(images/世界与未来.png) no-repeat;
+                background-position: bottom;
+                padding-bottom: 300px;
+            }
     </style>
 
-    <style>
+    <!--<style>
         body.文学与艺术 .my-page h1:first-child {
             border-left-color: orange;
         }
@@ -157,13 +207,13 @@
         body.世界与未来 .my-page h1:first-child {
             border-left-color: blue;
         }
-    </style>
+    </style>-->
 </head>
 
 <body ng-controller="MainCtrl" class="{{currentCourse.ClubDomain}}">
     <div id="gadget" class="my-page">
         <h1>{{current.SchoolYear}} {{current.Semester == '1' ? '上学期' : (current.Semester == '2' ? '下学期' :'')}} 拓展型课程评鉴输入</h1>
-        <div class="alert alert-info"
+        <div class="hide alert alert-info"
              ng-if="current.MiddleOpeningC == 'true' || current.FinalOpeningC == 'true'"
              style="padding: 8px;margin-bottom: 10px;">
             <p ng-if="current.FinalOpeningC == 'true'">开放时间: {{current.FinalBeginC | date:'yyyy-MM-dd HH:mm:ss'}} 至 {{current.FinalEndC | date:'yyyy-MM-dd HH:mm:ss'}}</p>
@@ -491,6 +541,7 @@
                         </tbody>
                     </table>
                     <table class="table table-bordered table-hover"
+                           style="margin-bottom:-1px;"
                            ng-if="teacherType == 'homeroom'&&currentStudent">
                         <thead>
                             <tr>
@@ -510,6 +561,124 @@
                                     <div ng-if="!currentStudent.Comment&&current.FinalOpeningC==='true'"
                                          style="border: solid red 2px;width: 1px;height: 1px;position: absolute;left: 5px;top: 5px;z-index: 1;border-radius: 3px;">
                                     </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-bordered table-striped"
+                           style="margin-bottom:-1px;">
+                        <thead>
+                            <tr>
+                                <th colspan="2"
+                                    style=" position:relative;">
+                                    <span>学生自我评价</span>
+                                </th>
+                                <th colspan="2">
+                                    同伴评价
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="text-right col-xs-2"
+                                    style="cursor:pointer;">
+                                    学习态度
+                                </td>
+                                <td class="col-xs-3">{{currentStudent.SelfAssessment.Assessment["学习态度"]}}</td>
+                                <td class="text-right col-xs-2"
+                                    style="cursor:pointer;">
+                                    参与度
+                                </td>
+                                <td>
+                                    <span>{{currentStudent.MateAssessment["参与度"]["文字"]}}</span>
+                                    <span ng-if='currentStudent.MateAssessment["参与度"]["分數"]'>({{currentStudent.MateAssessment["参与度"]["分數"]}})</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">
+                                    探究兴趣
+                                </td>
+                                <td>{{currentStudent.SelfAssessment.Assessment["探究兴趣"]}}</td>
+                                <td class="text-right col-xs-2">
+                                    合作力
+                                </td>
+                                <td>
+                                    <span>{{currentStudent.MateAssessment["合作力"]["文字"]}}</span>
+                                    <span ng-if='currentStudent.MateAssessment["合作力"]["分數"]'>({{currentStudent.MateAssessment["合作力"]["分數"]}})</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">
+                                    合作分享
+                                </td>
+                                <td>{{currentStudent.SelfAssessment.Assessment["合作分享"]}}</td>
+                                <td class="text-right col-xs-2">
+                                    实效性
+                                </td>
+                                <td>
+                                    <span>{{currentStudent.MateAssessment["实效性"]["文字"]}}</span>
+                                    <span ng-if='currentStudent.MateAssessment["实效性"]["分數"]'>({{currentStudent.MateAssessment["实效性"]["分數"]}})</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">
+                                    学习成果
+                                </td>
+                                <td>{{currentStudent.SelfAssessment.Assessment["学习成果"]}}</td>
+                                <td class="text-right col-xs-2"></td>
+                                <td class="col-xs-3"></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">
+                                    学习动力
+                                </td>
+                                <td>{{currentStudent.SelfAssessment.Assessment["学习动力"]}}</td>
+                                <td class="text-right col-xs-2"
+                                    style="cursor:pointer;"></td>
+                                <td class="col-xs-3"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-bordered table-striped"
+                           style="margin-bottom:-1px;">
+                        <thead>
+                            <tr ng-if='currentStudent.SelfAssessment.Assessment["继续学习"]=="true"'>
+                                <th colspan="4">
+                                    学生愿意继续学习这门课程
+                                </th>
+                            </tr>
+                            <tr ng-if='currentStudent.SelfAssessment.Assessment["继续学习"]=="false"'>
+                                <th colspan="4">
+                                    学生不愿意继续学习这门课程
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if='currentStudent.SelfAssessment.Assessment["继续学习"]=="true"'>
+                                <td colspan="4">
+                                    <div style="white-space: pre-wrap;word-break: break-all;min-height: 50px;">{{currentStudent.SelfAssessment.Assessment["感想"]}}</div>
+                                </td>
+                            </tr>
+                            <tr ng-if='currentStudent.SelfAssessment.Assessment["继续学习"]=="false"'>
+                                <td colspan="4">
+                                    <div style="white-space: pre-wrap;word-break: break-all;min-height: 50px;">{{currentStudent.SelfAssessment.Assessment["感想"]}}</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-bordered table-striped"
+                           style="margin-bottom:-1px;">
+                        <thead>
+                            <tr>
+                                <th colspan="4">
+                                    家长评价
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="4">
+                                    <div style="white-space: pre-wrap;word-break: break-all;min-height: 50px;">{{currentStudent.SelfAssessment.Assessment["家长评价"]}}</div>
                                 </td>
                             </tr>
                         </tbody>
@@ -584,7 +753,11 @@
                                     <span ng-if="currentCourse.fullPhase=='false'&&student.Phase=='2'">阶段二：</span>
                                     <span>{{student.ClassName}}, {{student.Name}}</span>
                                     <!--<span>{{student.ClassName}}, {{student.SeatNo}}, {{student.Name}}</span>-->
+                                    <
+                                    /td>
                                 </td>
+                                <
+                                <
                                 <td ng-repeat="item in modal.conductGroup.Item"
                                     class="text-center"
                                     style="cursor:pointer;position:relative;"
@@ -667,7 +840,11 @@
                                     <span ng-if="currentCourse.fullPhase=='false'&&student.Phase=='2'">阶段二：</span>
                                     <span>{{student.ClassName}}, {{student.Name}}</span>
                                     <!--<span>{{student.ClassName}}, {{student.SeatNo}}, {{student.Name}}</span>-->
+                                    <
+                                    /td>
                                 </td>
+                                <
+                                <
                                 <td ng-if="modal.period==1"
                                     style="cursor:pointer;position:relative;"
                                     ng-click="selectStudentConduct(student,{type:'Comment'}, 1)">
@@ -786,7 +963,7 @@
                                             </div>
                                         </div>
                                         <div>
-                                            <div style="margin:2px;" 
+                                            <div style="margin:2px;"
                                                  class="btn-group">
                                                 <a ng-if="currentConduct.canInputGrade"
                                                    class="btn btn-sm {{getDefault(currentCourse.GradeYear,currentCourse.SubjectChineseName,item.Group,temp.Title)=='erase'?'btn-warning':'btn-default'}}"

@@ -76,7 +76,7 @@
                             <div style="margin-bottom: 10px;">
                                 <span class="lead styleType">{{current.schoolYear}}第{{current.semester}}学期 拓展型课程</span>
                                 <div ng-if="current.student"
-                                     class="pull-right">
+                                     class="pull-right hidden">
                                     <a ng-click="reload()"
                                        href="javascript:void(0)"
                                        class="btn btn-link"
@@ -96,7 +96,10 @@
                                 <span ng-if="loginProgress">
                                     帳號登入中...
                                 </span>
-                                <span ng-if="timing.msg">
+                                <span ng-if="current.mode=='eval'">
+                                    请选课程进行评价，输入后请点击"提交"
+                                </span>
+                                <span class="hide" ng-if="timing.msg">
                                     输入时间&nbsp;&nbsp;<span class="text-danger">{{timing.msg}}</span>&nbsp;&nbsp;。
                                 </span>
                                 <span ng-if="loginError"
@@ -121,7 +124,7 @@
                             <p ng-if="current.progress==100"
                                class="pull-right"
                                style="margin-bottom:0px;">
-                                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;学生评价输入完成
+                                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;评价输入完成
                             </p>
                         </div>
                     </div>
@@ -179,8 +182,121 @@
 
                                 <div class="row">
                                     <div class="col-xs-12 col-lg-6">
+                                        <!--同伴评价-->
                                         <div class="panel-heading panel-body-title">
-                                            <span ng-if="chechValue(['审美与表现力','情趣与实践力','健康与幸福感','思维与创造力','责任与自信力'])"
+                                            <span ng-if="chechValue(['学习态度','探究兴趣','合作分享','学习成果','学习动力'])"
+                                                  style="color:red"
+                                                  class="glyphicon glyphicon-asterisk"></span>
+                                            同伴评价
+                                        </div>
+                                        <table class="table table-condensed">
+                                            <thead>
+                                                <tr>
+                                                    <td class="col-xs-6 text-center">
+                                                        <div style="line-height:23px;margin-top:5px;">
+                                                            <b>项目</b>
+                                                        </div>
+                                                    </td>
+                                                    <td class="col-xs-2 text-center">
+                                                        <div style="border-bottom: red solid 5px;line-height:23px;margin-top:5px;"><b>合格</b></div>
+                                                    </td>
+                                                    <td class="col-xs-2 text-center">
+                                                        <div style="border-bottom: yellow solid 5px;line-height:23px;margin-top:5px;"><b>良好</b></div>
+                                                    </td>
+                                                    <td class="col-xs-2 text-center">
+                                                        <div style="border-bottom: blue solid 5px;line-height:23px;margin-top:5px;"><b>优秀</b></div>
+                                                    </td>
+                                                </tr>
+                                            </thead>
+                                            <tbody ng-repeat="mate in current.mate[current.shown.id]">
+                                                <tr>
+                                                    <td colspan="4">
+                                                        &nbsp;&nbsp;{{mate.name}}
+                                                    </td>
+                                                </tr>
+                                                <tr ng-repeat="title in ['参与度','合作力','实效性']">
+                                                    <td class="text-center">
+                                                        {{title}}
+                                                    </td>
+                                                    <!-- current.mode=='eval' -->
+                                                    <td ng-if="current.mode=='eval'"
+                                                        class="text-center"
+                                                        ng-click="mate[title]='合格'"
+                                                        style="cursor:pointer">
+                                                        <span ng-if="mate[title]=='合格'">
+                                                            <span class="glyphicon glyphicon-check text-primary" aria-hidden="true"></span> <!--已选-->
+                                                        </span>
+                                                        <span ng-if="mate[title]!=='合格'">
+                                                            <span class="glyphicon glyphicon-unchecked text-primary"
+                                                                  aria-hidden="true"></span>
+                                                        </span>
+                                                    </td>
+                                                    <td ng-if="current.mode=='eval'"
+                                                        class="text-center"
+                                                        ng-click="mate[title]='良好'"
+                                                        style="cursor:pointer">
+                                                        <span ng-if="mate[title]=='良好'">
+                                                            <span class="glyphicon glyphicon-check text-primary" aria-hidden="true"></span> <!--已选-->
+                                                        </span>
+
+                                                        <span ng-if="mate[title]!=='良好'">
+                                                            <span class="glyphicon glyphicon-unchecked text-primary"
+                                                                  aria-hidden="true"></span>
+                                                        </span>
+                                                    </td>
+                                                    <td ng-if="current.mode=='eval'"
+                                                        class="text-center"
+                                                        ng-click="mate[title]='优秀'"
+                                                        style="cursor:pointer">
+                                                        <span ng-if="mate[title]=='优秀'">
+                                                            <span class="glyphicon glyphicon-check text-primary" aria-hidden="true"></span> <!--已选-->
+                                                        </span>
+                                                        <span ng-if="mate[title]!=='优秀'">
+                                                            <span class="glyphicon glyphicon-unchecked text-primary"
+                                                                  aria-hidden="true"></span>
+                                                        </span>
+                                                    </td>
+                                                    <!--current.mode!=='eval'-->
+                                                    <td ng-if="current.mode!=='eval'"
+                                                        class="text-center">
+                                                        <span ng-if="mate[title]=='合格'">
+                                                            <span class="glyphicon glyphicon-check text-primary" aria-hidden="true"></span> <!--已选-->
+                                                        </span>
+                                                        <span ng-if="mate[title]!=='合格'">
+                                                            <span class="glyphicon glyphicon-unchecked text-primary"
+                                                                  aria-hidden="true"></span>
+                                                        </span>
+                                                    </td>
+                                                    <td ng-if="current.mode!=='eval'"
+                                                        class="text-center">
+                                                        <span ng-if="mate[title]=='良好'">
+                                                            <span class="glyphicon glyphicon-check text-primary" aria-hidden="true"></span> <!--已选-->
+                                                        </span>
+
+                                                        <span ng-if="mate[title]!=='良好'">
+                                                            <span class="glyphicon glyphicon-unchecked text-primary"
+                                                                  aria-hidden="true"></span>
+                                                        </span>
+                                                    </td>
+                                                    <td ng-if="current.mode!=='eval'"
+                                                        class="text-center">
+                                                        <span ng-if="mate[title]=='优秀'">
+                                                            <span class="glyphicon glyphicon-check text-primary" aria-hidden="true"></span> <!--已选-->
+                                                        </span>
+                                                        <span ng-if="mate[title]!=='优秀'">
+                                                            <span class="glyphicon glyphicon-unchecked text-primary"
+                                                                  aria-hidden="true"></span>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <!--同伴评价-->
+                                    </div>
+                                    <div class="col-xs-12 col-lg-6">
+                                        <!--自我评价-->
+                                        <div class="panel-heading panel-body-title">
+                                            <span ng-if="chechValue(['学习态度','探究兴趣','合作分享','学习成果','学习动力'])"
                                                   style="color:red"
                                                   class="glyphicon glyphicon-asterisk"></span>
                                             自我评价
@@ -205,7 +321,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr ng-repeat="title in ['审美与表现力','情趣与实践力','健康与幸福感','思维与创造力','责任与自信力']">
+                                                <tr ng-repeat="title in ['学习态度','探究兴趣','合作分享','学习成果','学习动力']">
                                                     <td class="text-center">
                                                         {{title}}
                                                     </td>
@@ -282,8 +398,10 @@
                                                 </tr>
                                             </tbody>
                                         </table>
+                                        <!--自我评价-->
                                     </div>
                                     <div class="col-xs-12 col-lg-6">
+                                        <!--活动意见及建议-->
                                         <div class="panel-heading panel-body-title">
                                             <span ng-if="chechValue(['继续学习','感想'])"
                                                   style="color:red"
@@ -313,6 +431,10 @@
                                         <textarea style="width:100%;height: 70px;margin-bottom:10px"
                                                   ng-model="current.assessment[current.shown.id]['感想']"
                                                   ng-disabled="{{current.mode!=='eval'}}"></textarea>
+                                        <!--活动意见及建议-->
+                                    </div>
+                                    <div class="col-xs-12 col-lg-6">
+                                        <!--家长评价-->
                                         <div class="panel-heading panel-body-title">
                                             <span ng-if="chechValue(['家长评价'])"
                                                   style="color:red"
@@ -323,6 +445,7 @@
                                         <textarea style="width:100%;height: 70px;"
                                                   ng-model="current.assessment[current.shown.id]['家长评价']"
                                                   ng-disabled="{{current.mode!=='eval'}}"></textarea>
+                                        <!--家长评价-->
                                     </div>
 
                                     <button ng-if="current.mode=='eval'"
@@ -339,29 +462,9 @@
                                         尚未完成输入。
                                     </div>
                                 </div>
-                                <!--<hr />
-                                <div class="row">
-                                    <div class="col-xs-6">
-                                        <div class="thumbnail">
-                                            <img ng-src="{{current.shown.photo1 ? 'data:image/*;base64,'+ current.shown.photo1 : srcList[parseInt(current.shown.id) % srcList.length]}}" alt="" title="" />
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-6">
-                                        <div class="thumbnail">
-                                            <img ng-src="{{current.shown.photo2 ? 'data:image/*;base64,'+ current.shown.photo2 : srcList[(parseInt(current.shown.id) % srcList.length + 3) % srcList.length]}}" alt="" title="" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="caption">
-                                    <p class="fontSize">{{current.shown.description}}</p>
-                                </div>-->
                             </div>
                         </div>
                     </div>
-                    <!--<div class="col-xs-12">
-                        <div class="panel panel-default">
-                        </div>
-                    </div>-->
                 </div>
             </div>
         </div>

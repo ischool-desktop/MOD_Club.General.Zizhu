@@ -25,7 +25,8 @@ angular.module('MyApp', []).controller('MyController', ['$scope', '$timeout', fu
         shown: null,
         progress: 0,
         selected: [null, null, null],
-        assessment: {}
+        assessment: {},
+        mate: {}
     };
     $scope.courseList = [];
 
@@ -106,7 +107,7 @@ angular.module('MyApp', []).controller('MyController', ['$scope', '$timeout', fu
                         $scope.$apply(function () {
                             $scope.reload = function () {
                                 studentConn.send({
-                                    service: 'GetStatus',
+                                    service: 'GetSelfAssessment',
                                     autoRetry: true,
                                     result: function (resp, errorInfo, XMLHttpRequest) {
                                         $scope.reflashTick = 60;
@@ -131,20 +132,38 @@ angular.module('MyApp', []).controller('MyController', ['$scope', '$timeout', fu
                                                     msg: ($scope.timing && $scope.timing.msg) ? $scope.timing.msg : ""
                                                 };
                                             }
-                                            if (!$scope.countTimer)
-                                                countTime();
+                                            //if (!$scope.countTimer)
+                                            //    countTime();
+                                            $scope.current.mode = 'eval';
 
                                             var assessmentValueCount = 0;
                                             [].concat(resp.assessment || []).forEach(function (asm) {
                                                 if (!$scope.current.assessment[asm.ref_club_id]) {
                                                     $scope.current.assessment[asm.ref_club_id] = asm.detial.Assessment;
+                                                    $scope.current.mate[asm.ref_club_id] = [];
+                                                    [].concat(asm.mate || []).forEach(function (mate) {
+                                                        var item={
+                                                            id: mate.id,
+                                                            name: mate.name,
+                                                            参与度:"",
+                                                            合作力:"",
+                                                            实效性:""
+                                                        };
+                                                        if (mate.detial.Assessment) {
+                                                            item.参与度 = "" + mate.detial.Assessment.参与度;
+                                                            item.合作力 = "" + mate.detial.Assessment.合作力;
+                                                            item.实效性 = "" + mate.detial.Assessment.实效性;
+                                                        }
+                                                        $scope.current.mate[asm.ref_club_id].push(item);
+
+                                                    });
                                                 }
                                                 finished = true;
-                                                ['审美与表现力',
-                                                '情趣与实践力',
-                                                '健康与幸福感',
-                                                '思维与创造力',
-                                                '责任与自信力',
+                                                ['学习态度',
+                                                '探究兴趣',
+                                                '合作分享',
+                                                '学习成果',
+                                                '学习动力',
                                                 '继续学习',
                                                 '感想',
                                                 '家长评价'].forEach(function (title) {
@@ -197,12 +216,14 @@ angular.module('MyApp', []).controller('MyController', ['$scope', '$timeout', fu
                             service: 'SaveSelfAssessment',
                             body: {
                                 ClubID: $scope.current.shown.id,
-                                Detial: $scope.current.assessment[$scope.current.shown.id]
+                                Detial: $scope.current.assessment[$scope.current.shown.id],
+                                Mate: angular.copy($scope.current.mate[$scope.current.shown.id])
                             },
                             autoRetry: true,
                             result: function (resp, errorInfo, XMLHttpRequest) {
                                 delete $scope.current.assessment[$scope.current.shown.id];
-                                $scope.reflashTick = 0;
+                                //$scope.reflashTick = 0;
+                                $scope.reload();
                             }
                         });
                     }
@@ -370,7 +391,7 @@ angular.module('MyApp', []).controller('MyController', ['$scope', '$timeout', fu
                 return parseInt(timespan / 86400, 10) + "天"
             }
         }
-        if ($scope.timing) {
+        if ($scope.timing) {            
             var now = new Date().getTime();
             if (now >= $scope.timing.end) {
                 $scope.timing.msg = "已经结束";
