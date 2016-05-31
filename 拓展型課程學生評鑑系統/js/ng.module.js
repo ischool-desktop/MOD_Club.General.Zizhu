@@ -137,6 +137,7 @@ angular.module('MyApp', []).controller('MyController', ['$scope', '$timeout', fu
                                             $scope.current.mode = 'eval';
 
                                             var assessmentValueCount = 0;
+                                            var mateCount = 0;
                                             [].concat(resp.assessment || []).forEach(function (asm) {
                                                 if (!$scope.current.assessment[asm.ref_club_id]) {
                                                     $scope.current.assessment[asm.ref_club_id] = asm.detial.Assessment;
@@ -154,6 +155,9 @@ angular.module('MyApp', []).controller('MyController', ['$scope', '$timeout', fu
                                                             item.合作力 = "" + mate.detial.Assessment.合作力;
                                                             item.实效性 = "" + mate.detial.Assessment.实效性;
                                                         }
+                                                        mateCount++;
+                                                        if (item.参与度 && item.合作力 && item.实效性)
+                                                            assessmentValueCount++;
                                                         $scope.current.mate[asm.ref_club_id].push(item);
 
                                                     });
@@ -189,14 +193,14 @@ angular.module('MyApp', []).controller('MyController', ['$scope', '$timeout', fu
                                             });
 
                                             if ($scope.current.selected[0] && $scope.current.selected[0].fullPhase == 'true') {
-                                                $scope.current.progress = 100 * assessmentValueCount / (8);
+                                                $scope.current.progress = 100 * assessmentValueCount / (8 + mateCount);
                                             }
                                             else {
                                                 if ($scope.current.levelMax == 0) {
                                                     $scope.current.progress = 0;
                                                 }
                                                 else
-                                                    $scope.current.progress = 100 * assessmentValueCount / (8 * $scope.current.levelMax);
+                                                    $scope.current.progress = 100 * assessmentValueCount / (8 * $scope.current.levelMax + mateCount);
 
                                             }
                                             $scope.reflash();
@@ -240,13 +244,21 @@ angular.module('MyApp', []).controller('MyController', ['$scope', '$timeout', fu
 
     $scope.parseInt = window.parseInt;
 
-    $scope.chechValue = function (list) {
+    $scope.checkValue = function (list) {
         var finished = true;
         [].concat(list || []).forEach(function (title) {
             if (!$scope.current.assessment[$scope.current.shown.id] || !$scope.current.assessment[$scope.current.shown.id][title])
                 finished = false;
         });
         return !finished;
+    }
+
+    $scope.checkMate = function (ref_club_id) {
+        for (var item in $scope.current.mate[ref_club_id]) {
+            if (!item.参与度 || !item.合作力 || !item.实效性)
+                return true;
+        }
+        return false;
     }
 
     $scope.srcList = [

@@ -184,7 +184,7 @@
                                     <div class="col-xs-12 col-lg-6">
                                         <!--同伴评价-->
                                         <div class="panel-heading panel-body-title">
-                                            <span ng-if="chechValue(['学习态度','探究兴趣','合作分享','学习成果','学习动力'])"
+                                            <span ng-if="checkMate(current.shown.id)"
                                                   style="color:red"
                                                   class="glyphicon glyphicon-asterisk"></span>
                                             同伴评价
@@ -296,7 +296,7 @@
                                     <div class="col-xs-12 col-lg-6">
                                         <!--自我评价-->
                                         <div class="panel-heading panel-body-title">
-                                            <span ng-if="chechValue(['学习态度','探究兴趣','合作分享','学习成果','学习动力'])"
+                                            <span ng-if="checkValue(['学习态度','探究兴趣','合作分享','学习成果','学习动力'])"
                                                   style="color:red"
                                                   class="glyphicon glyphicon-asterisk"></span>
                                             自我评价
@@ -403,7 +403,7 @@
                                     <div class="col-xs-12 col-lg-6">
                                         <!--活动意见及建议-->
                                         <div class="panel-heading panel-body-title">
-                                            <span ng-if="chechValue(['继续学习','感想'])"
+                                            <span ng-if="checkValue(['继续学习','感想'])"
                                                   style="color:red"
                                                   class="glyphicon glyphicon-asterisk"></span>
                                             活动意见及建议
@@ -436,7 +436,7 @@
                                     <div class="col-xs-12 col-lg-6">
                                         <!--家长评价-->
                                         <div class="panel-heading panel-body-title">
-                                            <span ng-if="chechValue(['家长评价'])"
+                                            <span ng-if="checkValue(['家长评价'])"
                                                   style="color:red"
                                                   class="glyphicon glyphicon-asterisk"></span>
                                             家长评价
@@ -455,7 +455,7 @@
                                             ng-click="submitAssessment()">
                                         提交
                                     </button>
-                                    <div ng-if="chechValue(['继续学习','感想'])"
+                                    <div ng-if="checkValue(['学习态度','探究兴趣','合作分享','学习成果','学习动力','继续学习','感想','家长评价'])||checkMate(current.shown.id)"
                                          class="pull-right"
                                          style="color:red;line-height: 32px;margin-top: 10px;">
                                         <span class="glyphicon glyphicon-asterisk"></span>
