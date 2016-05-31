@@ -254,7 +254,8 @@ angular.module('MyApp', []).controller('MyController', ['$scope', '$timeout', fu
     }
 
     $scope.checkMate = function (ref_club_id) {
-        for (var item in $scope.current.mate[ref_club_id]) {
+        for (var i in $scope.current.mate[ref_club_id]) {
+            var item = $scope.current.mate[ref_club_id][i];
             if (!item.参与度 || !item.合作力 || !item.实效性)
                 return true;
         }
