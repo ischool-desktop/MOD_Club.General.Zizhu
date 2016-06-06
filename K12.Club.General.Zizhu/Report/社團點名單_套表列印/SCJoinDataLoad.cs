@@ -53,7 +53,7 @@ namespace K12.Club.General.Zizhu
         /// 社團ID:學生清單
         /// </summary>
         public Dictionary<string, List<StudentRecord>> ClubByStudentList { get; set; }
-
+        
 
         public SCJoinDataLoad(int Phase)
         {

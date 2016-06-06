@@ -138,6 +138,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -363,6 +364,7 @@
     <None Include="Resources\ImportCLUBDataValRule.xml">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Resources\radarCreater.xls" />
     <None Include="Resources\Report.png" />
     <None Include="Resources\Import.Image.png" />
     <None Include="Resources\Export.Image.png" />
@@ -375,6 +377,7 @@
     <None Include="Resources\拓展性课程点名单%28套表列印范本%29.doc" />
     <None Include="Resources\社團點名單_套表列印.doc" />
     <None Include="Resources\社團點名表_合併欄位總表.doc" />
+    <None Include="Resources\紫竹成績單樣板.docx" />
     <None Include="Resources\華東師範大學附屬紫竹小學拓展性課程成績單.docx" />
   </ItemGroup>
   <ItemGroup>

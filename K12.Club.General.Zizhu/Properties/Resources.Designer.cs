@@ -185,6 +185,16 @@ namespace K12.Club.General.Zizhu.Properties {
         /// <summary>
         ///   查詢類型 System.Byte[] 的當地語系化資源。
         /// </summary>
+        internal static byte[] 紫竹成績單樣板 {
+            get {
+                object obj = ResourceManager.GetObject("紫竹成績單樣板", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類型 System.Byte[] 的當地語系化資源。
+        /// </summary>
         internal static byte[] 華東師範大學附屬紫竹小學拓展性課程成績單 {
             get {
                 object obj = ResourceManager.GetObject("華東師範大學附屬紫竹小學拓展性課程成績單", resourceCulture);
