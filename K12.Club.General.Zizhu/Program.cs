@@ -372,6 +372,7 @@ namespace K12.Club.General.Zizhu
                     QueryHelper queryHelper = new QueryHelper();
                     var rows = queryHelper.Select(string.Format(@"
 SELECT $k12.scjoin.universal.score, 
+    $k12.scjoin.universal.phase,
 	clevel.C优秀, 
 	clevel.C良好, 
 	clevel.C合格, 
@@ -412,7 +413,7 @@ WHERE $ischool.club.assessment.ref_club_id in ('" + string.Join("','", ClubAdmin
                         var ref_club_id = "" + row["ref_club_id"];
                         var assessment_type = "" + row["assessment_type"];
 
-                        var key = ref_club_id + "^" + ref_student_id;
+                        var key = ref_club_id + "^" + ref_student_id + "^" + row["phase"];
                         if (!scJoinRow.ContainsKey(key))
                             scJoinRow.Add(key, row);
 
@@ -497,7 +498,7 @@ WHERE $ischool.club.assessment.ref_club_id in ('" + string.Join("','", ClubAdmin
                             CLUBRecord clubRec = crM.CLUBRecordDic[clubID];
                             foreach (K12.Data.StudentRecord studentRec in crM.ClubByStudentList[clubID])
                             {
-                                var key = "" + clubRec.UID + "^" + studentRec.ID;
+                                var key = "" + clubRec.UID + "^" + studentRec.ID + "^" + (crM == crM1 ? "1" : "2");
                                 if (scJoinRow.ContainsKey(key))
                                 {
                                     //沒有成績不印
