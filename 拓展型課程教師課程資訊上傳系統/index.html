@@ -133,12 +133,12 @@
                                 <div class="row">
                                     <div class="col-xs-6">
                                         <div class="thumbnail" style="margin-bottom:0px;">
-                                            <img ng-src="{{current.shown.photo1 ? 'data:image/*;base64,'+ current.shown.photo1 : srcList[parseInt(current.shown.id) % srcList.length]}}" alt="" title="" />
+                                            <img ng-src="{{current.shown.photo1 ? ''+ current.shown.photo1 : srcList[parseInt(current.shown.id) % srcList.length]}}" alt="" title="" />
                                         </div>
                                     </div>
                                     <div class="col-xs-6">
                                         <div class="thumbnail" style="margin-bottom:0px;">
-                                            <img ng-src="{{current.shown.photo2 ? 'data:image/*;base64,'+ current.shown.photo2 : srcList[(parseInt(current.shown.id) % srcList.length + 3) % srcList.length]}}" alt="" title="" />
+                                            <img ng-src="{{current.shown.photo2 ? ''+ current.shown.photo2 : srcList[(parseInt(current.shown.id) % srcList.length + 3) % srcList.length]}}" alt="" title="" />
                                         </div>
                                     </div>
                                 </div>
