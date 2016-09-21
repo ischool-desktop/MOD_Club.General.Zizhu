@@ -13,9 +13,9 @@ namespace K12.Club.General.Zizhu
         /// <summary>
         /// 淺層複製CLUBRecord
         /// </summary>
-        public CLUBRecord CopyExtension()
+        public CLUBRecordWithPhoto CopyExtension()
         {
-            return (CLUBRecord)this.MemberwiseClone();
+            return (CLUBRecordWithPhoto)this.MemberwiseClone();
         }
 
         /// <summary>

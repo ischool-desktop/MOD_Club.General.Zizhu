@@ -71,6 +71,8 @@ namespace K12.Club.General.Zizhu
                     scj.RefStudentID = each.RefStudentID;
                     scj.RefClubID = _new_Club.UID;
                     scj.Lock = each.Lock; //鎖定
+                    scj.Phase = each.Phase;
+                    scj.Group = each.Group;
                     list.Add(scj);
                 }
             }
