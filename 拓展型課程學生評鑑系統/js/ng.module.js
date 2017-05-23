@@ -375,7 +375,7 @@ angular.module('MyApp', []).controller('MyController', ['$scope', '$timeout', fu
         return "";
     };
     $scope.login = function () {
-        window.location.assign("https://auth.ischoolcenter.com/logout.php?next=" + encodeURIComponent("oauth/authorize.php?application=" + application + (dn ? ("&dn=" + dn) : "") + "&client_id=" + clientID + "&response_type=token&redirect_uri=" + redirect_uri + "&scope=" + application + ":MOD_Club.Zizhu.evl.student"));
+        window.location.assign("https://qschool.benq.com.cn/logout.php?next=" + encodeURIComponent("oauth/authorize.php?application=" + application + (dn ? ("&dn=" + dn) : "") + "&client_id=" + clientID + "&response_type=token&redirect_uri=" + redirect_uri + "&scope=" + application + ":MOD_Club.Zizhu.evl.student"));
     }
     $scope.logout = function () {
         window.location.href = location.href.substr(0, location.href.lastIndexOf('#'));
